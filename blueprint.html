@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude for Small Business Founders — Free Guide | LowCode Agency</title>
+  <meta name="description" content="The complete guide to using Claude AI as a non-technical business founder. Setup, prompts, skills, workflows, and an AI readiness quiz.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #FAF9F6;
+      --dark: #282828;
+      --brown: #414141;
+      --accent: #705CF6;
+      --accent-dark: #38327C;
+      --accent-light: #C5BDFA;
+      --accent-pale: rgba(112, 92, 246, 0.08);
+      --accent-lime: #C5EF48;
+      --muted: #B5B5B5;
+      --rule: #D9D9D9;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .brand {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .brand span { color: var(--accent); }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 64px 0 48px;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--brown);
+      line-height: 1.6;
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+
+    /* ─── WHAT'S INSIDE PILLS ─── */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+
+    .pill {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 100px;
+      color: var(--brown);
+    }
+
+    .pill strong {
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    /* ─── GUIDE CONTENT ─── */
+    .guide-content {
+      padding-bottom: 0;
+    }
+
+    .guide-content h2 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 48px 0 12px;
+      line-height: 1.2;
+    }
+
+    .guide-content h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 32px 0 8px;
+      line-height: 1.3;
+    }
+
+    .guide-content p {
+      margin-bottom: 16px;
+      color: var(--brown);
+    }
+
+    .guide-content strong {
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .step-card {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .step-card h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .step-card p {
+      margin-bottom: 0;
+    }
+
+    .step-card ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+      color: var(--brown);
+    }
+
+    .step-card li {
+      margin-bottom: 6px;
+    }
+
+    .callout {
+      background: var(--accent-pale);
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+      font-size: 15px;
+      color: var(--brown);
+      font-style: italic;
+    }
+
+    /* ─── BLUR GATE ─── */
+    .gated-wrapper {
+      position: relative;
+    }
+
+    .blur-teaser {
+      position: relative;
+      max-height: 200px;
+      overflow: hidden;
+    }
+
+    .blur-teaser::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent 0%, var(--cream) 100%);
+      pointer-events: none;
+    }
+
+    .blur-teaser p,
+    .blur-teaser h3,
+    .blur-teaser .step-card {
+      filter: blur(3px);
+      user-select: none;
+    }
+
+    /* ─── GATE FORM ─── */
+    .gate-section {
+      text-align: center;
+      padding: 48px 0 64px;
+    }
+
+    .gate-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .gate-section .gate-sub {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .gate-form {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--dark);
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .gate-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 8px;
+    }
+
+    .gate-submit:hover { background: var(--accent-dark); }
+    .gate-submit:active { transform: scale(0.98); }
+
+    .gate-note {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    /* ─── SOCIAL PROOF ─── */
+    .social-proof-section {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .logo-bar img {
+      height: 22px;
+      width: auto;
+      filter: grayscale(1) opacity(0.5);
+      transition: filter 0.3s;
+    }
+
+    .logo-bar img:hover {
+      filter: grayscale(0) opacity(1);
+    }
+
+    .testimonial-box {
+      background: rgba(197, 239, 72, 0.15);
+      border: 1px solid rgba(197, 239, 72, 0.4);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .testimonial-quote {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--dark);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .testimonial-attribution {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .testimonial-author {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .testimonial-role {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ─── UNLOCKED CONTENT ─── */
+    #fullContent {
+      display: none;
+    }
+
+    #fullContent.unlocked {
+      display: block;
+    }
+
+    .content-frame {
+      width: 100%;
+      height: calc(100vh - 61px);
+      border: none;
+    }
+
+    /* ─── HIDDEN STATE ─── */
+    .gate-hidden {
+      display: none !important;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; }
+      .logo-bar { gap: 16px; }
+      .logo-bar img { height: 18px; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .hero { padding: 40px 0 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="brand">LOW <span>/</span> CODE</div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="container">
+    <section class="hero">
+      <p class="hero-eyebrow">Free Guide</p>
+      <h1>Claude for Small Business Founders</h1>
+      <p class="hero-sub">Everything you need to go from "I tried ChatGPT once" to running real AI workflows in your business — without hiring a developer or reading a manual.</p>
+
+      <div class="pills">
+        <span class="pill"><strong>60-min</strong> setup guide</span>
+        <span class="pill"><strong>30+</strong> copy-paste prompts</span>
+        <span class="pill">Skills &amp; Cowork</span>
+        <span class="pill">Claude Code for non-devs</span>
+        <span class="pill">Model comparison</span>
+        <span class="pill">AI readiness quiz</span>
+      </div>
+    </section>
+
+    <!-- VISIBLE GUIDE CONTENT -->
+    <article class="guide-content">
+      <h2>Your First 60 Minutes</h2>
+
+      <h3>Set up Claude the right way</h3>
+      <p>Most people open Claude and start typing. That works for one-off questions. It doesn't work for running a business. Do this once — this weekend.</p>
+
+      <div class="step-card">
+        <div class="step-label">Step 1 &middot; Minutes 0–10</div>
+        <h3>Install Claude correctly</h3>
+        <p>Use the desktop app, not just the web version. Desktop unlocks Cowork (autonomous task execution), local file access, Skills, and keyboard shortcuts.</p>
+        <ul>
+          <li>Download from claude.com/download</li>
+          <li>Activate Claude Pro ($20/month) — required for serious business use</li>
+          <li>Enable Memory, Web search, Deep research, Code execution in Settings</li>
+          <li>Optional: activate Extended Thinking for complex analysis</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        "Cowork — Claude's autonomous mode — only works in the desktop app. You describe an outcome, approve a plan, and Claude executes it across your files for minutes or hours while you do other work."
+      </div>
+
+      <!-- BLUR GATE — teaser of next step, then form -->
+      <div id="gateWrapper" class="gated-wrapper">
+        <div class="blur-teaser">
+          <div class="step-card">
+            <div class="step-label">Step 2 &middot; Minutes 10–25</div>
+            <h3>Write your Profile Preferences</h3>
+            <p>Profile Preferences act as persistent business rules applied automatically to every conversation. Define your role, communication style, hard rules, key metrics, and deal-breakers.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-label">Step 3 &middot; Minutes 25–40</div>
+            <h3>Create three context files</h3>
+            <p>These markdown files function as business onboarding documents: about-me.md, my-rules.md, and my-style.md.</p>
+          </div>
+        </div>
+
+        <!-- GATE FORM -->
+        <section class="gate-section" id="gateForm">
+          <h2>Keep reading — free, just enter your email</h2>
+          <p class="gate-sub">Unlock the full guide: all 4 setup steps, 30+ prompts, Skills builder, Cowork workflows, and more.</p>
+
+          <div class="gate-form">
+            <div class="testimonial-box">
+              <p class="testimonial-quote">"Working with LowCode Agency to implement AI at HRM was the best decision I made in 2025"</p>
+              <div class="testimonial-attribution">
+                <span class="testimonial-author">Franklin Frith</span>
+                <span class="testimonial-role">— CEO at HRM</span>
+              </div>
+            </div>
+            <form onsubmit="return handleGateSubmit(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="gEmail">Email</label>
+                  <input type="email" id="gEmail" required placeholder="alex@company.com">
+                </div>
+                <div class="form-group">
+                  <label for="gCompany">Company</label>
+                  <input type="text" id="gCompany" required placeholder="Your company">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="gCourse">Also send me a free email course</label>
+                <select id="gCourse">
+                  <option value="both">Both courses (recommended)</option>
+                  <option value="5day">5 AI Agents Every Business Needs (5 days)</option>
+                  <option value="15day">Deploy Claude Across Your Team (15 days)</option>
+                  <option value="none">No thanks, just the guide</option>
+                </select>
+              </div>
+              <button type="submit" class="gate-submit" id="gateBtn">Unlock Full Guide</button>
+            </form>
+            <p class="gate-note">No spam. Instant access.</p>
+          </div>
+
+          <div class="social-proof-section">
+            <div class="logo-bar">
+              <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523e2172e77915b5063f1_2Dw4tz92EsKErJxvPmn82UTmPRj2q6YpfLKkyuZN6gE.svg" alt="Client logo">
+              <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523f31dc5fb0ed51507bc_iYM3sIPobicwfOY8lOW2tDianDpwZ5tOMG7eTvPdZZs.svg" alt="Client logo">
+              <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523f60c91203de35ab6f4_qbsveBaKuFaZqqxw0bd8HOD2Q0s1JL_aTudVU15vOIw.svg" alt="Client logo">
+              <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523ff0c91203de35abe25_uF6oC1BtPMrHlI9V70B0x17KAmXzaYzK724yXRqffuo.svg" alt="Client logo">
+              <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c52555824fbe7abe679025_gISJF_FSCw7U388dV3ZOp1gHpzERdEmbCcuaKLOeSUw.avif" alt="Client logo">
+              <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c7bb9b69e6abbfa2ccc326_medtronic_color.svg" alt="Medtronic">
+              <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/68db35e16e3e72c3be76cc3a_logo_qcells.avif" alt="Q Cells">
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+  </div>
+
+  <!-- FULL GUIDE (iframe, shown after unlock) -->
+  <div id="fullContent">
+    <iframe src="" class="content-frame" id="guideFrame" allow="clipboard-write"></iframe>
+  </div>
+
+  <script>
+    var BREVO_KEY = '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';
+    var SLACK_HOOK = 'https://hooks.slack.com/services/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';
+    var GUIDE_URL = 'https://view.lowc.dev/j1tLQj9GR_';
+
+    if (localStorage.getItem('blueprint_unlocked') === 'true') {
+      unlockContent();
+    }
+
+    function handleGateSubmit(e) {
+      e.preventDefault();
+
+      var email = document.getElementById('gEmail').value.trim();
+      var company = document.getElementById('gCompany').value.trim();
+      var course = document.getElementById('gCourse').value;
+
+      if (!email || !company) return false;
+
+      var btn = document.getElementById('gateBtn');
+      btn.textContent = 'Unlocking...';
+      btn.disabled = true;
+
+      // Brevo
+      var listIds = [];
+      if (course === '5day' || course === 'both') listIds.push(27);
+      if (course === '15day' || course === 'both') listIds.push(28);
+
+      var nameParts = email.split('@')[0].split(/[._-]/);
+      var firstName = nameParts[0] || '';
+
+      var brevoPayload = {
+        email: email,
+        attributes: {
+          FIRSTNAME: firstName,
+          COMPANY: company
+        },
+        updateEnabled: true
+      };
+      if (listIds.length > 0) brevoPayload.listIds = listIds;
+
+      fetch('https://api.brevo.com/v3/contacts', {
+        method: 'POST',
+        headers: {
+          'api-key': BREVO_KEY,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(brevoPayload)
+      }).catch(function() {});
+
+      // Slack
+      var courseLabel = { both: 'Both courses', '5day': '5-Day Agents', '15day': '15-Day Claude', none: 'Guide only' };
+      fetch(SLACK_HOOK, {
+        method: 'POST',
+        body: JSON.stringify({
+          text: '*New Lead Magnet Signup* :rocket:\n>*Email:* ' + email + '\n>*Company:* ' + company + '\n>*Source:* Claude for Small Biz Guide\n>*Course:* ' + (courseLabel[course] || course)
+        })
+      }).catch(function() {});
+
+      localStorage.setItem('blueprint_unlocked', 'true');
+
+      setTimeout(function() {
+        unlockContent();
+      }, 600);
+
+      return false;
+    }
+
+    function unlockContent() {
+      var gateWrapper = document.getElementById('gateWrapper');
+      if (gateWrapper) gateWrapper.classList.add('gate-hidden');
+
+      var fullContent = document.getElementById('fullContent');
+      fullContent.classList.add('unlocked');
+      document.getElementById('guideFrame').src = GUIDE_URL;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

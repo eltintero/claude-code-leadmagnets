@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Readiness Scorecard | LOW / CODE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF9F6;
+  --dark: #282828;
+  --brown: #414141;
+  --accent: #705CF6;
+  --accent-dark: #38327C;
+  --accent-light: #C5BDFA;
+  --accent-pale: rgba(112, 92, 246, 0.08);
+  --accent-lime: #C5EF48;
+  --muted: #B5B5B5;
+  --rule: #D9D9D9;
+  --tier1: #C4654A;
+  --tier2: #D4A843;
+  --tier3: #C5EF48;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--dark);
+  background: var(--cream);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--rule);
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.progress-bar.visible {
+  opacity: 1;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  transition: width 0.4s ease;
+}
+
+/* Screens */
+.screen {
+  display: none;
+  min-height: 100vh;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Intro Screen */
+.intro-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 48px;
+}
+
+.intro-eyebrow {
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.intro-title {
+  font-weight: 700;
+  font-size: clamp(44px, 6vw, 72px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--dark);
+  max-width: 800px;
+  margin-bottom: 24px;
+}
+
+.intro-sub {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--brown);
+  max-width: 560px;
+  margin-bottom: 12px;
+}
+
+.intro-stat {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 48px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding: 16px 40px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--rule);
+  padding: 12px 28px;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  background: var(--accent-pale);
+}
+
+/* Question Screen */
+.question-screen {
+  justify-content: center;
+  padding: 80px 48px;
+}
+
+.question-wrapper {
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.question-section-label {
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.question-counter {
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.question-text {
+  font-weight: 700;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+  margin-bottom: 36px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.option-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 18px 20px 18px 24px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.option-card:hover {
+  border-color: var(--accent-light);
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+}
+
+.option-card.selected {
+  border-color: var(--accent);
+  border-left: 3px solid var(--accent);
+  background: var(--accent-pale);
+}
+
+.option-card input[type="radio"] {
+  display: none;
+}
+
+.option-radio {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--rule);
+  margin-top: 1px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  position: relative;
+}
+
+.option-card.selected .option-radio {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.option-card.selected .option-radio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.option-label {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--dark);
+}
+
+.option-card.selected .option-label {
+  font-weight: 500;
+}
+
+.question-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-back {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.nav-back:hover {
+  color: var(--dark);
+}
+
+/* Slide animations */
+.question-content {
+  animation: slideIn 0.35s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes slideInReverse {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Email Gate Screen */
+.gate-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 80px 48px;
+  text-align: center;
+}
+
+.gate-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 56px 48px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+}
+
+.gate-title {
+  font-weight: 700;
+  font-size: clamp(24px, 3vw, 30px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.gate-sub {
+  font-size: 15px;
+  color: var(--brown);
+  margin-bottom: 36px;
+  line-height: 1.6;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--cream);
+  color: var(--dark);
+  transition: border-color 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B5B5B5' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.gate-btn {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.form-error {
+  font-size: 12px;
+  color: var(--tier1);
+  margin-top: 4px;
+  display: none;
+}
+
+/* Results Screen */
+.results-screen {
+  padding: 80px 48px 40px;
+}
+
+.results-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.results-eyebrow {
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.results-score-block {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.results-score-number {
+  font-weight: 700;
+  font-size: clamp(64px, 10vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.results-score-max {
+  font-weight: 400;
+  font-size: clamp(24px, 4vw, 36px);
+  color: var(--muted);
+  letter-spacing: -0.02em;
+}
+
+.results-tier-badge {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-top: 16px;
+}
+
+.results-headline {
+  font-weight: 700;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.results-message {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--brown);
+  text-align: center;
+  margin-bottom: 48px;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Section Breakdown */
+.breakdown-title {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+}
+
+.breakdown-item {
+  margin-bottom: 20px;
+}
+
+.breakdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.breakdown-label {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--dark);
+}
+
+.breakdown-value {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.breakdown-bar-bg {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.breakdown-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+  width: 0%;
+  transition: width 1s ease-out;
+}
+
+.breakdown-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 36px 32px;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+  margin-bottom: 32px;
+}
+
+/* Recommendations */
+.recs-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 36px 32px;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+  margin-bottom: 40px;
+}
+
+.recs-title {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+
+.rec-item {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.rec-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--accent-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.rec-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--accent);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rec-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--brown);
+}
+
+.rec-text strong {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+/* CTA */
+.results-cta {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.results-cta-text {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.footer-logo {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--dark);
+}
+
+.footer-link {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--accent);
+}
+
+/* Fade-up animation for results */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .intro-screen,
+  .question-screen,
+  .gate-screen,
+  .results-screen {
+    padding: 60px 24px;
+  }
+
+  .gate-card {
+    padding: 40px 28px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .breakdown-section,
+  .recs-section {
+    padding: 28px 24px;
+  }
+
+  .question-nav {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .question-nav .btn {
+    width: 100%;
+  }
+
+  .nav-back {
+    text-align: center;
+  }
+}
+
+/* ─── SOCIAL PROOF ─── */
+.social-proof-section {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+}
+
+.logo-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.logo-bar img {
+  height: 24px;
+  width: auto;
+  filter: grayscale(1) opacity(0.5);
+  transition: filter 0.3s;
+}
+
+.logo-bar img:hover {
+  filter: grayscale(0) opacity(1);
+}
+
+.testimonial {
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.testimonial-quote {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--brown);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.testimonial-author {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.testimonial-role {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@media (max-width: 480px) {
+  .logo-bar { gap: 16px; }
+  .logo-bar img { height: 20px; }
+}
+
+@media (max-width: 480px) {
+  .intro-screen,
+  .question-screen,
+  .gate-screen,
+  .results-screen {
+    padding: 48px 16px;
+  }
+
+  .gate-card {
+    padding: 32px 20px;
+  }
+
+  .option-card {
+    padding: 14px 16px 14px 18px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-bar" id="progressBar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<!-- Intro Screen -->
+<div class="screen active" id="introScreen">
+  <div class="intro-screen">
+    <div class="intro-eyebrow">AI Readiness Scorecard</div>
+    <h1 class="intro-title">Is your company actually ready for AI?</h1>
+    <p class="intro-sub">Most AI initiatives fail because companies skip the foundation. This 2-minute assessment reveals where you stand and what to fix first.</p>
+    <p class="intro-stat">Based on 300+ projects. 79% of AI deployments fail without the right groundwork.</p>
+    <button class="btn btn-primary" onclick="startAssessment()">Start Assessment</button>
+
+    <div class="social-proof-section">
+      <div class="logo-bar">
+        <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523e2172e77915b5063f1_2Dw4tz92EsKErJxvPmn82UTmPRj2q6YpfLKkyuZN6gE.svg" alt="Client logo">
+        <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523f31dc5fb0ed51507bc_iYM3sIPobicwfOY8lOW2tDianDpwZ5tOMG7eTvPdZZs.svg" alt="Client logo">
+        <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523f60c91203de35ab6f4_qbsveBaKuFaZqqxw0bd8HOD2Q0s1JL_aTudVU15vOIw.svg" alt="Client logo">
+        <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523ff0c91203de35abe25_uF6oC1BtPMrHlI9V70B0x17KAmXzaYzK724yXRqffuo.svg" alt="Client logo">
+        <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c52555824fbe7abe679025_gISJF_FSCw7U388dV3ZOp1gHpzERdEmbCcuaKLOeSUw.avif" alt="Client logo">
+        <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c7bb9b69e6abbfa2ccc326_medtronic_color.svg" alt="Medtronic">
+        <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/68db35e16e3e72c3be76cc3a_logo_qcells.avif" alt="Q Cells">
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">"Working with LowCode Agency to implement AI at HRM was the best decision I made in 2025"</p>
+        <p class="testimonial-author">Franklin Frith</p>
+        <p class="testimonial-role">CEO at HRM</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Question Screen -->
+<div class="screen" id="questionScreen">
+  <div class="question-screen">
+    <div class="question-wrapper">
+      <div class="question-content" id="questionContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Email Gate Screen -->
+<div class="screen" id="gateScreen">
+  <div class="gate-screen">
+    <div class="gate-card">
+      <h2 class="gate-title">Your results are ready.</h2>
+      <p class="gate-sub">Enter your details to see your AI Readiness Score, tier breakdown, and personalized recommendations.</p>
+      <form id="gateForm" onsubmit="submitGate(event)">
+        <div class="form-group">
+          <label class="form-label" for="gateName">Name</label>
+          <input class="form-input" type="text" id="gateName" required placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="gateEmail">Email</label>
+          <input class="form-input" type="email" id="gateEmail" required placeholder="you@company.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="gateCompany">Company Name</label>
+          <input class="form-input" type="text" id="gateCompany" required placeholder="Your company">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="gateRole">Role</label>
+            <select class="form-select" id="gateRole" required>
+              <option value="" disabled selected>Select role</option>
+              <option value="Founder/CEO">Founder / CEO</option>
+              <option value="VP/Director">VP / Director</option>
+              <option value="Manager">Manager</option>
+              <option value="Team Lead">Team Lead</option>
+              <option value="Individual Contributor">Individual Contributor</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="gateSize">Company Size</label>
+            <select class="form-select" id="gateSize" required>
+              <option value="" disabled selected>Select size</option>
+              <option value="1-10">1 - 10</option>
+              <option value="11-50">11 - 50</option>
+              <option value="51-200">51 - 200</option>
+              <option value="201-500">201 - 500</option>
+              <option value="500+">500+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="gateCourse">Send me a free email course</label>
+          <select class="form-select" id="gateCourse">
+            <option value="both" selected>Both courses (recommended)</option>
+            <option value="5day">5 AI Agents Every Business Needs (5 days)</option>
+            <option value="15day">Deploy Claude Across Your Team (15 days)</option>
+            <option value="none">No thanks, just show my results</option>
+          </select>
+        </div>
+        <button class="btn btn-primary gate-btn" type="submit">See My Results</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Results Screen -->
+<div class="screen" id="resultsScreen">
+  <div class="results-screen">
+    <div class="results-inner">
+      <div class="results-eyebrow fade-up">Your AI Readiness Score</div>
+      <div class="results-score-block fade-up">
+        <span class="results-score-number" id="scoreNumber">0</span><span class="results-score-max"> / 40</span>
+        <div>
+          <span class="results-tier-badge" id="tierBadge"></span>
+        </div>
+      </div>
+      <h2 class="results-headline fade-up" id="resultsHeadline"></h2>
+      <p class="results-message fade-up" id="resultsMessage"></p>
+
+      <div class="breakdown-section fade-up">
+        <div class="breakdown-title">Section Breakdown</div>
+        <div id="breakdownBars"></div>
+      </div>
+
+      <div class="recs-section fade-up">
+        <div class="recs-title">What to do next</div>
+        <div id="recsContent"></div>
+      </div>
+
+      <div class="results-cta fade-up">
+        <a class="btn btn-primary" id="ctaButton" href="https://www.lowcode.agency/contact" target="_blank" rel="noopener">Book a Free AI Readiness Call</a>
+        <p class="results-cta-text">30 minutes. No pitch. Just a clear picture of your AI roadmap.</p>
+      </div>
+
+      <div class="container">
+        <div class="footer">
+          <span class="footer-logo">LOW / CODE</span>
+          <a class="footer-link" href="https://lowcode.agency" target="_blank" rel="noopener">lowcode.agency</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var questions = [
+    {
+      section: 'Documentation & Knowledge',
+      text: 'How well are your core business processes documented?',
+      options: [
+        'Not documented \u2014 processes live in people\'s heads',
+        'Partially documented \u2014 some SOPs exist but they\'re outdated',
+        'Mostly documented \u2014 key processes are written down but not standardized',
+        'Well documented \u2014 standardized SOPs the team actually references'
+      ]
+    },
+    {
+      section: 'Documentation & Knowledge',
+      text: 'If a key employee left tomorrow, how much knowledge would walk out the door?',
+      options: [
+        'Critical \u2014 we\'d be in serious trouble',
+        'Significant \u2014 it would take months to recover',
+        'Some \u2014 we\'d manage but it would hurt',
+        'Minimal \u2014 our processes and knowledge are well-captured'
+      ]
+    },
+    {
+      section: 'Documentation & Knowledge',
+      text: 'Where does your company\'s institutional knowledge live today?',
+      options: [
+        'Mostly in people\'s heads and scattered conversations',
+        'Mix of docs, Slack, emails \u2014 no single source of truth',
+        'Centralized in a wiki/Notion/Drive but not consistently maintained',
+        'Well-organized knowledge base that\'s actively maintained'
+      ]
+    },
+    {
+      section: 'Tool Stack & Integration',
+      text: 'How connected are your business tools?',
+      options: [
+        'Completely siloed \u2014 we copy/paste between tools constantly',
+        'A few integrations but mostly manual data transfer',
+        'Key tools are connected but there are still gaps',
+        'Well-integrated stack with automated data flow'
+      ]
+    },
+    {
+      section: 'Tool Stack & Integration',
+      text: 'Could you list every software tool your company uses, who owns it, and what data lives in it?',
+      options: [
+        'No \u2014 we\'d have to survey every department',
+        'Partially \u2014 leadership knows the main tools but not the full picture',
+        'Mostly \u2014 we have a general sense but no formal inventory',
+        'Yes \u2014 we maintain a tool stack inventory with owners'
+      ]
+    },
+    {
+      section: 'AI Adoption & Usage',
+      text: 'Who is currently using AI tools (ChatGPT, Claude, etc.)?',
+      options: [
+        'Just 1-2 people (usually the founder/CEO)',
+        'A handful of early adopters, ad-hoc',
+        'Several team members, no coordination or standards',
+        'Organized usage with guidelines and shared practices'
+      ]
+    },
+    {
+      section: 'AI Adoption & Usage',
+      text: 'Do you have visibility into how AI is being used across your organization?',
+      options: [
+        'No idea \u2014 people might be using it, we wouldn\'t know',
+        'Anecdotal \u2014 we hear about it but don\'t track it',
+        'Some visibility \u2014 we know who has licenses but not usage',
+        'Clear visibility \u2014 we track usage, have guidelines, review outputs'
+      ]
+    },
+    {
+      section: 'AI Adoption & Usage',
+      text: 'Have you tried deploying AI at the team or company level before?',
+      options: [
+        'No \u2014 we haven\'t attempted it',
+        'Yes \u2014 bought licenses for everyone but adoption fizzled',
+        'Yes \u2014 some teams use it but it\'s inconsistent',
+        'Yes \u2014 structured deployment, want to go further'
+      ]
+    },
+    {
+      section: 'Leadership & Readiness',
+      text: 'Does your leadership team have a clear vision for how AI fits in your business?',
+      options: [
+        'No \u2014 AI feels like hype, not a strategy',
+        'Vaguely \u2014 we know we "should be doing something"',
+        'Somewhat \u2014 we have ideas but haven\'t formalized them',
+        'Yes \u2014 clear AI strategy aligned with business goals'
+      ]
+    },
+    {
+      section: 'Leadership & Readiness',
+      text: 'How would you describe your team\'s attitude toward AI?',
+      options: [
+        'Resistant or fearful \u2014 worried about job replacement',
+        'Curious but skeptical \u2014 open but unconvinced',
+        'Enthusiastic but unguided \u2014 excited but don\'t know where to start',
+        'Ready \u2014 bought in and waiting for direction'
+      ]
+    }
+  ];
+
+  var answers = new Array(10).fill(null);
+  var currentQ = 0;
+
+  var sections = [
+    { name: 'Documentation & Knowledge', indices: [0,1,2], max: 12 },
+    { name: 'Tool Stack & Integration', indices: [3,4], max: 8 },
+    { name: 'AI Adoption & Usage', indices: [5,6,7], max: 12 },
+    { name: 'Leadership & Readiness', indices: [8,9], max: 8 }
+  ];
+
+  window.startAssessment = function() {
+    showScreen('questionScreen');
+    document.getElementById('progressBar').classList.add('visible');
+    renderQuestion(0, 'forward');
+  };
+
+  function showScreen(id) {
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) {
+      screens[i].classList.remove('active');
+    }
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function updateProgress() {
+    var answered = 0;
+    for (var i = 0; i < answers.length; i++) {
+      if (answers[i] !== null) answered++;
+    }
+    var pct = (answered / questions.length) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  function renderQuestion(index, direction) {
+    currentQ = index;
+    var q = questions[index];
+    var container = document.getElementById('questionContent');
+
+    var animClass = direction === 'back' ? 'slideInReverse' : 'slideIn';
+
+    var html = '<div class="question-section-label">' + q.section + '</div>';
+    html += '<div class="question-counter">Question ' + (index + 1) + ' of ' + questions.length + '</div>';
+    html += '<h2 class="question-text">' + q.text + '</h2>';
+    html += '<div class="options-list">';
+
+    for (var i = 0; i < q.options.length; i++) {
+      var val = i + 1;
+      var selected = answers[index] === val ? ' selected' : '';
+      html += '<div class="option-card' + selected + '" onclick="selectOption(' + index + ',' + val + ')">';
+      html += '<div class="option-radio"></div>';
+      html += '<div class="option-label">' + q.options[i] + '</div>';
+      html += '<input type="radio" name="q' + index + '" value="' + val + '"' + (selected ? ' checked' : '') + '>';
+      html += '</div>';
+    }
+
+    html += '</div>';
+    html += '<div class="question-nav">';
+    if (index > 0) {
+      html += '<button class="nav-back" onclick="goBack()">Back</button>';
+    } else {
+      html += '<span></span>';
+    }
+
+    var nextDisabled = answers[index] === null ? ' style="opacity:0.4;pointer-events:none"' : '';
+    if (index < questions.length - 1) {
+      html += '<button class="btn btn-primary"' + nextDisabled + ' id="nextBtn" onclick="goNext()">Continue</button>';
+    } else {
+      html += '<button class="btn btn-primary"' + nextDisabled + ' id="nextBtn" onclick="goToGate()">See Results</button>';
+    }
+    html += '</div>';
+
+    container.style.animation = 'none';
+    container.offsetHeight; // reflow
+    container.innerHTML = html;
+    container.style.animation = animClass + ' 0.35s ease-out';
+  }
+
+  window.selectOption = function(qIndex, value) {
+    answers[qIndex] = value;
+    updateProgress();
+
+    // Update UI
+    var cards = document.querySelectorAll('.option-card');
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].classList.remove('selected');
+    }
+    // Find the card matching the value
+    var options = document.querySelectorAll('.options-list .option-card');
+    if (options[value - 1]) {
+      options[value - 1].classList.add('selected');
+    }
+
+    // Enable next button
+    var nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) {
+      nextBtn.style.opacity = '1';
+      nextBtn.style.pointerEvents = 'auto';
+    }
+
+    // Auto-advance after short delay
+    setTimeout(function() {
+      if (currentQ < questions.length - 1) {
+        goNext();
+      } else {
+        goToGate();
+      }
+    }, 350);
+  };
+
+  window.goNext = function() {
+    if (answers[currentQ] === null) return;
+    renderQuestion(currentQ + 1, 'forward');
+  };
+
+  window.goBack = function() {
+    if (currentQ > 0) {
+      renderQuestion(currentQ - 1, 'back');
+    }
+  };
+
+  window.goToGate = function() {
+    if (answers[currentQ] === null) return;
+    document.getElementById('progressFill').style.width = '100%';
+    showScreen('gateScreen');
+  };
+
+  window.submitGate = function(e) {
+    e.preventDefault();
+
+    var name = document.getElementById('gateName').value.trim();
+    var email = document.getElementById('gateEmail').value.trim();
+    var company = document.getElementById('gateCompany').value.trim();
+    var role = document.getElementById('gateRole').value;
+    var size = document.getElementById('gateSize').value;
+
+    if (!name || !email || !company || !role || !size) return;
+
+    var course = document.getElementById('gateCourse').value;
+    var score = calcScore();
+
+    // Determine which Brevo lists to add contact to
+    var listIds = [];
+    if (course === '5day' || course === 'both') listIds.push(27);
+    if (course === '15day' || course === 'both') listIds.push(28);
+
+    // Determine score tier for Brevo attributes
+    var tier = score <= 19 ? 'foundation-missing' : score <= 29 ? 'almost-there' : 'ready-to-scale';
+
+    // Send to Brevo API
+    var brevoPayload = {
+      email: email,
+      attributes: {
+        FIRSTNAME: name.split(' ')[0],
+        LASTNAME: name.split(' ').slice(1).join(' ') || '',
+        COMPANY: company,
+        ROLE: role,
+        COMPANY_SIZE: size,
+        AI_READINESS_SCORE: score,
+        AI_READINESS_TIER: tier
+      },
+      updateEnabled: true
+    };
+    if (listIds.length > 0) brevoPayload.listIds = listIds;
+
+    fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: {
+        'api-key': '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',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(brevoPayload)
+    }).then(function(res) {
+      console.log('Brevo contact created:', res.status);
+    }).catch(function(err) {
+      console.warn('Brevo API error (non-blocking):', err);
+    });
+
+    // Notify Slack
+    var courseLabel = course === 'both' ? 'Both courses' : course === '5day' ? '5-Day Agents' : course === '15day' ? '15-Day Claude' : 'None';
+    var slackText = '*New Lead Magnet Signup* :rocket:\n'
+      + '>*Name:* ' + name + '\n'
+      + '>*Email:* ' + email + '\n'
+      + '>*Company:* ' + company + ' (' + size + ' employees)\n'
+      + '>*Role:* ' + role + '\n'
+      + '>*Source:* AI Readiness Scorecard\n'
+      + '>*AI Readiness Score:* ' + score + '/40 (' + tier + ')\n'
+      + '>*Course:* ' + courseLabel;
+    fetch('https://hooks.slack.com/services/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', {
+      method: 'POST',
+      body: JSON.stringify({ text: slackText })
+    }).catch(function() {});
+
+    console.log('Lead captured:', { name: name, email: email, company: company, role: role, companySize: size, score: score, tier: tier, course: course });
+
+    showResults();
+  };
+
+  function calcScore() {
+    var total = 0;
+    for (var i = 0; i < answers.length; i++) {
+      total += (answers[i] || 1);
+    }
+    return total;
+  }
+
+  function showResults() {
+    document.getElementById('progressBar').classList.remove('visible');
+    showScreen('resultsScreen');
+
+    var score = calcScore();
+    var tier, tierLabel, tierColor, headline, message, recs, ctaText;
+
+    if (score <= 19) {
+      tier = 1;
+      tierLabel = 'Foundation Missing';
+      tierColor = 'var(--tier1)';
+      headline = 'Your AI foundation needs serious work \u2014 and that\'s where the biggest ROI is.';
+      message = 'Your processes aren\'t documented, your tools are siloed, and there\'s no shared AI strategy. That\'s not a criticism \u2014 it\'s where most companies are. But deploying AI on top of this foundation will waste budget and burn out your team. The good news: fixing the foundation is fast, high-impact work that pays dividends with or without AI.';
+      recs = [
+        { title: 'Document your top 10 processes.', body: 'Start with the workflows that consume the most time or carry the most risk. Written SOPs are the raw material AI systems need.' },
+        { title: 'Audit your tool stack.', body: 'Map every tool, who owns it, and what data lives there. You can\'t automate what you can\'t see.' },
+        { title: 'Centralize institutional knowledge.', body: 'Pick one system of record (Notion, Confluence, whatever) and start migrating tribal knowledge out of people\'s heads.' },
+        { title: 'Get leadership aligned.', body: 'Before buying any AI tools, agree on what problems you\'re solving. Strategy first, technology second.' }
+      ];
+      ctaText = 'Book a Free AI Readiness Call';
+    } else if (score <= 29) {
+      tier = 2;
+      tierLabel = 'Almost There';
+      tierColor = 'var(--tier2)';
+      headline = 'Solid foundation \u2014 now it\'s about connecting the dots.';
+      message = 'You\'ve done real work on documentation and tooling, and people on your team are using AI. The gap is coordination: individual efforts aren\'t compounding into organizational capability. You\'re past the "should we?" phase and into the "how do we do this right?" phase. That\'s exactly where structured deployment makes the difference.';
+      recs = [
+        { title: 'Create AI usage guidelines.', body: 'Define what tools are approved, how outputs should be reviewed, and where AI-generated content can be used. Reduce shadow AI risk.' },
+        { title: 'Close your integration gaps.', body: 'Identify the top 3 manual data transfers between tools and automate them. Connected data is what makes AI useful.' },
+        { title: 'Standardize your SOPs.', body: 'You have documentation \u2014 now make it consistent and machine-readable. Structured SOPs become training data for AI agents.' },
+        { title: 'Run a focused AI pilot.', body: 'Pick one high-frequency, well-documented process and deploy AI there. Measure results before scaling.' }
+      ];
+      ctaText = 'Book a Free AI Readiness Call';
+    } else {
+      tier = 3;
+      tierLabel = 'Ready to Scale';
+      tierColor = 'var(--tier3)';
+      headline = 'You\'re ready. Let\'s build your AI workforce.';
+      message = 'Your documentation is solid, your tools are connected, and your team is bought in. You don\'t need more preparation \u2014 you need a deployment partner who can move as fast as you can. The companies that pull ahead right now are the ones that stop piloting and start building AI into their core operations.';
+      recs = [
+        { title: 'Deploy AI agents on your top workflows.', body: 'You have the SOPs and the data. Build agents that handle the repetitive 80% while your team focuses on the strategic 20%.' },
+        { title: 'Build an internal AI ops function.', body: 'Assign ownership for AI tooling, prompt libraries, and output quality. Treat it like any other operational function.' },
+        { title: 'Measure and iterate.', body: 'Set clear KPIs for AI-assisted workflows: time saved, error rate, throughput. What gets measured gets improved.' },
+        { title: 'Scale across departments.', body: 'Your early wins will create demand. Have a rollout plan ready so you\'re not scrambling when every team wants in.' }
+      ];
+      ctaText = 'Book a Strategy Call';
+    }
+
+    // Render tier badge
+    var badge = document.getElementById('tierBadge');
+    badge.textContent = tierLabel;
+    badge.style.background = tierColor;
+    badge.style.color = tier === 3 ? 'var(--dark)' : '#fff';
+
+    // Score color
+    document.getElementById('scoreNumber').style.color = tierColor;
+
+    // Headline and message
+    document.getElementById('resultsHeadline').textContent = headline;
+    document.getElementById('resultsMessage').textContent = message;
+
+    // CTA
+    var ctaBtn = document.getElementById('ctaButton');
+    ctaBtn.textContent = ctaText;
+
+    // Section breakdown
+    var barsHtml = '';
+    for (var s = 0; s < sections.length; s++) {
+      var sec = sections[s];
+      var secScore = 0;
+      for (var j = 0; j < sec.indices.length; j++) {
+        secScore += (answers[sec.indices[j]] || 1);
+      }
+      var pct = Math.round((secScore / sec.max) * 100);
+      barsHtml += '<div class="breakdown-item">';
+      barsHtml += '<div class="breakdown-header">';
+      barsHtml += '<span class="breakdown-label">' + sec.name + '</span>';
+      barsHtml += '<span class="breakdown-value">' + secScore + ' / ' + sec.max + '</span>';
+      barsHtml += '</div>';
+      barsHtml += '<div class="breakdown-bar-bg"><div class="breakdown-bar-fill" data-width="' + pct + '"></div></div>';
+      barsHtml += '</div>';
+    }
+    document.getElementById('breakdownBars').innerHTML = barsHtml;
+
+    // Recommendations
+    var recsHtml = '';
+    var arrowSvg = '<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+    for (var r = 0; r < recs.length; r++) {
+      recsHtml += '<div class="rec-item">';
+      recsHtml += '<div class="rec-icon">' + arrowSvg + '</div>';
+      recsHtml += '<div class="rec-text"><strong>' + recs[r].title + '</strong> ' + recs[r].body + '</div>';
+      recsHtml += '</div>';
+    }
+    document.getElementById('recsContent').innerHTML = recsHtml;
+
+    // Animate score count-up
+    animateScore(score, tierColor);
+
+    // Animate fade-up elements
+    setTimeout(function() {
+      var fadeEls = document.querySelectorAll('.fade-up');
+      for (var i = 0; i < fadeEls.length; i++) {
+        (function(el, delay) {
+          setTimeout(function() { el.classList.add('visible'); }, delay);
+        })(fadeEls[i], i * 120);
+      }
+    }, 100);
+
+    // Animate bars after fade-in
+    setTimeout(function() {
+      var bars = document.querySelectorAll('.breakdown-bar-fill');
+      for (var i = 0; i < bars.length; i++) {
+        bars[i].style.width = bars[i].getAttribute('data-width') + '%';
+      }
+    }, 800);
+  }
+
+  function animateScore(target, color) {
+    var el = document.getElementById('scoreNumber');
+    var start = 0;
+    var duration = 1200;
+    var startTime = null;
+
+    function easeOutExpo(t) {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var easedProgress = easeOutExpo(progress);
+      var current = Math.round(start + (target - start) * easedProgress);
+      el.textContent = current;
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+
+    // Delay start slightly for dramatic effect
+    setTimeout(function() {
+      requestAnimationFrame(step);
+    }, 400);
+  }
+})();
+</script>
+</body>
+</html>

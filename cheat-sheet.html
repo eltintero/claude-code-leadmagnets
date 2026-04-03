@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Readiness Voice Audit — LowCode Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #FAF9F6;
+      --dark: #282828;
+      --brown: #414141;
+      --accent: #705CF6;
+      --accent-dark: #38327C;
+      --accent-light: #C5BDFA;
+      --accent-pale: rgba(112, 92, 246, 0.08);
+      --accent-lime: #C5EF48;
+      --muted: #B5B5B5;
+      --rule: #D9D9D9;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Typography */
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--dark);
+    }
+
+    h2 {
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--dark);
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: var(--brown);
+    }
+
+    /* Header */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .brand {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--dark);
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    /* Screens */
+    .screen {
+      display: none;
+      padding: 64px 0 80px;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* Fade-up animation */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(32px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .fade-up-delay-1 { animation-delay: 0.1s; }
+    .fade-up-delay-2 { animation-delay: 0.2s; }
+    .fade-up-delay-3 { animation-delay: 0.3s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Intro screen */
+    .intro-content {
+      text-align: center;
+      padding-top: 24px;
+    }
+
+    .intro-content h1 {
+      margin-bottom: 16px;
+    }
+
+    .intro-subtitle {
+      font-size: 18px;
+      color: var(--brown);
+      max-width: 520px;
+      margin: 0 auto 56px;
+      line-height: 1.6;
+    }
+
+    .how-it-works {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-bottom: 56px;
+      text-align: left;
+    }
+
+    .how-step {
+      position: relative;
+    }
+
+    .how-step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent-pale);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .how-step h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .how-step p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 40px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      min-width: 200px;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-pale);
+    }
+
+    .btn-ghost {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 8px 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn-ghost:hover {
+      opacity: 0.7;
+    }
+
+    .privacy-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 16px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Progress bar */
+    .progress-section {
+      margin-bottom: 40px;
+    }
+
+    .step-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      background: var(--rule);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Prompt card */
+    .prompt-card {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+
+    .prompt-card h2 {
+      font-size: clamp(22px, 3vw, 28px);
+      margin-bottom: 16px;
+    }
+
+    .prompt-bullets {
+      list-style: none;
+      padding: 0;
+    }
+
+    .prompt-bullets li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 4px;
+    }
+
+    .prompt-bullets li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-light);
+    }
+
+    /* Record button */
+    .record-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 0;
+    }
+
+    .record-btn {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(112, 92, 246, 0.3);
+    }
+
+    .record-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 32px rgba(112, 92, 246, 0.4);
+    }
+
+    .record-btn:active {
+      transform: scale(0.97);
+    }
+
+    .record-btn svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
+
+    .record-btn.recording {
+      background: #E74C3C;
+      box-shadow: 0 4px 24px rgba(231, 76, 60, 0.4);
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 0.4; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    .record-btn.recording::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: #E74C3C;
+      animation: pulse-ring 1.5s ease-out infinite;
+      z-index: -1;
+    }
+
+    .record-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 16px;
+    }
+
+    .record-timer {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-top: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Waveform */
+    .waveform {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 40px;
+      margin-top: 16px;
+    }
+
+    .wave-bar {
+      width: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      height: 12px;
+      transition: height 0.1s;
+    }
+
+    .waveform.active .wave-bar {
+      animation: wave 0.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes wave {
+      0% { height: 8px; }
+      100% { height: 36px; }
+    }
+
+    .wave-bar:nth-child(1) { animation-delay: 0s; }
+    .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(6) { animation-delay: 0.25s; }
+    .wave-bar:nth-child(7) { animation-delay: 0.05s; }
+
+    /* Processing state */
+    .processing-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 0;
+    }
+
+    .processing-state.active {
+      display: flex;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--rule);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    .processing-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* Skeleton loading */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--rule) 25%, #e8e8e8 50%, var(--rule) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+      height: 16px;
+      margin-bottom: 8px;
+    }
+
+    .skeleton.wide { width: 100%; }
+    .skeleton.medium { width: 70%; }
+    .skeleton.short { width: 40%; }
+
+    /* Result cards */
+    .result-cards {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .result-cards.active {
+      display: flex;
+    }
+
+    .result-card {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 20px;
+    }
+
+    .result-card label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .result-card textarea,
+    .result-card input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--dark);
+      background: var(--cream);
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    .result-card textarea:focus,
+    .result-card input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .result-card textarea {
+      min-height: 80px;
+    }
+
+    /* Text fallback */
+    .text-fallback {
+      display: none;
+      margin-bottom: 32px;
+    }
+
+    .text-fallback.active {
+      display: block;
+    }
+
+    .text-fallback-header {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .text-fallback textarea {
+      width: 100%;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--dark);
+      background: #fff;
+      resize: vertical;
+      min-height: 120px;
+      transition: border-color 0.2s;
+    }
+
+    .text-fallback textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .switch-to-text {
+      display: block;
+      text-align: center;
+      margin-top: -16px;
+      margin-bottom: 24px;
+    }
+
+    /* Step actions */
+    .step-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .step-actions .btn-primary {
+      margin-left: auto;
+    }
+
+    /* Email capture section */
+    .email-section {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+
+    .email-section h3 {
+      margin-bottom: 4px;
+    }
+
+    .email-section p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--dark);
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Results screen */
+    .audit-report {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 48px 40px;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+      margin-bottom: 32px;
+    }
+
+    .report-header {
+      border-bottom: 2px solid var(--dark);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .report-header .eyebrow {
+      margin-bottom: 8px;
+    }
+
+    .report-header h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 8px;
+    }
+
+    .report-meta {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .report-section {
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .report-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .report-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .report-section p {
+      margin-bottom: 12px;
+    }
+
+    .report-section ul {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .report-section li {
+      color: var(--brown);
+      margin-bottom: 4px;
+      line-height: 1.6;
+    }
+
+    /* Time waster table */
+    .time-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 16px 0;
+    }
+
+    .time-table th {
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 2px solid var(--rule);
+    }
+
+    .time-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--rule);
+      color: var(--brown);
+    }
+
+    .time-table .ai-yes {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .time-table .ai-maybe {
+      color: #D4A017;
+      font-weight: 500;
+    }
+
+    .time-table .ai-no {
+      color: var(--muted);
+    }
+
+    /* Score section */
+    .score-container {
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    .score-display {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .score-number {
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .score-total {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .score-bar-track {
+      width: 100%;
+      max-width: 400px;
+      height: 8px;
+      background: var(--rule);
+      border-radius: 4px;
+      margin: 0 auto 16px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--accent);
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .score-tier {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .tier-low {
+      background: #FDE8E8;
+      color: #C0392B;
+    }
+
+    .tier-mid {
+      background: #FEF3CD;
+      color: #856404;
+    }
+
+    .tier-high {
+      background: #D4EDDA;
+      color: #155724;
+    }
+
+    .score-recommendation {
+      font-size: 15px;
+      color: var(--brown);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* CTA boxes */
+    .cta-boxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .cta-box {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+
+    .cta-box .eyebrow {
+      font-size: 10px;
+      margin-bottom: 8px;
+    }
+
+    .cta-box h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .cta-box p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .cta-box .btn-primary {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 14px;
+    }
+
+    .cta-box .btn-secondary {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 14px;
+    }
+
+    /* Save/share row */
+    .save-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .save-note {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Error message */
+    .error-msg {
+      display: none;
+      background: #FDE8E8;
+      border: 1px solid #F5C6CB;
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-size: 14px;
+      color: #721C24;
+      margin-bottom: 20px;
+    }
+
+    .error-msg.active {
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .how-it-works {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-boxes {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-primary {
+        width: 100%;
+      }
+
+      .audit-report {
+        padding: 32px 24px;
+      }
+
+      .step-actions {
+        flex-direction: column;
+      }
+
+      .step-actions .btn-ghost {
+        order: 2;
+      }
+
+      .step-actions .btn-primary {
+        order: 1;
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .prompt-card {
+        padding: 24px 20px;
+      }
+
+      .email-section {
+        padding: 24px 20px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .intro-subtitle {
+        font-size: 16px;
+      }
+    }
+
+    /* ─── SOCIAL PROOF ─── */
+    .social-proof-section {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .logo-bar img {
+      height: 24px;
+      width: auto;
+      filter: grayscale(1) opacity(0.5);
+      transition: filter 0.3s;
+    }
+
+    .logo-bar img:hover {
+      filter: grayscale(0) opacity(1);
+    }
+
+    .testimonial {
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .testimonial-quote {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--brown);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .testimonial-author {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .testimonial-role {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 480px) {
+      .logo-bar { gap: 16px; }
+      .logo-bar img { height: 20px; }
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #fff;
+        font-size: 12px;
+      }
+
+      header,
+      .progress-section,
+      .step-actions,
+      .cta-boxes,
+      .save-row,
+      .btn-primary,
+      .btn-secondary,
+      .btn-ghost,
+      .record-area,
+      .processing-state,
+      .text-fallback,
+      .email-section,
+      .prompt-card,
+      .result-cards,
+      #screen-intro,
+      #screen-step1,
+      #screen-step2,
+      #screen-step3,
+      #screen-step4 {
+        display: none !important;
+      }
+
+      #screen-results {
+        display: block !important;
+        padding: 0;
+      }
+
+      .audit-report {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+
+      .report-section {
+        page-break-inside: avoid;
+      }
+
+      .score-container {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="brand">LOW / <span>CODE</span></div>
+    </div>
+  </header>
+
+  <!-- Intro Screen -->
+  <section id="screen-intro" class="screen active">
+    <div class="container">
+      <div class="intro-content">
+        <p class="eyebrow fade-up">Voice-Powered Audit</p>
+        <h1 class="fade-up fade-up-delay-1">AI Readiness Audit</h1>
+        <p class="intro-subtitle fade-up fade-up-delay-2">10 minutes. Your voice. A complete picture of where your business stands with AI.</p>
+
+        <div class="how-it-works fade-up fade-up-delay-2">
+          <div class="how-step">
+            <div class="how-step-number">1</div>
+            <h3>Talk about your business</h3>
+            <p>Answer 3 quick questions. Just talk naturally.</p>
+          </div>
+          <div class="how-step">
+            <div class="how-step-number">2</div>
+            <h3>AI structures your answers</h3>
+            <p>Your words become a formatted audit in seconds.</p>
+          </div>
+          <div class="how-step">
+            <div class="how-step-number">3</div>
+            <h3>Get your personalized report</h3>
+            <p>Print it, share it, use it to plan your next move.</p>
+          </div>
+        </div>
+
+        <button class="btn-primary fade-up fade-up-delay-3" onclick="startAudit()">Start My Audit</button>
+        <p class="privacy-note fade-up fade-up-delay-3">Uses your microphone. Your recording is processed and immediately discarded — nothing is stored.</p>
+
+        <div class="social-proof-section fade-up fade-up-delay-3">
+          <div class="logo-bar">
+            <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523e2172e77915b5063f1_2Dw4tz92EsKErJxvPmn82UTmPRj2q6YpfLKkyuZN6gE.svg" alt="Client logo">
+            <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523f31dc5fb0ed51507bc_iYM3sIPobicwfOY8lOW2tDianDpwZ5tOMG7eTvPdZZs.svg" alt="Client logo">
+            <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523f60c91203de35ab6f4_qbsveBaKuFaZqqxw0bd8HOD2Q0s1JL_aTudVU15vOIw.svg" alt="Client logo">
+            <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c523ff0c91203de35abe25_uF6oC1BtPMrHlI9V70B0x17KAmXzaYzK724yXRqffuo.svg" alt="Client logo">
+            <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c52555824fbe7abe679025_gISJF_FSCw7U388dV3ZOp1gHpzERdEmbCcuaKLOeSUw.avif" alt="Client logo">
+            <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/67c7bb9b69e6abbfa2ccc326_medtronic_color.svg" alt="Medtronic">
+            <img src="https://raw.githubusercontent.com/eltintero/claude-code-leadmagnets/main/client-logos/68db35e16e3e72c3be76cc3a_logo_qcells.avif" alt="Q Cells">
+          </div>
+          <div class="testimonial">
+            <p class="testimonial-quote">"Working with LowCode Agency to implement AI at HRM was the best decision I made in 2025"</p>
+            <p class="testimonial-author">Franklin Frith</p>
+            <p class="testimonial-role">CEO at HRM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 1: Your Business -->
+  <section id="screen-step1" class="screen">
+    <div class="container">
+      <div class="progress-section fade-up">
+        <div class="step-label">Step 1 of 4</div>
+        <div class="progress-track"><div class="progress-fill" style="width: 25%"></div></div>
+      </div>
+
+      <div class="prompt-card fade-up fade-up-delay-1">
+        <h2>Tell us about your company</h2>
+        <ul class="prompt-bullets">
+          <li>What does your company do?</li>
+          <li>Who are your customers?</li>
+          <li>How big is your team?</li>
+          <li>What tools does your team use daily?</li>
+        </ul>
+      </div>
+
+      <div id="error-step1" class="error-msg"></div>
+
+      <div id="record-area-1" class="record-area fade-up fade-up-delay-2">
+        <button class="record-btn" id="record-btn-1" onclick="toggleRecording(1)">
+          <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </button>
+        <div class="record-label" id="record-label-1">Tap to record</div>
+        <div class="record-timer" id="record-timer-1" style="display:none">0:00</div>
+        <div class="waveform" id="waveform-1">
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+      </div>
+
+      <button class="btn-ghost switch-to-text" onclick="showTextFallback(1)">Prefer to type? No problem.</button>
+
+      <div id="text-fallback-1" class="text-fallback">
+        <p class="text-fallback-header">Tell us about your company, customers, team size, and the tools you use.</p>
+        <textarea id="text-input-1" placeholder="We're a 15-person marketing agency that serves mid-market SaaS companies. We use Slack, HubSpot, Figma, and Google Workspace daily..."></textarea>
+        <div style="margin-top:12px; text-align:right;">
+          <button class="btn-primary" onclick="processTextInput(1)" style="min-width:140px; padding:10px 24px; font-size:14px;">Process</button>
+        </div>
+      </div>
+
+      <div id="processing-1" class="processing-state">
+        <div class="spinner"></div>
+        <div class="processing-label">Transcribing and structuring your answer...</div>
+        <div style="margin-top:20px; width:100%; max-width:400px;">
+          <div class="skeleton wide"></div>
+          <div class="skeleton medium"></div>
+          <div class="skeleton short"></div>
+        </div>
+      </div>
+
+      <div id="results-1" class="result-cards">
+        <div class="result-card">
+          <label>Company Overview</label>
+          <textarea id="result-companyOverview" rows="3"></textarea>
+        </div>
+        <div class="result-card">
+          <label>Team Size</label>
+          <input type="text" id="result-teamSize">
+        </div>
+        <div class="result-card">
+          <label>Key Tools</label>
+          <textarea id="result-keyTools" rows="2"></textarea>
+        </div>
+        <div class="step-actions">
+          <button class="btn-ghost" onclick="reRecord(1)">Record again</button>
+          <button class="btn-primary" onclick="goToStep(2)">Looks good — Next</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 2: Time Wasters -->
+  <section id="screen-step2" class="screen">
+    <div class="container">
+      <div class="progress-section fade-up">
+        <div class="step-label">Step 2 of 4</div>
+        <div class="progress-track"><div class="progress-fill" style="width: 50%"></div></div>
+      </div>
+
+      <div class="prompt-card fade-up fade-up-delay-1">
+        <h2>Where does your team waste the most time?</h2>
+        <ul class="prompt-bullets">
+          <li>What tasks eat up hours every week?</li>
+          <li>What questions do people keep asking over and over?</li>
+          <li>Where do things fall through the cracks?</li>
+          <li>What manual work could probably be automated?</li>
+        </ul>
+      </div>
+
+      <div id="error-step2" class="error-msg"></div>
+
+      <div id="record-area-2" class="record-area fade-up fade-up-delay-2">
+        <button class="record-btn" id="record-btn-2" onclick="toggleRecording(2)">
+          <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </button>
+        <div class="record-label" id="record-label-2">Tap to record</div>
+        <div class="record-timer" id="record-timer-2" style="display:none">0:00</div>
+        <div class="waveform" id="waveform-2">
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+      </div>
+
+      <button class="btn-ghost switch-to-text" onclick="showTextFallback(2)">Prefer to type? No problem.</button>
+
+      <div id="text-fallback-2" class="text-fallback">
+        <p class="text-fallback-header">Describe where your team wastes time, recurring questions, and process gaps.</p>
+        <textarea id="text-input-2" placeholder="We spend hours every week on status update meetings. People constantly ask about project deadlines and client contacts. Follow-ups fall through the cracks..."></textarea>
+        <div style="margin-top:12px; text-align:right;">
+          <button class="btn-primary" onclick="processTextInput(2)" style="min-width:140px; padding:10px 24px; font-size:14px;">Process</button>
+        </div>
+      </div>
+
+      <div id="processing-2" class="processing-state">
+        <div class="spinner"></div>
+        <div class="processing-label">Transcribing and structuring your answer...</div>
+        <div style="margin-top:20px; width:100%; max-width:400px;">
+          <div class="skeleton wide"></div>
+          <div class="skeleton medium"></div>
+          <div class="skeleton short"></div>
+        </div>
+      </div>
+
+      <div id="results-2" class="result-cards">
+        <div class="result-card">
+          <label>Top Time Wasters</label>
+          <textarea id="result-timeWasters" rows="3"></textarea>
+        </div>
+        <div class="result-card">
+          <label>Recurring Questions</label>
+          <textarea id="result-recurringQuestions" rows="2"></textarea>
+        </div>
+        <div class="result-card">
+          <label>Process Gaps</label>
+          <textarea id="result-processGaps" rows="2"></textarea>
+        </div>
+        <div class="step-actions">
+          <button class="btn-ghost" onclick="reRecord(2)">Record again</button>
+          <button class="btn-primary" onclick="goToStep(3)">Looks good — Next</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 3: Email Capture -->
+  <section id="screen-step3" class="screen">
+    <div class="container">
+      <div class="progress-section fade-up">
+        <div class="step-label">Step 3 of 4</div>
+        <div class="progress-track"><div class="progress-fill" style="width: 75%"></div></div>
+      </div>
+
+      <div class="email-section fade-up fade-up-delay-1" style="display:block">
+        <h2 style="font-size:24px; font-weight:700; margin-bottom:8px;">Almost there — where should we send your report?</h2>
+        <p style="color:var(--muted); margin-bottom:28px;">We'll generate a personalized AI readiness audit based on your answers. Enter your email to receive a copy.</p>
+
+        <div class="form-group">
+          <label for="input-email">Work email</label>
+          <input type="email" id="input-email" required placeholder="alex@company.com">
+        </div>
+        <div class="form-group">
+          <label for="input-course">Also send me a free email course</label>
+          <select id="input-course">
+            <option value="both">Both courses (recommended)</option>
+            <option value="5day">5 AI Agents Every Business Needs (5 days)</option>
+            <option value="15day">Deploy Claude Across Your Team (15 days)</option>
+            <option value="none">No thanks, just the audit</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="goToStep(4)" style="width:100%; margin-top:8px;">Continue to Final Question</button>
+        <p style="font-size:12px; color:var(--muted); text-align:center; margin-top:14px;">No spam. Instant access to your report.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 4: Knowledge Gaps -->
+  <section id="screen-step4" class="screen">
+    <div class="container">
+      <div class="progress-section fade-up">
+        <div class="step-label">Step 4 of 4</div>
+        <div class="progress-track"><div class="progress-fill" style="width: 100%"></div></div>
+      </div>
+
+      <div class="prompt-card fade-up fade-up-delay-1">
+        <h2>What knowledge lives in people's heads?</h2>
+        <ul class="prompt-bullets">
+          <li>What happens when someone goes on vacation or quits?</li>
+          <li>What's documented vs what's tribal knowledge?</li>
+          <li>Are your processes written down somewhere the team can find them?</li>
+          <li>If you hired someone tomorrow, how would they learn the job?</li>
+        </ul>
+      </div>
+
+      <div id="error-step4" class="error-msg"></div>
+
+      <div id="record-area-4" class="record-area fade-up fade-up-delay-2">
+        <button class="record-btn" id="record-btn-4" onclick="toggleRecording(4)">
+          <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </button>
+        <div class="record-label" id="record-label-4">Tap to record</div>
+        <div class="record-timer" id="record-timer-4" style="display:none">0:00</div>
+        <div class="waveform" id="waveform-4">
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+      </div>
+
+      <button class="btn-ghost switch-to-text" onclick="showTextFallback(4)">Prefer to type? No problem.</button>
+
+      <div id="text-fallback-4" class="text-fallback">
+        <p class="text-fallback-header">Describe undocumented knowledge, single points of failure, and documentation status.</p>
+        <textarea id="text-input-4" placeholder="Half of our processes live in Sarah's head. We have a wiki but it's outdated. When someone leaves, it takes months to get the replacement up to speed..."></textarea>
+        <div style="margin-top:12px; text-align:right;">
+          <button class="btn-primary" onclick="processTextInput(4)" style="min-width:140px; padding:10px 24px; font-size:14px;">Process</button>
+        </div>
+      </div>
+
+      <div id="processing-4" class="processing-state">
+        <div class="spinner"></div>
+        <div class="processing-label">Transcribing and structuring your answer...</div>
+        <div style="margin-top:20px; width:100%; max-width:400px;">
+          <div class="skeleton wide"></div>
+          <div class="skeleton medium"></div>
+          <div class="skeleton short"></div>
+        </div>
+      </div>
+
+      <div id="results-4" class="result-cards">
+        <div class="result-card">
+          <label>Undocumented Knowledge</label>
+          <textarea id="result-undocumentedKnowledge" rows="3"></textarea>
+        </div>
+        <div class="result-card">
+          <label>Single Points of Failure</label>
+          <textarea id="result-singlePointsOfFailure" rows="2"></textarea>
+        </div>
+        <div class="result-card">
+          <label>Documentation Status</label>
+          <textarea id="result-documentationStatus" rows="2"></textarea>
+        </div>
+        <div class="step-actions">
+          <button class="btn-ghost" onclick="reRecord(4)">Record again</button>
+          <button class="btn-primary" onclick="generateReport()" id="btn-generate">Generate My Audit Report</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Screen -->
+  <section id="screen-results" class="screen">
+    <div class="container">
+      <div class="audit-report" id="audit-report">
+        <div class="report-header">
+          <p class="eyebrow">AI Readiness Audit</p>
+          <h1 id="report-company-name"></h1>
+          <p class="report-meta" id="report-date"></p>
+        </div>
+
+        <div class="report-section">
+          <h2>1. Company Overview</h2>
+          <div id="report-overview"></div>
+        </div>
+
+        <div class="report-section">
+          <h2>2. Time &amp; Efficiency Gaps</h2>
+          <div id="report-time-gaps"></div>
+        </div>
+
+        <div class="report-section">
+          <h2>3. Knowledge &amp; Documentation Gaps</h2>
+          <div id="report-knowledge-gaps"></div>
+        </div>
+
+        <div class="report-section">
+          <h2>4. AI Readiness Score</h2>
+          <div class="score-container" id="report-score"></div>
+        </div>
+
+        <div class="report-section">
+          <h2>5. Recommended Next Steps</h2>
+          <div id="report-next-steps"></div>
+        </div>
+      </div>
+
+      <div class="cta-boxes">
+        <div class="cta-box">
+          <p class="eyebrow">Do It Yourself</p>
+          <h3>Free AI Email Course</h3>
+          <p>Practical lessons delivered daily. Learn to build AI agents and deploy them across your team.</p>
+          <button class="btn-primary" onclick="openCourseCTA()">Get Free Email Course</button>
+        </div>
+        <div class="cta-box">
+          <p class="eyebrow">Done With Experts</p>
+          <h3>Book a Free Call</h3>
+          <p>Walk through your audit with our team. We'll map out a 90-day AI adoption plan together.</p>
+          <a href="https://lowcode.agency/contact" target="_blank" class="btn-secondary" style="text-decoration:none;">Book AI Readiness Call</a>
+        </div>
+      </div>
+
+      <div class="save-row">
+        <button class="btn-secondary" onclick="window.print()">Save as PDF</button>
+        <span class="save-note">Share this audit with your team to align on next steps.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Course signup modal (for results page) -->
+  <div id="course-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:8px; padding:36px; max-width:440px; width:90%; position:relative;">
+      <button onclick="document.getElementById('course-modal').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:20px; cursor:pointer; color:var(--muted);">x</button>
+      <h3 style="margin-bottom:4px;">Get the free email course</h3>
+      <p style="font-size:14px; color:var(--muted); margin-bottom:20px;">Practical AI lessons delivered to your inbox.</p>
+      <div class="form-group">
+        <label for="modal-email">Email</label>
+        <input type="email" id="modal-email" placeholder="alex@company.com">
+      </div>
+      <div class="form-group">
+        <label for="modal-course">Course</label>
+        <select id="modal-course">
+          <option value="both">Both courses (recommended)</option>
+          <option value="5day">5 AI Agents Every Business Needs (5 days)</option>
+          <option value="15day">Deploy Claude Across Your Team (15 days)</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="submitModalCourse()" style="width:100%; margin-top:8px;">Send Me the Course</button>
+    </div>
+  </div>
+
+  <script>
+    // ===== State =====
+    var auditData = {
+      step1: { companyOverview: '', teamSize: '', keyTools: '' },
+      step2: { timeWasters: '', recurringQuestions: '', processGaps: '' },
+      step3: { undocumentedKnowledge: '', singlePointsOfFailure: '', documentationStatus: '' },
+      contact: { email: '', company: '', course: 'both' },
+      report: null
+    };
+
+    var mediaRecorder = null;
+    var audioChunks = [];
+    var recordingStep = null;
+    var timerInterval = null;
+    var recordingStartTime = 0;
+    var emailSubmitted = false;
+
+    var GROQ_KEY = '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';
+    var BREVO_KEY = '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';
+    var SLACK_HOOK = 'https://hooks.slack.com/services/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';
+
+    // ===== Navigation =====
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startAudit() {
+      showScreen('screen-step1');
+    }
+
+    function goToStep(step) {
+      if (step === 2) {
+        // Save step 1 results
+        auditData.step1.companyOverview = document.getElementById('result-companyOverview').value;
+        auditData.step1.teamSize = document.getElementById('result-teamSize').value;
+        auditData.step1.keyTools = document.getElementById('result-keyTools').value;
+
+        showScreen('screen-step2');
+      } else if (step === 3) {
+        // Save step 2 results
+        auditData.step2.timeWasters = document.getElementById('result-timeWasters').value;
+        auditData.step2.recurringQuestions = document.getElementById('result-recurringQuestions').value;
+        auditData.step2.processGaps = document.getElementById('result-processGaps').value;
+
+        showScreen('screen-step3');
+      } else if (step === 4) {
+        // Save contact info from step 3
+        auditData.contact.email = document.getElementById('input-email').value;
+        auditData.contact.company = auditData.step1.companyOverview ? auditData.step1.companyOverview.split('.')[0] : '';
+        auditData.contact.course = document.getElementById('input-course').value;
+
+        if (!auditData.contact.email) {
+          document.getElementById('input-email').focus();
+          return;
+        }
+
+        // Submit email to Brevo and send Slack notification
+        if (!emailSubmitted) {
+          submitToBrevo();
+          sendSlackNotification('signup');
+          emailSubmitted = true;
+        }
+
+        showScreen('screen-step4');
+      }
+    }
+
+    // ===== Recording =====
+    function toggleRecording(step) {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        stopRecording(step);
+      } else {
+        startRecording(step);
+      }
+    }
+
+    function startRecording(step) {
+      var errorEl = document.getElementById('error-step' + step);
+      errorEl.classList.remove('active');
+
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+        recordingStep = step;
+        audioChunks = [];
+
+        mediaRecorder = new MediaRecorder(stream, { mimeType: getSupportedMimeType() });
+
+        mediaRecorder.ondataavailable = function(e) {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = function() {
+          stream.getTracks().forEach(function(t) { t.stop(); });
+          var mimeType = mediaRecorder.mimeType || 'audio/webm';
+          var blob = new Blob(audioChunks, { type: mimeType });
+          processAudio(blob, step);
+        };
+
+        mediaRecorder.start();
+
+        // Update UI
+        var btn = document.getElementById('record-btn-' + step);
+        btn.classList.add('recording');
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="#fff"/></svg>';
+
+        document.getElementById('record-label-' + step).textContent = 'Tap to stop';
+        document.getElementById('record-timer-' + step).style.display = 'block';
+        document.getElementById('waveform-' + step).classList.add('active');
+
+        recordingStartTime = Date.now();
+        timerInterval = setInterval(function() {
+          var elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+          var mins = Math.floor(elapsed / 60);
+          var secs = elapsed % 60;
+          document.getElementById('record-timer-' + step).textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }, 1000);
+
+      }).catch(function(err) {
+        console.error('Microphone error:', err);
+        errorEl.textContent = 'Could not access your microphone. You can type your answer instead.';
+        errorEl.classList.add('active');
+        showTextFallback(step);
+      });
+    }
+
+    function stopRecording(step) {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+      }
+      clearInterval(timerInterval);
+
+      var btn = document.getElementById('record-btn-' + step);
+      btn.classList.remove('recording');
+      btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>';
+
+      document.getElementById('record-label-' + step).textContent = 'Tap to record';
+      document.getElementById('record-timer-' + step).style.display = 'none';
+      document.getElementById('waveform-' + step).classList.remove('active');
+    }
+
+    function getSupportedMimeType() {
+      var types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg'];
+      for (var i = 0; i < types.length; i++) {
+        if (MediaRecorder.isTypeSupported(types[i])) return types[i];
+      }
+      return 'audio/webm';
+    }
+
+    function getFileExtension(mimeType) {
+      if (mimeType.indexOf('mp4') !== -1) return 'mp4';
+      if (mimeType.indexOf('ogg') !== -1) return 'ogg';
+      return 'webm';
+    }
+
+    // ===== Audio Processing =====
+    function processAudio(blob, step) {
+      // Show processing state
+      document.getElementById('record-area-' + step).style.display = 'none';
+      document.querySelector('#screen-step' + step + ' .switch-to-text').style.display = 'none';
+      document.getElementById('processing-' + step).classList.add('active');
+
+      var ext = getFileExtension(blob.type);
+      var formData = new FormData();
+      formData.append('file', blob, 'recording.' + ext);
+      formData.append('model', 'whisper-large-v3');
+      formData.append('language', 'en');
+
+      fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + GROQ_KEY },
+        body: formData
+      })
+      .then(function(res) {
+        if (!res.ok) throw new Error('Transcription failed: ' + res.status);
+        return res.json();
+      })
+      .then(function(data) {
+        var transcript = data.text;
+        if (!transcript || transcript.trim().length < 5) {
+          throw new Error('No speech detected. Try again or type your answer.');
+        }
+        return parseWithLLM(transcript, step);
+      })
+      .then(function(parsed) {
+        populateResults(parsed, step);
+      })
+      .catch(function(err) {
+        console.error('Processing error:', err);
+        document.getElementById('processing-' + step).classList.remove('active');
+        document.getElementById('record-area-' + step).style.display = 'flex';
+        document.querySelector('#screen-step' + step + ' .switch-to-text').style.display = 'block';
+        var errorEl = document.getElementById('error-step' + step);
+        errorEl.textContent = err.message || 'Something went wrong. Try again or type your answer instead.';
+        errorEl.classList.add('active');
+        showTextFallback(step);
+      });
+    }
+
+    // ===== Text Input Fallback =====
+    function showTextFallback(step) {
+      document.getElementById('text-fallback-' + step).classList.add('active');
+    }
+
+    function processTextInput(step) {
+      var text = document.getElementById('text-input-' + step).value.trim();
+      if (!text) return;
+
+      // Hide text area, show processing
+      document.getElementById('text-fallback-' + step).classList.remove('active');
+      document.getElementById('record-area-' + step).style.display = 'none';
+      document.querySelector('#screen-step' + step + ' .switch-to-text').style.display = 'none';
+      document.getElementById('processing-' + step).classList.add('active');
+
+      parseWithLLM(text, step)
+        .then(function(parsed) {
+          populateResults(parsed, step);
+        })
+        .catch(function(err) {
+          console.error('Parse error:', err);
+          document.getElementById('processing-' + step).classList.remove('active');
+          document.getElementById('text-fallback-' + step).classList.add('active');
+          var errorEl = document.getElementById('error-step' + step);
+          errorEl.textContent = 'Could not process your answer. Please try again.';
+          errorEl.classList.add('active');
+        });
+    }
+
+    // ===== LLM Parsing =====
+    function parseWithLLM(transcript, step) {
+      var prompts = {
+        1: 'Parse this business description into structured sections. Return ONLY valid JSON with these exact keys: companyOverview (a 2-3 sentence summary of what the company does and who they serve), teamSize (a short string like "15 people" or "about 50"), keyTools (comma-separated list of tools mentioned). Text: "' + escapeForJSON(transcript) + '"',
+        2: 'Parse this description of workplace inefficiencies into structured sections. Return ONLY valid JSON with these exact keys: timeWasters (bullet-point list of top time-wasting activities, each on a new line starting with "- "), recurringQuestions (bullet-point list of questions people keep asking, each starting with "- "), processGaps (bullet-point list of things that fall through the cracks, each starting with "- "). Text: "' + escapeForJSON(transcript) + '"',
+        4: 'Parse this description of knowledge management into structured sections. Return ONLY valid JSON with these exact keys: undocumentedKnowledge (bullet-point list of knowledge that lives in people\'s heads, each starting with "- "), singlePointsOfFailure (bullet-point list of people/roles that are single points of failure, each starting with "- "), documentationStatus (a 2-3 sentence summary of current documentation state). Text: "' + escapeForJSON(transcript) + '"'
+      };
+
+      return fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + GROQ_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            { role: 'system', content: 'You parse spoken business descriptions into structured JSON. Return ONLY valid JSON, no markdown code fences, no explanation.' },
+            { role: 'user', content: prompts[step] }
+          ],
+          temperature: 0.1
+        })
+      })
+      .then(function(res) {
+        if (!res.ok) throw new Error('LLM request failed: ' + res.status);
+        return res.json();
+      })
+      .then(function(data) {
+        var content = data.choices[0].message.content.trim();
+        // Strip markdown code fences if present
+        content = content.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '');
+        return JSON.parse(content);
+      });
+    }
+
+    function escapeForJSON(str) {
+      return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+    }
+
+    // ===== Populate Results =====
+    function populateResults(parsed, step) {
+      document.getElementById('processing-' + step).classList.remove('active');
+
+      if (step === 1) {
+        document.getElementById('result-companyOverview').value = parsed.companyOverview || '';
+        document.getElementById('result-teamSize').value = parsed.teamSize || '';
+        document.getElementById('result-keyTools').value = parsed.keyTools || '';
+      } else if (step === 2) {
+        document.getElementById('result-timeWasters').value = parsed.timeWasters || '';
+        document.getElementById('result-recurringQuestions').value = parsed.recurringQuestions || '';
+        document.getElementById('result-processGaps').value = parsed.processGaps || '';
+      } else if (step === 4) {
+        document.getElementById('result-undocumentedKnowledge').value = parsed.undocumentedKnowledge || '';
+        document.getElementById('result-singlePointsOfFailure').value = parsed.singlePointsOfFailure || '';
+        document.getElementById('result-documentationStatus').value = parsed.documentationStatus || '';
+      }
+
+      document.getElementById('results-' + step).classList.add('active');
+    }
+
+    // ===== Re-record =====
+    function reRecord(step) {
+      document.getElementById('results-' + step).classList.remove('active');
+      document.getElementById('record-area-' + step).style.display = 'flex';
+      document.querySelector('#screen-step' + step + ' .switch-to-text').style.display = 'block';
+      document.getElementById('error-step' + step).classList.remove('active');
+    }
+
+    // ===== Generate Report =====
+    function generateReport() {
+      // Save step 4 results (knowledge gaps)
+      auditData.step3.undocumentedKnowledge = document.getElementById('result-undocumentedKnowledge').value;
+      auditData.step3.singlePointsOfFailure = document.getElementById('result-singlePointsOfFailure').value;
+      auditData.step3.documentationStatus = document.getElementById('result-documentationStatus').value;
+
+      var btn = document.getElementById('btn-generate');
+      btn.disabled = true;
+      btn.textContent = 'Generating...';
+
+      var allData = JSON.stringify({
+        company: auditData.step1,
+        timeWasters: auditData.step2,
+        knowledge: auditData.step3
+      });
+
+      fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + GROQ_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            { role: 'system', content: 'You are an AI readiness consultant generating a structured audit report. Return ONLY valid JSON, no markdown code fences. Be specific, practical, and direct. No buzzwords like "leverage" or "synergy".' },
+            { role: 'user', content: 'Generate an AI readiness audit report from this data. Return JSON with these keys:\n\n1. "overviewHTML" (string): A 2-3 paragraph HTML summary of the company, team, and tools. Use <p> tags.\n\n2. "timeWasterTable" (array of objects): Each has "task" (string), "estimatedHours" (string like "3-5 hrs/week"), "aiCanHandle" (string: "Yes", "Partially", or "No"). Create 4-6 rows based on the time wasters mentioned.\n\n3. "knowledgeGapsHTML" (string): HTML paragraphs covering undocumented knowledge, single points of failure, and documentation status. Use <p> and <ul><li> tags.\n\n4. "score" (number 0-10): AI readiness score based on documentation status (0-3 pts), tool organization (0-2 pts), process maturity (0-3 pts), knowledge centralization (0-2 pts).\n\n5. "scoreReasoning" (string): 2-3 sentences explaining the score.\n\n6. "nextSteps" (array of strings): 3-4 specific, actionable next steps tailored to their situation.\n\nData:\n' + allData }
+          ],
+          temperature: 0.3
+        })
+      })
+      .then(function(res) {
+        if (!res.ok) throw new Error('Report generation failed');
+        return res.json();
+      })
+      .then(function(data) {
+        var content = data.choices[0].message.content.trim();
+        content = content.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '');
+        auditData.report = JSON.parse(content);
+        renderReport();
+        sendSlackNotification('audit');
+      })
+      .catch(function(err) {
+        console.error('Report generation error:', err);
+        btn.disabled = false;
+        btn.textContent = 'Generate My Audit Report';
+        var errorEl = document.getElementById('error-step4');
+        errorEl.textContent = 'Could not generate the report. Please try again.';
+        errorEl.classList.add('active');
+      });
+    }
+
+    // ===== Render Report =====
+    function renderReport() {
+      var r = auditData.report;
+      var companyName = auditData.contact.company || auditData.contact.email.split('@')[1].split('.')[0] || 'Your Company';
+
+      document.getElementById('report-company-name').textContent = companyName;
+
+      var now = new Date();
+      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      document.getElementById('report-date').textContent = months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+      // Section 1: Overview
+      document.getElementById('report-overview').innerHTML = r.overviewHTML || '<p>' + auditData.step1.companyOverview + '</p>';
+
+      // Section 2: Time table
+      var tableHTML = '<table class="time-table"><thead><tr><th>Time Waster</th><th>Est. Hours/Week</th><th>AI Could Handle?</th></tr></thead><tbody>';
+      if (r.timeWasterTable && r.timeWasterTable.length) {
+        r.timeWasterTable.forEach(function(row) {
+          var aiClass = row.aiCanHandle === 'Yes' ? 'ai-yes' : (row.aiCanHandle === 'Partially' ? 'ai-maybe' : 'ai-no');
+          tableHTML += '<tr><td>' + escapeHTML(row.task) + '</td><td>' + escapeHTML(row.estimatedHours) + '</td><td class="' + aiClass + '">' + escapeHTML(row.aiCanHandle) + '</td></tr>';
+        });
+      }
+      tableHTML += '</tbody></table>';
+      document.getElementById('report-time-gaps').innerHTML = tableHTML;
+
+      // Section 3: Knowledge gaps
+      document.getElementById('report-knowledge-gaps').innerHTML = r.knowledgeGapsHTML || '<p>' + auditData.step3.undocumentedKnowledge + '</p>';
+
+      // Section 4: Score
+      var score = Math.min(10, Math.max(0, r.score || 0));
+      var tierLabel, tierClass, tierRec;
+      if (score <= 3) {
+        tierLabel = 'Foundation Missing';
+        tierClass = 'tier-low';
+        tierRec = r.scoreReasoning || 'Your business has significant gaps in documentation and process maturity. The good news: this means AI can have an outsized impact once you lay the groundwork. Start by documenting your most critical processes.';
+      } else if (score <= 6) {
+        tierLabel = 'Almost There';
+        tierClass = 'tier-mid';
+        tierRec = r.scoreReasoning || 'You have some foundations in place, but there are clear gaps in knowledge centralization and process documentation. A focused 90-day effort could move you into the "Ready to Scale" tier.';
+      } else {
+        tierLabel = 'Ready to Scale';
+        tierClass = 'tier-high';
+        tierRec = r.scoreReasoning || 'Your business has strong foundations for AI adoption. Your documentation and processes are mature enough to start deploying AI agents that deliver real value right away.';
+      }
+
+      var scoreHTML = '<div class="score-display"><span class="score-number">' + score + '</span><span class="score-total">/ 10</span></div>';
+      scoreHTML += '<div class="score-bar-track"><div class="score-bar-fill" id="score-bar-fill" style="width: 0%"></div></div>';
+      scoreHTML += '<div class="score-tier ' + tierClass + '">' + tierLabel + '</div>';
+      scoreHTML += '<p class="score-recommendation">' + escapeHTML(tierRec) + '</p>';
+      document.getElementById('report-score').innerHTML = scoreHTML;
+
+      // Animate score bar after render
+      setTimeout(function() {
+        var fill = document.getElementById('score-bar-fill');
+        if (fill) fill.style.width = (score * 10) + '%';
+      }, 100);
+
+      // Section 5: Next steps
+      var stepsHTML = '<ul>';
+      if (r.nextSteps && r.nextSteps.length) {
+        r.nextSteps.forEach(function(s) {
+          stepsHTML += '<li>' + escapeHTML(s) + '</li>';
+        });
+      }
+      stepsHTML += '</ul>';
+      document.getElementById('report-next-steps').innerHTML = stepsHTML;
+
+      showScreen('screen-results');
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ===== Brevo Integration =====
+    function submitToBrevo() {
+      var c = auditData.contact;
+      if (!c.email) return;
+
+      var listIds = [];
+      if (c.course === 'both') { listIds = [27, 28]; }
+      else if (c.course === '5day') { listIds = [27]; }
+      else if (c.course === '15day') { listIds = [28]; }
+      // 'none' = no list
+
+      var payload = {
+        email: c.email,
+        attributes: {
+          COMPANY: c.company || ''
+        },
+        updateEnabled: true
+      };
+
+      if (listIds.length > 0) {
+        payload.listIds = listIds;
+      }
+
+      fetch('https://api.brevo.com/v3/contacts', {
+        method: 'POST',
+        headers: {
+          'api-key': BREVO_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }).catch(function(err) {
+        console.error('Brevo error:', err);
+      });
+    }
+
+    // ===== Slack Notification =====
+    function sendSlackNotification(type) {
+      var c = auditData.contact;
+
+      if (type === 'signup') {
+        var courseLabel = { both: 'Both courses', '5day': '5 AI Agents (5-day)', '15day': 'Deploy Claude (15-day)', none: 'No course' };
+        var text = '*New Lead Magnet Signup* :rocket:\n>*Email:* ' + (c.email || '') + '\n>*Company:* ' + (c.company || 'Not provided') + '\n>*Source:* AI Readiness Voice Audit\n>*Course:* ' + (courseLabel[c.course] || c.course);
+
+        fetch(SLACK_HOOK, {
+          method: 'POST',
+          body: JSON.stringify({ text: text })
+        }).catch(function(err) { console.error('Slack error:', err); });
+      }
+
+      if (type === 'audit' && auditData.report) {
+        var r = auditData.report;
+        var score = r.score || '?';
+        var tierLabel = score <= 3 ? 'Foundation Missing' : (score <= 6 ? 'Almost There' : 'Ready to Scale');
+
+        var timeWasterSummary = '';
+        if (r.timeWasterTable && r.timeWasterTable.length) {
+          timeWasterSummary = r.timeWasterTable.map(function(row) {
+            return '  - ' + row.task + ' (' + row.estimatedHours + ', AI: ' + row.aiCanHandle + ')';
+          }).join('\n');
+        }
+
+        var text = '*AI Readiness Audit Complete* :clipboard:\n>*Email:* ' + (c.email || '') +
+          '\n>*Company:* ' + (c.company || 'Not provided') +
+          '\n>*Score:* ' + score + '/10 (' + tierLabel + ')' +
+          '\n>*Overview:* ' + (auditData.step1.companyOverview || '').substring(0, 200) +
+          '\n>*Top Time Wasters:*\n' + timeWasterSummary +
+          '\n>*Knowledge Gaps:* ' + (auditData.step3.undocumentedKnowledge || '').substring(0, 200);
+
+        fetch(SLACK_HOOK, {
+          method: 'POST',
+          body: JSON.stringify({ text: text })
+        }).catch(function(err) { console.error('Slack error:', err); });
+      }
+    }
+
+    // ===== Course CTA Modal =====
+    function openCourseCTA() {
+      if (auditData.contact.email) {
+        // Already have email, just show confirmation or open course page
+        window.open('https://lowcode.agency/contact', '_blank');
+        return;
+      }
+      var modal = document.getElementById('course-modal');
+      modal.style.display = 'flex';
+    }
+
+    function submitModalCourse() {
+      var email = document.getElementById('modal-email').value;
+      if (!email) return;
+
+      auditData.contact.email = email;
+      auditData.contact.course = document.getElementById('modal-course').value;
+
+      submitToBrevo();
+      sendSlackNotification('signup');
+
+      document.getElementById('course-modal').style.display = 'none';
+
+      // Brief confirmation
+      var btn = document.querySelector('#course-modal .btn-primary');
+      if (btn) btn.textContent = 'Sent!';
+    }
+  </script>
+</body>
+</html>
