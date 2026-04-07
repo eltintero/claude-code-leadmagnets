@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Regular Claude vs Claude Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #FAF9F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 900px;
+  width: 100%;
+}
+.panel {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+}
+/* --- Browser panel --- */
+.browser {
+  background: #fff;
+}
+.browser-bar {
+  background: #f0efed;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #e5e4e2;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f57; }
+.dot.y { background: #ffbd2e; }
+.dot.g { background: #28c840; }
+.url-bar {
+  flex: 1;
+  background: #fff;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 11px;
+  color: #888;
+  margin-left: 8px;
+  border: 1px solid #e0dfdd;
+}
+.browser-content {
+  padding: 24px;
+}
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.chat-logo {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(135deg, #d4a574, #c4956a);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: white; font-weight: 700;
+}
+.chat-name { font-size: 14px; font-weight: 600; color: #282828; }
+.msg {
+  margin-bottom: 14px;
+  max-width: 85%;
+}
+.msg.user {
+  margin-left: auto;
+  background: #f4f3f0;
+  border-radius: 16px 16px 4px 16px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #414141;
+  line-height: 1.5;
+}
+.msg.ai {
+  background: transparent;
+  font-size: 12px;
+  color: #414141;
+  line-height: 1.6;
+  padding: 4px 0;
+}
+.msg.ai .label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #d4a574;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.input-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  border: 1px solid #e0dfdd;
+  border-radius: 20px;
+  padding: 8px 14px;
+}
+.input-bar span {
+  font-size: 12px;
+  color: #b5b5b5;
+  flex: 1;
+}
+.input-bar .send {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #e0dfdd;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: #999;
+}
+.panel-label {
+  text-align: center;
+  padding: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.browser .panel-label { background: #f7f6f4; color: #b5b5b5; }
+.desktop .panel-label { background: #282828; color: #C5EF48; }
+/* --- Desktop panel --- */
+.desktop {
+  background: #1a1a1a;
+}
+.title-bar {
+  background: #2a2a2a;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #333;
+}
+.desktop-content {
+  padding: 24px;
+}
+.sidebar-hint {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #888;
+  background: #2a2a2a;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.folder-icon {
+  width: 14px; height: 14px;
+  background: #705CF6;
+  border-radius: 3px;
+  opacity: 0.7;
+}
+.d-msg {
+  margin-bottom: 14px;
+}
+.d-msg.user {
+  max-width: 85%;
+  margin-left: auto;
+  background: #705CF6;
+  border-radius: 14px 14px 4px 14px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: white;
+  line-height: 1.5;
+}
+.d-msg.ai {
+  font-size: 12px;
+  color: #ccc;
+  line-height: 1.6;
+  padding: 4px 0;
+}
+.d-msg.ai .label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #705CF6;
+  margin-bottom: 4px;
+}
+.file-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(112,92,246,0.15);
+  color: #C5BDFA;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin: 4px 4px 4px 0;
+}
+.d-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  border: 1px solid #444;
+  border-radius: 16px;
+  padding: 8px 14px;
+}
+.d-input-bar span {
+  font-size: 12px;
+  color: #666;
+  flex: 1;
+}
+.d-input-bar .send {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #705CF6;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: white;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Left: Browser Claude -->
+  <div class="panel browser">
+    <div class="browser-bar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <div class="url-bar">claude.ai</div>
+    </div>
+    <div class="browser-content">
+      <div class="chat-header">
+        <div class="chat-logo">C</div>
+        <div class="chat-name">Claude</div>
+      </div>
+      <div class="msg user">Write a follow-up email to a prospect who attended our demo last week</div>
+      <div class="msg ai">
+        <div class="label">Claude</div>
+        Dear [Name],<br><br>Thank you for attending our demonstration last week. We hope you found it informative and valuable. We would love to schedule a follow-up meeting to discuss how our solutions can address your specific needs...<br><br>Best regards,<br>[Your Name]
+      </div>
+      <div class="input-bar">
+        <span>Reply to Claude...</span>
+        <div class="send">↑</div>
+      </div>
+    </div>
+    <div class="panel-label">Regular Claude — Browser Chat</div>
+  </div>
+
+  <!-- Right: Desktop Claude Code -->
+  <div class="panel desktop">
+    <div class="title-bar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span style="flex:1; text-align:center; font-size:12px; color:#888; font-weight:500;">Claude Code — Business Docs</span>
+    </div>
+    <div class="desktop-content">
+      <div class="sidebar-hint">
+        <div class="sidebar-item"><div class="folder-icon"></div> Proposals</div>
+        <div class="sidebar-item"><div class="folder-icon"></div> Brand</div>
+        <div class="sidebar-item"><div class="folder-icon"></div> SOPs</div>
+      </div>
+      <div class="d-msg user">Write a follow-up email to Sarah who attended our demo last week</div>
+      <div class="d-msg ai">
+        <div class="label">Claude · reading 4 files</div>
+        <div style="margin-bottom:6px;">
+          <span class="file-badge">📄 brand-voice.md</span>
+          <span class="file-badge">📄 sales-playbook.md</span>
+          <span class="file-badge">📄 email-templates/</span>
+        </div>
+        Hey Sarah,<br><br>Great chatting last week — you mentioned the team's spending about 10 hours a week on manual reporting, which is exactly the kind of thing we've automated for companies like yours.<br><br>Want me to send over a quick breakdown?<br><br>— Jesus
+      </div>
+      <div class="d-input-bar">
+        <span>Ask Claude anything...</span>
+        <div class="send">↑</div>
+      </div>
+    </div>
+    <div class="panel-label">Claude Code — Desktop App</div>
+  </div>
+</div>
+</body>
+</html>

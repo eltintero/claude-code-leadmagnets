@@ -1,0 +1,2433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code for Business — A Mini Course by LowCode Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF9F6;
+  --dark: #282828;
+  --brown: #414141;
+  --accent: #705CF6;
+  --accent-dark: #38327C;
+  --accent-light: #C5BDFA;
+  --accent-pale: rgba(112, 92, 246, 0.08);
+  --accent-lime: #C5EF48;
+  --muted: #B5B5B5;
+  --rule: #D9D9D9;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--cream);
+  color: var(--brown);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ---- Print / PDF styles ---- */
+@media print {
+  body { background: white; overflow: auto; height: auto; }
+  .page { display: block !important; page-break-after: always; }
+  .nav-bar { display: none !important; }
+  @page { margin: 0.75in; size: letter; }
+}
+
+/* ---- Pagination system ---- */
+.page {
+  display: none;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 72px; /* space for nav bar */
+}
+.page.active {
+  display: block;
+}
+
+/* Navigation bar */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(250, 249, 246, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--rule);
+  padding: 0 32px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  gap: 16px;
+}
+
+.nav-prev, .nav-next {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--brown);
+  font-size: 16px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  user-select: none;
+}
+.nav-prev:hover, .nav-next:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.nav-prev.disabled, .nav-next.disabled {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.nav-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 400px;
+  height: 3px;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s var(--ease-out-quart, ease);
+}
+
+.nav-page-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dark);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Page dots for TOC navigation */
+.nav-dots {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rule);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-dot.active {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+.nav-dot:hover {
+  background: var(--accent-light);
+}
+
+/* ---- Page container ---- */
+.page-container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ================================================================
+   COVER PAGE
+   ================================================================ */
+.cover-page {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 48px;
+  background: var(--cream);
+  position: relative;
+}
+
+.cover-brand {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 64px;
+}
+
+.cover-title {
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  max-width: 600px;
+}
+
+.cover-subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--brown);
+  line-height: 1.5;
+  max-width: 480px;
+  margin-bottom: 56px;
+}
+
+.cover-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.cover-meta span {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.cover-meta .author {
+  font-size: 15px;
+  color: var(--dark);
+  font-weight: 600;
+}
+
+.cover-accent-bar {
+  width: 48px;
+  height: 3px;
+  background: var(--accent);
+  margin-bottom: 48px;
+}
+
+.cover-footer {
+  position: absolute;
+  bottom: 48px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.cover-footer span {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.cover-footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ================================================================
+   TABLE OF CONTENTS
+   ================================================================ */
+.toc-page {
+  padding: 80px 0;
+}
+
+.toc-page .eyebrow {
+  margin-bottom: 40px;
+}
+
+.toc-title {
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.toc-intro {
+  font-size: 16px;
+  color: var(--brown);
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 24px;
+  background: white;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.toc-item:hover {
+  background: #f8f7f5;
+}
+
+.toc-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  min-width: 48px;
+  letter-spacing: -0.02em;
+}
+
+.toc-content {
+  flex: 1;
+}
+
+.toc-item-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.toc-item-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.toc-time {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-top: 4px;
+}
+
+/* ================================================================
+   INTRO PAGE
+   ================================================================ */
+.intro-page {
+  padding: 80px 0;
+}
+
+.intro-page .section-title {
+  margin-bottom: 32px;
+}
+
+/* ================================================================
+   SHARED COMPONENTS
+   ================================================================ */
+
+/* Eyebrow */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.eyebrow span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Section titles */
+.section-title {
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+/* Module title (H1 equivalent) */
+.module-title {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 48px;
+}
+
+/* Subsection (H3) */
+.subsection-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 12px;
+  margin-top: 40px;
+  line-height: 1.3;
+}
+
+/* Body paragraph */
+.module p {
+  margin-bottom: 16px;
+  line-height: 1.75;
+}
+
+/* Horizontal rule */
+.module hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 48px 0;
+}
+
+/* ================================================================
+   MODULE STYLES
+   ================================================================ */
+.module {
+  padding: 80px 0;
+}
+
+.module-header {
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.module-number {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.module-number::before {
+  content: '';
+  width: 24px;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* Section headings within modules */
+.module h2 {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-top: 56px;
+  margin-bottom: 20px;
+}
+
+.module h2:first-of-type {
+  margin-top: 0;
+}
+
+.module h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-top: 36px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+/* Lists */
+.module ul, .module ol {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.module li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+
+.module li strong {
+  color: var(--dark);
+}
+
+/* Code / template blocks */
+.template-block {
+  background: var(--dark);
+  color: #e0ddd8;
+  border-radius: 8px;
+  padding: 28px 32px;
+  margin: 24px 0 32px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.template-block .comment {
+  color: var(--muted);
+}
+
+.template-block .heading {
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+.template-block .placeholder {
+  color: var(--accent-lime);
+  font-style: italic;
+}
+
+/* Comparison / before-after */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 32px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.comparison-panel {
+  padding: 28px 24px;
+}
+
+.comparison-panel.before {
+  background: #f4f3f0;
+}
+
+.comparison-panel.after {
+  background: var(--dark);
+  color: #e0ddd8;
+}
+
+.comparison-tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.before .comparison-tag {
+  background: var(--accent-pale);
+  color: var(--accent);
+}
+
+.after .comparison-tag {
+  background: rgba(197, 239, 72, 0.15);
+  color: var(--accent-lime);
+}
+
+.comparison-panel .email-text {
+  font-size: 14px;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.after .email-text {
+  color: #d4d0ca;
+}
+
+/* Callout / highlight box */
+.callout {
+  background: var(--accent-pale);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 20px 24px;
+  margin: 28px 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.callout strong {
+  color: var(--dark);
+}
+
+/* Quick wins / numbered list cards */
+.quick-wins {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 28px 0;
+}
+
+.quick-win {
+  display: flex;
+  gap: 16px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 6px;
+  align-items: flex-start;
+}
+
+.quick-win-num {
+  width: 28px;
+  height: 28px;
+  background: var(--accent-pale);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.quick-win p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Table */
+.module table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 2px;
+  margin: 24px 0 32px;
+}
+
+.module th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 16px 12px;
+}
+
+.module td {
+  padding: 12px 16px;
+  background: white;
+  font-size: 14px;
+  line-height: 1.5;
+  vertical-align: top;
+}
+
+.module td:first-child {
+  border-radius: 6px 0 0 6px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.module td:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+/* CTA block */
+.cta-block {
+  background: var(--accent-dark);
+  border-radius: 8px;
+  padding: 40px 36px;
+  margin: 48px 0;
+  text-align: center;
+}
+
+.cta-block h3 {
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.cta-block p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--accent-lime);
+  color: var(--dark);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 12px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+/* Screen images */
+.screen-img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  margin: 28px 0;
+  display: block;
+}
+
+.screen-caption {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  margin: -16px 0 32px;
+  line-height: 1.5;
+}
+
+/* Module next teaser */
+.module-next {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Foundation list */
+.foundation-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 24px 0 32px;
+}
+
+.foundation-list li {
+  display: flex;
+  gap: 14px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 6px;
+  font-size: 14px;
+  align-items: flex-start;
+  margin: 0;
+}
+
+.foundation-list .num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 20px;
+}
+
+/* Traffic light list */
+.traffic-light {
+  margin: 24px 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.traffic-item {
+  padding: 20px 24px;
+  border-radius: 6px;
+}
+
+.traffic-item.green { background: rgba(72, 199, 116, 0.08); }
+.traffic-item.yellow { background: rgba(245, 185, 66, 0.08); }
+.traffic-item.red { background: rgba(229, 83, 83, 0.08); }
+
+.traffic-item h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.traffic-item.green h4 { color: #2d8a4e; }
+.traffic-item.yellow h4 { color: #a67a1a; }
+.traffic-item.red h4 { color: #c53030; }
+
+.traffic-item ul {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.traffic-item li {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+/* Paths / options cards */
+.paths-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 32px 0;
+}
+
+.path-card {
+  background: white;
+  border-radius: 8px;
+  padding: 28px 24px;
+}
+
+.path-card .path-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.path-card h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 12px;
+}
+
+.path-card p, .path-card ul {
+  font-size: 14px;
+}
+
+/* Final page */
+.final-page {
+  text-align: center;
+  padding: 120px 48px;
+}
+
+.final-page .cover-brand {
+  margin-bottom: 32px;
+}
+
+.final-thanks {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 48px;
+  line-height: 1.7;
+}
+
+/* ================================================================
+   EMAIL GATE
+   ================================================================ */
+.gate-form {
+  max-width: 380px;
+  width: 100%;
+  text-align: left;
+}
+
+.gate-form .form-group {
+  margin-bottom: 12px;
+}
+
+.gate-form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.gate-form input,
+.gate-form select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--dark);
+  background: #fff;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+
+.gate-form input:focus,
+.gate-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.gate-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.gate-submit {
+  width: 100%;
+  padding: 13px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 6px;
+}
+
+.gate-submit:hover { background: var(--accent-dark); }
+.gate-submit:active { transform: scale(0.98); }
+.gate-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.gate-note {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.gate-success {
+  text-align: center;
+  display: none;
+}
+
+.gate-success .check-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(40, 200, 64, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 16px;
+}
+
+.gate-success h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+
+.gate-success p {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.gate-start-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gate-start-btn:hover { background: var(--accent-dark); }
+
+/* Hide nav until unlocked */
+.nav-bar.locked {
+  display: none;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .page-container { padding: 0 20px; }
+  .cover-page { padding: 60px 24px; }
+  .comparison { grid-template-columns: 1fr; }
+  .module { padding: 48px 0; }
+  .cover-title { font-size: 36px; }
+  .gate-form .form-row { grid-template-columns: 1fr; }
+  .gate-form { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     COVER PAGE
+     ================================================================ -->
+<div class="page active" data-title="Cover">
+<div class="cover-page">
+  <div class="cover-brand">LOW / CODE</div>
+  <div class="cover-accent-bar"></div>
+  <h1 class="cover-title">Claude Code for Business</h1>
+  <p class="cover-subtitle">A practical guide to making AI actually understand your company — from first session to full deployment.</p>
+
+  <!-- Email gate form -->
+  <div id="gateFormWrap" class="gate-form">
+    <form id="gateForm" onsubmit="return handleGateSubmit(event)">
+      <div class="form-group">
+        <label for="gEmail">Email</label>
+        <input type="email" id="gEmail" required placeholder="you@company.com">
+      </div>
+      <div class="form-group">
+        <label for="gCourse">Also send me a free email course</label>
+        <select id="gCourse">
+          <option value="both">Both courses (recommended)</option>
+          <option value="5day">5 AI Agents Every Business Needs (5 days)</option>
+          <option value="15day">Deploy Claude Across Your Team (15 days)</option>
+          <option value="none">No thanks, just the mini course</option>
+        </select>
+      </div>
+      <button type="submit" class="gate-submit" id="gateBtn">Get Free Access</button>
+    </form>
+    <p class="gate-note">No spam. Instant access. Unsubscribe anytime.</p>
+  </div>
+
+  <!-- Success state (shown after submit) -->
+  <div id="gateSuccess" class="gate-success">
+    <div class="check-icon">&#10003;</div>
+    <h3>You're in!</h3>
+    <p>The course is ready. Start from the beginning or jump to any module.</p>
+    <button class="gate-start-btn" onclick="unlockCourse()">Start the Course &rarr;</button>
+  </div>
+
+  <div class="cover-footer">
+    <span>By Jesus Vargas &mdash; Founder, LowCode Agency &mdash; lowcode.agency</span>
+  </div>
+</div>
+
+<!-- ================================================================
+     INTRO PAGE
+     ================================================================ -->
+</div><!-- /page cover -->
+<div class="page" data-title="Who This Course Is For">
+<div class="page-container intro-page">
+  <div class="eyebrow"><span>Before We Start</span></div>
+  <h2 class="section-title">Who This Course Is For</h2>
+
+  <p>You're a business owner or manager. You've used ChatGPT, Claude, or some other AI tool. You've seen the potential. But you've also hit the wall — the wall where every conversation starts from scratch, where the output sounds generic, where you spend more time explaining context than getting work done.</p>
+
+  <p>You've heard about Claude Code. Maybe someone on your team mentioned it. Maybe you saw a post about it. But every tutorial you've found assumes you're a software developer who lives in a terminal.</p>
+
+  <p>You're not. And that's fine.</p>
+
+  <p>This course is for people who run businesses, not people who write code. We'll use the Claude desktop app, not the command line. We'll talk about proposals, client emails, and brand voice — not APIs and databases. And we'll be honest about where the complexity lives, so you can decide what to tackle yourself and what to get help with.</p>
+
+  <p>By the end, you'll have a working Claude Code setup that knows your business, connects to your tools, and produces output your team can actually use.</p>
+
+  <p>Let's get into it.</p>
+</div>
+
+<!-- ================================================================
+     TABLE OF CONTENTS
+     ================================================================ -->
+</div><!-- /page intro -->
+<div class="page" data-title="Course Outline">
+<div class="page-container toc-page">
+  <div class="eyebrow"><span>Course Outline</span></div>
+  <h2 class="toc-title">What We'll Cover</h2>
+  <p class="toc-intro">Six modules. Each one builds on the last. Start from the beginning — or jump to the module that matches where you are right now.</p>
+
+  <ul class="toc-list">
+    <li class="toc-item">
+      <div class="toc-number">01</div>
+      <div class="toc-content">
+        <div class="toc-item-title">What Is Claude Code — And Why Should You Care?</div>
+        <div class="toc-item-desc">What it is, how it's different from regular Claude, the subscription, and the mindset shift from asking to delegating.</div>
+      </div>
+      <div class="toc-time">8 min</div>
+    </li>
+    <li class="toc-item">
+      <div class="toc-number">02</div>
+      <div class="toc-content">
+        <div class="toc-item-title">Your First Session</div>
+        <div class="toc-item-desc">Open the app, connect a folder, get useful output in 10 minutes. Five quick wins you can use today.</div>
+      </div>
+      <div class="toc-time">10 min</div>
+    </li>
+    <li class="toc-item">
+      <div class="toc-number">03</div>
+      <div class="toc-content">
+        <div class="toc-item-title">The CLAUDE.md File</div>
+        <div class="toc-item-desc">Teaching Claude who your business is — permanently. Your brand voice, services, team, processes, and rules in one file.</div>
+      </div>
+      <div class="toc-time">12 min</div>
+    </li>
+    <li class="toc-item">
+      <div class="toc-number">04</div>
+      <div class="toc-content">
+        <div class="toc-item-title">Plugins, Connectors & Integrations</div>
+        <div class="toc-item-desc">Connecting Claude to Slack, email, calendar, CRM, and Drive. Where it gets powerful — and where it gets complicated.</div>
+      </div>
+      <div class="toc-time">12 min</div>
+    </li>
+    <li class="toc-item">
+      <div class="toc-number">05</div>
+      <div class="toc-content">
+        <div class="toc-item-title">Settings, Security & Making It Your Own</div>
+        <div class="toc-item-desc">Permissions, model selection, usage management, data safety, memory, and the decisions that come with team deployment.</div>
+      </div>
+      <div class="toc-time">12 min</div>
+    </li>
+    <li class="toc-item">
+      <div class="toc-number">06</div>
+      <div class="toc-content">
+        <div class="toc-item-title">The Big Picture</div>
+        <div class="toc-item-desc">DIY vs. guided deployment. The real timeline. The real math. Three paths forward — and how to choose.</div>
+      </div>
+      <div class="toc-time">10 min</div>
+    </li>
+  </ul>
+</div>
+
+<!-- ================================================================
+     MODULE 1
+     ================================================================ -->
+</div><!-- /page toc -->
+<div class="page" data-title="Module 1 — What Is Claude Code?">
+<div class="page-container module" id="module-1">
+  <div class="module-header">
+    <div class="module-number">Module 01</div>
+    <h1 class="module-title">What Is Claude Code — And Why Should You Care?</h1>
+  </div>
+
+  <h2>You've Been Using AI Wrong</h2>
+
+  <p>Not wrong as in "bad." Wrong as in limited.</p>
+
+  <p>If you've been using ChatGPT, Claude, or any other AI tool, you've probably been doing this: open a chat window, paste some text, type a prompt, get a response, copy it somewhere else. Repeat.</p>
+
+  <p>That works for quick questions. It works for brainstorming. But it has a ceiling.</p>
+
+  <p>The ceiling is this: every time you start a new chat, the AI has no idea who you are. It doesn't know your company, your clients, your brand voice, your processes, or your pricing. You start from zero every single time. And you spend half your time explaining context instead of getting work done.</p>
+
+  <p>Claude Code removes that ceiling.</p>
+
+  <hr>
+
+  <h2>So What Is Claude Code, Exactly?</h2>
+
+  <p>Claude Code is a version of Claude that works directly on your computer. Instead of living inside a chat window on a website, it sits on your machine — with access to your actual files, your actual documents, your actual business information.</p>
+
+  <p>That changes everything.</p>
+
+  <p>Regular Claude is like texting a smart friend. You send a message, they reply. But they can't see your screen, can't open your files, and forget the conversation once you close the tab.</p>
+
+  <p>Claude Code is like hiring an assistant who sits at a desk next to you. They can open your folders. Read your documents. Write drafts and save them where you need them. And they remember the instructions you gave them yesterday.</p>
+
+  <p>Here's the practical difference:</p>
+
+  <div class="comparison no-break">
+    <div class="comparison-panel before">
+      <div class="comparison-tag">Regular Claude</div>
+      <p class="email-text">You open claude.ai, paste your client's brief into the chat, explain your brand voice, explain your pricing, explain your process, and ask for a proposal draft. You get a decent response. You copy it into Google Docs. Tomorrow, you do it all over again — re-explaining everything from scratch.</p>
+    </div>
+    <div class="comparison-panel after">
+      <div class="comparison-tag">Claude Code</div>
+      <p class="email-text">You open the app, point it at your business folder where your brand guide, pricing, templates, and client info already live, and say "draft a proposal for Sarah's project." Claude reads your documents, follows your format, uses your pricing, matches your tone, and saves the draft in the right folder. Tomorrow, you just say the name.</p>
+    </div>
+  </div>
+
+  <p>The difference isn't intelligence. It's context.</p>
+
+  <img src="screens/01.png" alt="Regular Claude vs Claude Code comparison" class="screen-img">
+  <div class="screen-caption">Regular Claude (left) lives in a browser tab. Claude Code (right) works with your actual files.</div>
+
+  <hr>
+
+  <h2>Wait — Isn't Claude Code for Developers?</h2>
+
+  <p>This is the most common misconception. And it's understandable.</p>
+
+  <p>Claude Code was originally built for software engineers. The name has "Code" in it. The early marketing showed terminals and programming languages. If you saw it a year ago, you probably thought "that's not for me."</p>
+
+  <p>But here's what happened: the same technology that makes Claude Code powerful for developers — reading files, following project-specific instructions, connecting to tools, remembering context — turns out to be exactly what business owners need too.</p>
+
+  <p>Writing code and running a business have more in common than you'd think:</p>
+
+  <ul>
+    <li>Both require following specific rules and processes</li>
+    <li>Both involve templates and repeatable workflows</li>
+    <li>Both benefit from an assistant that understands the full context</li>
+    <li>Both need consistency across a team</li>
+  </ul>
+
+  <p>Today, Claude Code works just as well for drafting proposals as it does for writing software. For creating SOPs as it does for building features. For managing client communication as it does for managing code.</p>
+
+  <p>The "Code" in the name is a bit misleading now. Think of it as "Claude, but it actually knows your business."</p>
+
+  <hr>
+
+  <h2>What You Need to Get Started</h2>
+
+  <h3>The Subscription</h3>
+
+  <p>Claude Code requires a paid Claude plan. Here's what's available:</p>
+
+  <p><strong>Claude Pro ($20/month)</strong> — This is where most individuals start. You get access to Claude Code through the Claude desktop app. It includes a generous usage allowance for everyday work — writing, research, document creation, analysis. For a single business owner or manager exploring AI, this is enough.</p>
+
+  <p><strong>Claude Team ($30/month per person)</strong> — For teams. Everyone on your team gets their own Claude Code access, and you can share projects and instructions across the group. If you're planning to roll this out to more than just yourself, this is the plan.</p>
+
+  <p><strong>Claude Enterprise (custom pricing)</strong> — For larger organizations that need admin controls, security policies, and compliance features. If you have 20+ people or work in regulated industries, this is where that conversation starts.</p>
+
+  <p>The key thing: you don't need the most expensive plan to get real value. Start with Pro. You can always upgrade later.</p>
+
+  <h3>The App</h3>
+
+  <p><strong>The Claude desktop app (recommended for you)</strong> — This is the easiest way to start. Download the Claude app for Mac or Windows. Once installed, you can give Claude access to folders on your computer, and it will read and work with your files directly. No terminal. No command line. Just the app.</p>
+
+  <p><strong>The terminal / command line</strong> — This is how developers typically use Claude Code. You type commands in a text-based interface. We'll mention this for context, but it's not required. Everything in this course works through the desktop app.</p>
+
+  <p><strong>IDE extensions (VS Code, JetBrains)</strong> — These are for software development environments. If your dev team uses Claude Code, this is likely how they access it. Not relevant for this course.</p>
+
+  <h3>The Mindset</h3>
+
+  <p>This is the part that matters more than any subscription or app.</p>
+
+  <p>Claude Code isn't a chatbot you ask questions to. It's an assistant you delegate work to. That shift — from asking to delegating — is what separates people who get 10% more productive from people who get 10x more productive.</p>
+
+  <div class="comparison no-break">
+    <div class="comparison-panel before">
+      <div class="comparison-tag">Asking</div>
+      <p class="email-text">"Can you write me a follow-up email?"</p>
+    </div>
+    <div class="comparison-panel after">
+      <div class="comparison-tag">Delegating</div>
+      <p class="email-text">"Read the meeting notes from yesterday's call with Sarah, check our proposal template, and draft a follow-up email that references what she said about timeline concerns and includes our standard next-steps section."</p>
+    </div>
+  </div>
+
+  <p>The first prompt gives you a generic email. The second gives you a ready-to-send email that sounds like you wrote it — because Claude has the context to actually do the work, not just generate text.</p>
+
+  <p>Throughout this course, we'll build that delegation muscle step by step.</p>
+
+  <hr>
+
+  <h2>What You'll Be Able to Do by the End</h2>
+
+  <p>By the time you finish all six modules, here's what your setup will look like:</p>
+
+  <ul>
+    <li>Claude knows your business — your services, your pricing, your brand voice, your team, your processes</li>
+    <li>It can draft proposals, emails, social posts, and internal documents that sound like your company</li>
+    <li>It's connected to the tools you already use — your files, your calendar, your communication tools</li>
+    <li>Your team can use it consistently, with the same voice and the same rules</li>
+    <li>You understand what's possible, what's practical, and what's worth investing in vs. doing yourself</li>
+  </ul>
+
+  <p>That's where we're going. Let's start with your first session.</p>
+
+  <p class="module-next">Next up: Module 2 — Your First Session. We'll open the app, give Claude access to your files, and get your first real output in under 10 minutes.</p>
+</div>
+
+<!-- ================================================================
+     MODULE 2
+     ================================================================ -->
+</div><!-- /page m1 -->
+<div class="page" data-title="Module 2 — Your First Session">
+<div class="page-container module" id="module-2">
+  <div class="module-header">
+    <div class="module-number">Module 02</div>
+    <h1 class="module-title">Your First Session — From Zero to Useful in 10 Minutes</h1>
+  </div>
+
+  <h2>What We're Doing in This Module</h2>
+
+  <p>No theory. No background. Just results.</p>
+
+  <p>By the end of this module, you'll have opened Claude Code, pointed it at a real folder on your computer, and gotten output that's actually useful for your business. Not a demo. Not a toy example. Something you can send, use, or build on today.</p>
+
+  <hr>
+
+  <h2>Step 1: Open the Claude Desktop App</h2>
+
+  <p>If you haven't installed it yet, download the Claude app from Anthropic's website. Install it like any other app — drag it to Applications on Mac, or run the installer on Windows.</p>
+
+  <p>Open the app. Sign in with your Claude account (the same one you use on claude.ai).</p>
+
+  <p>You'll see a familiar chat interface. This is normal Claude — the same experience you've used before. But we're about to unlock the part that makes it different.</p>
+
+  <img src="screens/02.png" alt="Claude desktop app main screen" class="screen-img">
+  <div class="screen-caption">The Claude desktop app. Projects on the left, conversation on the right. Familiar — but with superpowers.</div>
+
+  <hr>
+
+  <h2>Step 2: Give Claude Access to a Folder</h2>
+
+  <p>This is the key step. This is where Claude Code becomes Claude Code.</p>
+
+  <p>In the app, look for the option to add a folder or give Claude file access. The exact location may vary depending on your app version, but it's typically in Settings or in the conversation window itself — you'll see an option to "Add folder" or "Connect files."</p>
+
+  <p>Pick a folder on your computer that contains real business documents. Good options:</p>
+
+  <ul>
+    <li>Your proposals folder</li>
+    <li>Your client communication folder</li>
+    <li>A project folder with SOPs or process documents</li>
+    <li>Your marketing materials folder</li>
+  </ul>
+
+  <p>Don't pick something sensitive yet (we'll cover data policies later). Pick something you work with regularly — something where you'd love an assistant who already knows the content.</p>
+
+  <p>Once you grant access, Claude can now read every file in that folder. Not upload it to the internet — read it locally, on your machine, in real time.</p>
+
+  <img src="screens/03.png" alt="Add folder dialog" class="screen-img">
+  <div class="screen-caption">Select the folder you want Claude to work with. Start with one — you can always add more later.</div>
+
+  <div class="callout">
+    <strong>This is the moment.</strong> It stops being a chatbot and starts being an assistant.
+  </div>
+
+  <hr>
+
+  <h2>Step 3: Your First Real Prompt</h2>
+
+  <p>Now let's do something useful. Here are three prompts you can try right now, depending on what folder you connected:</p>
+
+  <h3>If you connected your proposals folder:</h3>
+
+  <div class="template-block"><span class="placeholder">Read through my recent proposals. What's the typical structure I follow? What do I usually include in the pricing section? Summarize the patterns you see — I want to make sure the next proposal follows the same format.</span></div>
+
+  <p>Claude will read your actual proposals — not guess what a proposal should look like. It'll tell you <em>your</em> patterns, <em>your</em> structure, <em>your</em> pricing format. You'll probably learn something about your own process you hadn't noticed.</p>
+
+  <h3>If you connected your client communications:</h3>
+
+  <div class="template-block"><span class="placeholder">Look at how I communicate with clients across these emails and documents. Describe my communication style — tone, formality level, how I open and close messages, what phrases I tend to use. I want you to match this style in future work.</span></div>
+
+  <p>This is how Claude starts learning your voice. Not from a generic template — from your actual writing.</p>
+
+  <img src="screens/04.png" alt="Claude analyzing proposal files" class="screen-img">
+  <div class="screen-caption">Claude reads your actual files and returns patterns specific to your business — not generic advice.</div>
+
+  <h3>If you connected your marketing or content folder:</h3>
+
+  <div class="template-block"><span class="placeholder">Read all the content in this folder. What are the main topics I cover? What's the tone and voice? What kind of examples or data points do I tend to use? Create a one-page brand voice summary based on what you see.</span></div>
+
+  <p>Claude just built you a brand voice guide from your own work. Most companies pay thousands for this. You got a working first draft in 30 seconds.</p>
+
+  <hr>
+
+  <h2>What Just Happened</h2>
+
+  <p>Take a second to notice what was different about that interaction compared to regular Claude chat.</p>
+
+  <p><strong>You didn't paste anything.</strong> No copying from documents, no "here's some context," no walls of text in the chat window. Claude went and read the files itself.</p>
+
+  <p><strong>You didn't explain your business.</strong> No "we're a marketing agency that..." or "our typical client is..." Claude figured that out from your actual documents.</p>
+
+  <p><strong>The output was specific to you.</strong> Not generic advice. Not "here's what a typical proposal looks like." Your structure. Your voice. Your patterns.</p>
+
+  <p>That's the shift. Claude Code doesn't need you to be the middleman between your business and the AI. It goes straight to the source.</p>
+
+  <hr>
+
+  <h2>Step 4: Make It Do Something</h2>
+
+  <p>Analysis is impressive. But the real value is in output — things you can use.</p>
+
+  <h3>Draft something new based on what it learned:</h3>
+
+  <div class="template-block"><span class="placeholder">Based on the proposal structure you just analyzed, draft a new proposal for a client named [Name] who needs [brief description]. Use our standard format, our typical pricing structure, and match the tone of our previous proposals.</span></div>
+
+  <h3>Create a template from your existing work:</h3>
+
+  <div class="template-block"><span class="placeholder">Based on the client emails you analyzed, create a reusable template for follow-up emails after a first meeting. Include placeholders for the client name, what we discussed, and next steps. Match my exact communication style.</span></div>
+
+  <h3>Summarize and organize:</h3>
+
+  <div class="template-block"><span class="placeholder">Read all the documents in this folder and create a summary document — organized by topic — of everything we've written about [subject]. Flag anything that seems outdated or contradictory.</span></div>
+
+  <p>Notice the pattern: you're not asking Claude to <em>imagine</em> what your business does. You're asking it to work <em>with</em> what's already there. Read this, analyze that, create something new based on what you found.</p>
+
+  <p>That's delegation. And it only works when Claude has access to your files.</p>
+
+  <hr>
+
+  <h2>The Permission Model — Why Claude Keeps Asking</h2>
+
+  <p>You'll notice that Claude asks for permission before doing certain things. Reading a new folder, creating a file, modifying an existing document — it checks with you first.</p>
+
+  <p>This isn't a bug. It's a feature you'll grow to appreciate.</p>
+
+  <p>Claude Code operates on a principle of controlled access. You decide what it can see. You decide what it can change. You approve actions before they happen. Nothing happens behind your back.</p>
+
+  <img src="screens/05.png" alt="Permission prompt dialog" class="screen-img">
+  <div class="screen-caption">Claude asks before taking action. You approve, deny, or allow — always in control.</div>
+
+  <div class="callout">
+    Think of it like giving keys to a new employee. You start with supervised access. As trust builds, you hand over more. We'll cover the full permission system in Module 5.
+  </div>
+
+  <hr>
+
+  <h2>Conversations vs. Projects</h2>
+
+  <p>In regular Claude, every conversation starts fresh. You ask a question, get an answer, and that's it. The next conversation has no memory of the last one.</p>
+
+  <p>In Claude Code, you're working inside a <strong>project context</strong>. As long as you're in the same folder, Claude remembers the files it's read, the instructions you've given, the patterns it's identified, and the work it's produced.</p>
+
+  <p>This means your second conversation in the same folder is better than the first. And the tenth is dramatically better than the second. Claude builds understanding over time — not just from the files, but from your corrections and preferences.</p>
+
+  <p>"That proposal was too formal — we're more casual with this client."</p>
+
+  <p>"Good email, but we always include pricing in the first follow-up, not the second."</p>
+
+  <p>"Don't use bullet points in client-facing documents. We write in paragraphs."</p>
+
+  <p>Every correction makes the next output better.</p>
+
+  <hr>
+
+  <h2>Quick Wins You Can Get Today</h2>
+
+  <p>Before moving to Module 3, here are five things you can do right now that will save you real time this week:</p>
+
+  <div class="quick-wins no-break">
+    <div class="quick-win">
+      <div class="quick-win-num">1</div>
+      <p><strong>Audit your own writing.</strong> Point Claude at your sent emails or published content and ask: "What's my communication style? What's inconsistent?" You'll get a mirror you've never had.</p>
+    </div>
+    <div class="quick-win">
+      <div class="quick-win-num">2</div>
+      <p><strong>Build a template from your best work.</strong> Find the proposal or email you're most proud of. Ask Claude to reverse-engineer it into a reusable template with placeholders.</p>
+    </div>
+    <div class="quick-win">
+      <div class="quick-win-num">3</div>
+      <p><strong>Summarize a messy folder.</strong> That folder with 47 files from the last project? Point Claude at it and say "What's in here? Organize it by topic and tell me what's important."</p>
+    </div>
+    <div class="quick-win">
+      <div class="quick-win-num">4</div>
+      <p><strong>Draft a process document.</strong> Ask Claude to read how you communicate with clients and produce a "How We Work With Clients" one-pager. Share it with your team.</p>
+    </div>
+    <div class="quick-win">
+      <div class="quick-win-num">5</div>
+      <p><strong>Write next week's content.</strong> Point Claude at previous social posts or newsletters and say "Write three LinkedIn posts in the same voice, about [topic]."</p>
+    </div>
+  </div>
+
+  <p>None of these require any technical setup beyond what you just did — open the app, connect a folder, talk to Claude.</p>
+
+  <hr>
+
+  <h2>What You've Learned So Far</h2>
+
+  <p>Two modules in, and you've already installed Claude Code, connected it to real business files, gotten AI output based on your actual work, and experienced the difference between chatting with AI and delegating to AI.</p>
+
+  <p>This is the foundation. The quick wins are real — you can use this setup today and get value tomorrow.</p>
+
+  <p>But there's a catch.</p>
+
+  <p>Right now, Claude is learning about your business <em>every session</em> by re-reading your files. It works, but it's like hiring someone who needs to be re-briefed every morning. They're smart, they catch on fast, but they start cold every time.</p>
+
+  <p>In Module 3, we'll fix that.</p>
+
+  <p class="module-next">Next up: Module 3 — The CLAUDE.md File. Teaching Claude who your business is — permanently.</p>
+</div>
+
+<!-- ================================================================
+     MODULE 3
+     ================================================================ -->
+</div><!-- /page m2 -->
+<div class="page" data-title="Module 3 — The CLAUDE.md File">
+<div class="page-container module" id="module-3">
+  <div class="module-header">
+    <div class="module-number">Module 03</div>
+    <h1 class="module-title">The CLAUDE.md File — Teaching Claude Who Your Business Is</h1>
+  </div>
+
+  <h2>The Moment It Clicks</h2>
+
+  <p>Here's what happens the first time most business owners try Claude Code on real work.</p>
+
+  <p>They open the app. They point it at a folder — maybe their company docs, their proposals, their marketing materials. They ask it to draft something: a client email, a proposal, a social media post.</p>
+
+  <p>Claude delivers something that looks... fine. Grammatically correct. Professional. But wrong.</p>
+
+  <p>Wrong tone. Wrong offer structure. A proposal that doesn't match how your team prices projects. A client email that sounds like it was written by a Fortune 500 marketing department — not a 15-person agency in Miami.</p>
+
+  <p>The tool works. But it doesn't know your business.</p>
+
+  <p>That's the gap a CLAUDE.md file fills.</p>
+
+  <hr>
+
+  <h2>What Is CLAUDE.md?</h2>
+
+  <p>CLAUDE.md is a simple text file you create and place in a folder on your computer. Every time Claude Code works inside that folder, it reads this file first — before it reads anything else, before it produces any output.</p>
+
+  <p>Think of it as a cheat sheet for a new hire. The way you'd brief someone on their first day: "Here's who we are. Here's how we talk to clients. Here's what we never do. Here's what matters."</p>
+
+  <p>Except this hire has perfect memory, never forgets your instructions, and follows them every single time.</p>
+
+  <p>No CLAUDE.md? Claude treats your business like any business. Generic language, generic assumptions, generic output.</p>
+
+  <p>A good CLAUDE.md? Claude works like someone who's been at your company for a year.</p>
+
+  <hr>
+
+  <h2>Your First CLAUDE.md (The 15-Minute Version)</h2>
+
+  <p>You don't need a perfect file to start. You need a real one.</p>
+
+  <p>Open any text editor — even Notes or TextEdit works. Create a new file. Name it <code>CLAUDE.md</code>. Save it in the folder where you keep your work documents. And write something like this:</p>
+
+  <div class="template-block"><span class="heading"># About Our Business</span>
+
+<span class="heading">## Who We Are</span>
+<span class="placeholder">[One paragraph. What does your company do? Who are your
+customers? What makes you different from competitors?]</span>
+
+<span class="heading">## How We Talk</span>
+<span class="comment">- Our tone is [friendly / professional / casual / formal]</span>
+<span class="comment">- We always [use the client's first name / lead with data / etc.]</span>
+<span class="comment">- We never [use jargon / make promises without timelines / etc.]</span>
+<span class="comment">- Our brand voice sounds like [a trusted advisor / a sharp friend]</span>
+
+<span class="heading">## Our Services & Pricing</span>
+<span class="comment">- [Service 1]: [brief description, price range]</span>
+<span class="comment">- [Service 2]: [brief description, price range]</span>
+<span class="comment">- [How we typically structure proposals]</span>
+
+<span class="heading">## Our Team</span>
+<span class="comment">- [Name]: [Role — what they handle]</span>
+<span class="comment">- [Name]: [Role — what they handle]</span>
+
+<span class="heading">## Important Rules</span>
+<span class="comment">- [Things Claude should NEVER say or do]</span>
+<span class="comment">- [Things that are always true]</span>
+<span class="comment">- [Client-facing language we avoid]</span>
+
+<span class="heading">## Our Clients</span>
+<span class="comment">- Typical client: [industry, size, pain points]</span>
+<span class="comment">- Notable clients: [names if useful]</span></div>
+
+  <p>That's it. Save it. Open Claude Code in that folder. Ask it to write a client email, draft a proposal, or create a social post.</p>
+
+  <img src="screens/06.png" alt="CLAUDE.md file in editor" class="screen-img">
+  <div class="screen-caption">Your CLAUDE.md doesn't need to be fancy. A plain text file with your business context is all it takes.</div>
+
+  <p>The difference is immediate.</p>
+
+  <hr>
+
+  <h2>The Before and After</h2>
+
+  <p>Same prompt. Same Claude model. The only difference: one folder has a CLAUDE.md, the other doesn't.</p>
+
+  <p><strong>The prompt:</strong> "Write a follow-up email to a prospect who attended our demo last week but hasn't responded."</p>
+
+  <div class="comparison no-break">
+    <div class="comparison-panel before">
+      <div class="comparison-tag">Without CLAUDE.md</div>
+      <p class="email-text">Dear [Name],<br><br>Thank you for attending our demonstration last week. We hope you found it informative and valuable. We would love to schedule a follow-up meeting to discuss how our solutions can address your specific needs. Please let us know your availability at your earliest convenience.<br><br>Best regards,<br>[Your Name]</p>
+    </div>
+    <div class="comparison-panel after">
+      <div class="comparison-tag">With CLAUDE.md</div>
+      <p class="email-text">Hey Sarah,<br><br>Great chatting last week — you mentioned the team's spending about 10 hours a week on manual reporting, which is exactly the kind of thing we've automated for companies like yours.<br><br>I put together a quick breakdown of what that would look like. No pressure — just wanted to give you something concrete to look at.<br><br>Want me to send it over, or would a 15-minute call be easier?<br><br>— Jesus</p>
+    </div>
+  </div>
+
+  <p>Same tool. Same AI model. One sounds like a machine. The other sounds like your best salesperson on a good day.</p>
+
+  <img src="screens/07.png" alt="Before and after email comparison" class="screen-img">
+  <div class="screen-caption">Same prompt, same model. The CLAUDE.md file is the only difference.</div>
+
+  <hr>
+
+  <h2>Going Deeper: What a Real CLAUDE.md Looks Like</h2>
+
+  <p>The 15-minute version gets you started. But a CLAUDE.md that actually performs across your business needs more depth.</p>
+
+  <h3>Company Context</h3>
+  <p>Not just what you do — <em>how</em> you think about what you do. Your mission, your positioning, how you're different from competitors. When Claude understands your positioning, it stops writing generic copy and starts writing copy that reinforces your brand with every sentence.</p>
+
+  <h3>Brand Voice & Communication Style</h3>
+  <p>How do you talk to clients vs. prospects vs. your team? What words do you use? What words do you avoid? This is the section most people underestimate. Your brand voice is the difference between "Claude writes decent emails" and "Claude writes emails I can send without editing."</p>
+
+  <h3>Services, Pricing & Sales Process</h3>
+  <p>What do you sell? How is it structured? What are the typical packages? How do you handle objections? When Claude knows your sales playbook, it can draft proposals and follow-ups that match how your team actually sells.</p>
+
+  <h3>Team Structure & Roles</h3>
+  <p>Who does what? Who handles client communication? Who approves proposals? This matters when Claude drafts anything involving your team — intros, handoffs, project updates.</p>
+
+  <h3>Client & Industry Knowledge</h3>
+  <p>Who are your typical clients? What industries? What language do they use to describe their problems? When Claude knows your clients, it writes <em>to</em> them — not <em>at</em> them.</p>
+
+  <h3>Processes & SOPs</h3>
+  <p>How do you onboard a new client? What's the workflow for a project kickoff? Claude can help draft, document, and follow these processes — but only if it knows they exist.</p>
+
+  <h3>What Not to Do</h3>
+  <p>This section is often the most valuable. "Never promise delivery dates without checking with the PM." "Never mention competitor names." "Never discount below 15% without approval." "Never use the word 'cheap' — we say 'accessible.'"</p>
+
+  <p>The "don'ts" prevent the kind of mistakes that damage client relationships.</p>
+
+  <hr>
+
+  <h2>The Part Nobody Talks About</h2>
+
+  <p>Writing a CLAUDE.md forces you to put on paper things your company has never written down.</p>
+
+  <p>How <em>do</em> you actually talk to clients? "We're friendly and professional" — but what does that mean in practice? Do you use first names or last names? Do you open with small talk or get to the point?</p>
+
+  <p>What's your real pricing logic? Not the rate card — the actual decision process. When do you offer a discount? When do you walk away?</p>
+
+  <p>Most companies don't have clear answers. The knowledge lives in the heads of people who've been there since the beginning. It gets passed down through Slack threads, overheard conversations, and trial and error.</p>
+
+  <p>A CLAUDE.md forces all of that into writing. That's valuable far beyond AI — it's the kind of documentation that makes onboarding new employees faster and keeps your team consistent.</p>
+
+  <p>But extracting that knowledge, organizing it, and keeping it current? That's where it stops being a 15-minute exercise.</p>
+
+  <hr>
+
+  <h2>What Changes When You Scale</h2>
+
+  <p>One person with one CLAUDE.md for one type of work? Manageable.</p>
+
+  <p>Now picture this at company scale:</p>
+
+  <ul>
+    <li><strong>Multiple departments</strong> each need different context. Sales needs the pitch playbook. Operations needs the SOPs. Marketing needs the brand voice. One file doesn't cover all of it.</li>
+    <li><strong>10 team members</strong> all using Claude. Are they getting consistent output? Who keeps all the files aligned?</li>
+    <li><strong>Connected tools</strong> each need their own instructions — what to read, what format to follow, what's off limits.</li>
+    <li><strong>Client-specific rules</strong> that vary by account. One client requires formal communication. Another prefers Slack over email.</li>
+    <li><strong>Keeping it current.</strong> Your services change. Your team changes. Every time something shifts and the CLAUDE.md doesn't get updated, Claude gives outdated answers.</li>
+  </ul>
+
+  <p>The file itself is simple. A system of files across an organization — consistent, current, department-specific, aligned with client rules and data policies — that's where most companies stall.</p>
+
+  <hr>
+
+  <h2>The 14-Document Foundation</h2>
+
+  <p>At LowCode Agency, we've helped dozens of organizations deploy AI across their teams. The pattern is always the same: the tool is only as good as the context you give it.</p>
+
+  <p>Over 300+ projects, we've developed the 14-Document Foundation — the complete set of business documentation you need for AI tools to work reliably at company scale:</p>
+
+  <ol class="foundation-list">
+    <li><span class="num">1</span><strong>Company Profile</strong> — Who you are, what you do, positioning</li>
+    <li><span class="num">2</span><strong>Team Directory</strong> — Who does what, who owns what</li>
+    <li><span class="num">3</span><strong>Tool Stack & Integration Map</strong> — What software you use and how it connects</li>
+    <li><span class="num">4</span><strong>Brand Voice Guide</strong> — How you sound across every channel</li>
+    <li><span class="num">5</span><strong>Process SOPs</strong> — How work actually gets done, step by step</li>
+    <li><span class="num">6</span><strong>Sales Playbook</strong> — How you sell, price, propose, and close</li>
+    <li><span class="num">7</span><strong>Client Communication Standards</strong> — How you talk to clients by channel</li>
+    <li><span class="num">8</span><strong>Security & Data Policies</strong> — What AI can and can't access</li>
+    <li><span class="num">9</span><strong>Onboarding Procedures</strong> — How new people get up to speed</li>
+    <li><span class="num">10</span><strong>Service Catalog</strong> — What you offer, how it's structured</li>
+    <li><span class="num">11</span><strong>Client & Industry Profiles</strong> — Who you serve and what they care about</li>
+    <li><span class="num">12</span><strong>FAQ & Tribal Knowledge</strong> — The things everyone "just knows"</li>
+    <li><span class="num">13</span><strong>Templates & Examples</strong> — Real proposals, emails, documents that show "how we do it"</li>
+    <li><span class="num">14</span><strong>Decision Framework</strong> — How your company makes decisions and approves</li>
+  </ol>
+
+  <p>Building these from scratch? Most companies need 4-6 weeks alongside regular work. But without them, you're asking AI to guess — and it guesses wrong in ways that cost more time than you saved.</p>
+
+  <hr>
+
+  <h2>Where to Go From Here</h2>
+
+  <p><strong>Path 1: Start it yourself.</strong> Write the 15-minute version today. Every time the output feels off, add a line to your CLAUDE.md. Over weeks, you'll build a solid file.</p>
+
+  <p><strong>Path 2: Get it done right the first time.</strong> We run company-wide AI deployment sessions. Your team walks out with complete CLAUDE.md files for every department, connected tools, and the 14-Document Foundation customized to your organization.</p>
+
+  <div class="cta-block no-break">
+    <h3>Want to skip the trial and error?</h3>
+    <p>Book a free 30-minute AI readiness call. We'll look at your setup and tell you honestly whether you need help or can do it yourself.</p>
+    <a href="#" class="cta-button">lowcode.agency/contact</a>
+  </div>
+
+  <p>Either way, the CLAUDE.md file is the single highest-leverage thing you can do with Claude today. Everything else builds on this foundation.</p>
+
+  <p class="module-next">Next up: Module 4 — Plugins, Connectors & Integrations. Where Claude stops being a writing assistant and starts working inside your actual business tools.</p>
+</div>
+
+<!-- ================================================================
+     MODULE 4
+     ================================================================ -->
+</div><!-- /page m3 -->
+<div class="page" data-title="Module 4 — Plugins & Integrations">
+<div class="page-container module" id="module-4">
+  <div class="module-header">
+    <div class="module-number">Module 04</div>
+    <h1 class="module-title">Plugins, Connectors & Integrations</h1>
+  </div>
+
+  <h2>The Leap</h2>
+
+  <p>In Modules 1-3, Claude learned to read your files and follow your instructions. That alone is a significant upgrade over regular chat.</p>
+
+  <p>But your business doesn't live in one folder.</p>
+
+  <p>Your clients are in your CRM. Your conversations are in Slack and email. Your calendar holds your schedule. Your project management tool tracks what's in progress. Your Google Drive has years of documents.</p>
+
+  <p>Right now, Claude can read what's on your computer. In this module, we're going to connect it to the tools where your business actually runs.</p>
+
+  <p>This is where Claude goes from "smart writing assistant" to something much closer to "AI employee."</p>
+
+  <hr>
+
+  <h2>What Are Integrations, Really?</h2>
+
+  <p>An integration is just Claude having a login to one of your tools. The same way you'd give a new hire access to Slack on their first day, you're giving Claude access to Slack.</p>
+
+  <p>The technical term you'll see is <strong>MCP</strong> — Model Context Protocol. You don't need to understand how it works under the hood, any more than you need to understand how Wi-Fi works to use the internet.</p>
+
+  <p>What you need to understand is what it means in practice:</p>
+
+  <ul>
+    <li><strong>Claude + your calendar</strong> = "What do I have this week? Reschedule Thursday's call to Friday and send Sarah a message about it."</li>
+    <li><strong>Claude + your CRM</strong> = "Pull up everything we know about Acme Corp. When was our last touchpoint?"</li>
+    <li><strong>Claude + Slack</strong> = "Summarize what happened in #clients while I was out. Flag anything urgent."</li>
+    <li><strong>Claude + Google Drive</strong> = "Find the proposal we sent to Acme last quarter. Update the pricing and save a new version."</li>
+  </ul>
+
+  <p>Each is one connection. Combined, they give Claude the ability to do work that currently requires you to jump between five tabs and keep track of everything in your head.</p>
+
+  <img src="screens/08.png" alt="Integrations settings panel" class="screen-img">
+  <div class="screen-caption">The integrations panel — connect Slack, email, calendar, CRM, and more from one place.</div>
+
+  <hr>
+
+  <h2>What's Available Today</h2>
+
+  <h3>File & Document Access</h3>
+  <p>Claude reads and writes files on your computer directly through the desktop app. This is the simplest integration — the one you set up in Module 2.</p>
+
+  <h3>Communication Tools</h3>
+  <p>Slack, email (Gmail, Outlook), and messaging integrations let Claude read conversations, draft responses, and post messages on your behalf. This is where most business owners see the fastest ROI — communication eats the biggest chunk of your day.</p>
+
+  <h3>Calendar & Scheduling</h3>
+  <p>Google Calendar and Outlook integrations let Claude check your availability and understand your schedule. "Suggest three times next week when I'm free for 30 minutes" becomes one prompt.</p>
+
+  <h3>Data & Spreadsheets</h3>
+  <p>Point Claude at a sales report and ask for trends. Give it your expense data and ask for a summary. Conversational analysis of the data you already have.</p>
+
+  <h3>Web & Research</h3>
+  <p>Claude can search the web and synthesize research. "Research the top five competitors in [market] and summarize their pricing" gives you a competitive brief without opening a browser.</p>
+
+  <hr>
+
+  <h2>Plugins and Skills — Claude's Skill Set</h2>
+
+  <p>Beyond connecting to tools, Claude Code has another extension system: <strong>plugins</strong> and <strong>skills</strong>.</p>
+
+  <ul>
+    <li><strong>Integrations</strong> give Claude access to tools (Slack, Drive, calendar)</li>
+    <li><strong>Skills</strong> teach Claude how to do specific types of work</li>
+  </ul>
+
+  <p>A skill is like a recipe. It tells Claude: "When someone asks you to write a proposal, follow these steps, use this format, check these files, and produce this output."</p>
+
+  <p>Some skills come built in. Others are available in a public library. And you can create custom skills that match exactly how your business works.</p>
+
+  <p>Examples:</p>
+
+  <ul>
+    <li><strong>Copywriting skill</strong> — Follows your brand voice, structures content by channel</li>
+    <li><strong>Proposal skill</strong> — Reads the brief, pulls pricing, uses your template</li>
+    <li><strong>Meeting prep skill</strong> — Checks calendar, pulls background on attendees, builds a briefing</li>
+    <li><strong>Report skill</strong> — Gathers data, structures it, flags what's changed</li>
+  </ul>
+
+  <p>The plugin library has dozens of pre-built options. The real power comes when you customize them for your specific business.</p>
+
+  <hr>
+
+  <h2>Setting Up Your First Integration</h2>
+
+  <p>Let's walk through connecting Slack — it's where most business communication happens, and the payoff is immediate.</p>
+
+  <div class="quick-wins no-break">
+    <div class="quick-win">
+      <div class="quick-win-num">1</div>
+      <p><strong>Find the integrations section</strong> in Claude's settings. This is where you manage all connected tools.</p>
+    </div>
+    <div class="quick-win">
+      <div class="quick-win-num">2</div>
+      <p><strong>Select Slack</strong> from the available integrations. Claude will walk you through authorizing access.</p>
+    </div>
+    <div class="quick-win">
+      <div class="quick-win-num">3</div>
+      <p><strong>Choose what Claude can access.</strong> Start narrow — one or two channels where you spend the most time.</p>
+    </div>
+    <div class="quick-win">
+      <div class="quick-win-num">4</div>
+      <p><strong>Test it.</strong> Ask Claude: "What are the most recent messages in #[channel-name]?"</p>
+    </div>
+    <div class="quick-win">
+      <div class="quick-win-num">5</div>
+      <p><strong>Do something useful.</strong> "Summarize everything in #[channel] from the last 48 hours. What needs my attention?"</p>
+    </div>
+  </div>
+
+  <p>That's it. Claude now has eyes on your Slack — and can help you manage it instead of being managed by it.</p>
+
+  <img src="screens/09.png" alt="Claude summarizing Slack channels" class="screen-img">
+  <div class="screen-caption">Claude reads 34 Slack messages and gives you a priority-sorted summary. Two minutes of reading instead of thirty.</div>
+
+  <hr>
+
+  <h2>The Integration Stack for a Typical Business</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tool</th>
+        <th>What Claude Does With It</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Local files</td>
+        <td>Reads proposals, templates, SOPs, brand docs</td>
+      </tr>
+      <tr>
+        <td>Slack</td>
+        <td>Summarizes channels, drafts messages, flags urgent items</td>
+      </tr>
+      <tr>
+        <td>Gmail / Outlook</td>
+        <td>Drafts emails, summarizes threads, handles follow-ups</td>
+      </tr>
+      <tr>
+        <td>Google Calendar</td>
+        <td>Checks availability, suggests times, preps for calls</td>
+      </tr>
+      <tr>
+        <td>Google Drive</td>
+        <td>Searches shared docs, updates files, creates new ones</td>
+      </tr>
+      <tr>
+        <td>CRM</td>
+        <td>Looks up contacts, checks deal stages, logs activity</td>
+      </tr>
+      <tr>
+        <td>Project tool</td>
+        <td>Checks task status, creates updates, flags overdue items</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Seven connections. Each one useful alone. Together, they give Claude a view of your business close to what a human executive assistant would have.</p>
+
+  <div class="callout">
+    <strong>One prompt, five tools:</strong> "Check my calendar for tomorrow. For each meeting, pull up the contact in HubSpot, check for open issues in Slack, and create a one-page briefing. Save them in my Meeting Prep folder."
+  </div>
+
+  <hr>
+
+  <h2>Where It Gets Complicated</h2>
+
+  <p>You knew this section was coming.</p>
+
+  <p>Setting up one integration is straightforward. Setting up seven that work together reliably? Different story.</p>
+
+  <p><strong>Configuration isn't one-size-fits-all.</strong> Every CRM has different fields. Every Slack workspace has different channels. Each integration needs to be configured for <em>your</em> setup.</p>
+
+  <p><strong>Permissions need thought.</strong> Should marketing's Claude see the sales pipeline? Should anyone's Claude have write access to client channels? These are business decisions, not technical ones.</p>
+
+  <p><strong>Instructions multiply.</strong> Each integration needs its own context in your CLAUDE.md. "When you check the CRM, our deal stages are called X, Y, Z." "When you draft a Slack message for #clients, always use formal tone."</p>
+
+  <p><strong>Maintenance is ongoing.</strong> Tools update. Someone reorganizes Drive. A new channel gets created. Every change can break an integration — or worse, produce silently wrong output.</p>
+
+  <p><strong>Debugging is frustrating.</strong> When Claude gives wrong information from a connected tool — is it permissions? Configuration? Did the data change? Troubleshooting requires understanding both the tool and the integration layer.</p>
+
+  <p>One person connecting Slack to Claude? A weekend project. A 10-person team with seven integrations, proper permissions, and ongoing maintenance? That's an implementation project.</p>
+
+  <hr>
+
+  <h2>What "Fully Connected" Looks Like</h2>
+
+  <p>We've deployed Claude across organizations where every team member has a personal CLAUDE.md with role-specific instructions, a shared company CLAUDE.md with universal standards, all major tools connected and configured, custom skills for their most common workflows, and clear rules about what Claude can and can't access.</p>
+
+  <p>The result: proposals go out faster. Client follow-ups don't slip. Meeting prep happens automatically. The team communicates more consistently because everyone's Claude works from the same playbook.</p>
+
+  <p>Getting there takes planning, configuration, and someone who understands both the tools and the business. But the ROI is real — we've seen teams reclaim 5-10 hours per person per week once the setup is dialed in.</p>
+
+  <p class="module-next">Next up: Module 5 — Settings, Security & Making It Your Own. The decisions that separate "playing with AI" from "running your business on AI."</p>
+</div>
+
+<!-- ================================================================
+     MODULE 5
+     ================================================================ -->
+</div><!-- /page m4 -->
+<div class="page" data-title="Module 5 — Settings & Security">
+<div class="page-container module" id="module-5">
+  <div class="module-header">
+    <div class="module-number">Module 05</div>
+    <h1 class="module-title">Settings, Security & Making It Your Own</h1>
+  </div>
+
+  <h2>The Trust Question</h2>
+
+  <p>By now, you've seen what Claude Code can do. It reads your files, follows your instructions, connects to your tools, and produces work that sounds like your business.</p>
+
+  <p>But here's the question that comes up in every conversation we have with business owners:</p>
+
+  <p><em>"How much should I actually trust this thing?"</em></p>
+
+  <p>It's the right question. And the honest answer is: it depends on how you set it up.</p>
+
+  <hr>
+
+  <h2>What Claude Can and Can't See</h2>
+
+  <p>Claude Code can only access what you explicitly give it access to. It doesn't scan your entire computer. It doesn't read files outside the folders you've approved. It doesn't connect to tools you haven't authorized.</p>
+
+  <p><strong>File access is folder-by-folder.</strong> You choose which folders Claude can read. Your proposals folder? Yes. Your personal documents? No.</p>
+
+  <p><strong>Tool access is connection-by-connection.</strong> Each integration is a separate authorization. You can connect Slack without connecting email. You can give read access without write access. Revoke anytime.</p>
+
+  <p><strong>Conversation data stays on your machine.</strong> Claude Code conversations are stored locally. They're not uploaded for training. They're not visible to Anthropic.</p>
+
+  <hr>
+
+  <h2>Permissions: The Three Levels</h2>
+
+  <h3>Level 1: Read Only</h3>
+  <p>Claude can look at files and data but can't change anything. It reads documents, analyzes messages, checks your calendar — but can't send, modify, or create without asking first. <strong>Start here.</strong></p>
+
+  <h3>Level 2: Create with Approval</h3>
+  <p>Claude can draft new files and propose changes — but asks for approval before saving or sending. You review, you decide. This is the "trust but verify" model where most business owners settle.</p>
+
+  <h3>Level 3: Autonomous Action</h3>
+  <p>Claude acts without asking. Only appropriate for tasks where output is consistently reliable and the cost of a mistake is low. Saving a meeting prep doc? Fine. Sending a client email? Keep approval on.</p>
+
+  <hr>
+
+  <h2>Choosing the Right Model</h2>
+
+  <p>Anthropic offers three tiers. Which one you use affects both quality and how fast you burn through your usage allowance.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Best For</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Opus</td>
+        <td>Complex analysis, important deliverables, multi-step work</td>
+        <td>Highest</td>
+      </tr>
+      <tr>
+        <td>Sonnet</td>
+        <td>Daily work — emails, summaries, drafts, meeting prep</td>
+        <td>Moderate</td>
+      </tr>
+      <tr>
+        <td>Haiku</td>
+        <td>Quick tasks — reformatting, lookups, short drafts</td>
+        <td>Lowest</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Don't use Opus for everything. Match the model to the task. A Slack summary doesn't need your most powerful model. A board presentation does.</p>
+
+  <img src="screens/10.png" alt="Model selector - Opus, Sonnet, Haiku" class="screen-img">
+  <div class="screen-caption">Choose the right model for the job. Sonnet handles most daily work. Save Opus for what matters most.</div>
+
+  <div class="callout">
+    Think of it like having three employees with different hourly rates. You assign work accordingly.
+  </div>
+
+  <hr>
+
+  <h2>Managing Your Usage</h2>
+
+  <p>Claude Code uses more allocation than regular chat. Multi-step tasks consume more than quick questions. Here's how to get the most from your plan:</p>
+
+  <ul>
+    <li><strong>Batch related work.</strong> Five emails in one session, not five separate conversations.</li>
+    <li><strong>Use regular chat for simple things.</strong> Save Claude Code for work that needs your files and tools.</li>
+    <li><strong>Match models to tasks.</strong> Haiku for light work, Sonnet for daily work, Opus for important stuff.</li>
+    <li><strong>Check your usage.</strong> The app shows allocation used. Calibrate your habits in the first month.</li>
+  </ul>
+
+  <hr>
+
+  <h2>What to Keep Away from Claude</h2>
+
+  <div class="traffic-light no-break">
+    <div class="traffic-item green">
+      <h4>Green Light — Safe to Use</h4>
+      <ul>
+        <li>Marketing materials and public-facing content</li>
+        <li>General business processes and SOPs</li>
+        <li>Proposals and pitch templates</li>
+        <li>Internal communication drafts</li>
+        <li>Research and analysis tasks</li>
+        <li>Calendar and scheduling</li>
+      </ul>
+    </div>
+    <div class="traffic-item yellow">
+      <h4>Yellow Light — Use with Caution</h4>
+      <ul>
+        <li>Client-specific information (names, deal sizes, details)</li>
+        <li>Financial data (revenue, margins, pricing models)</li>
+        <li>Employee information (performance, compensation)</li>
+        <li>Anything covered by an NDA</li>
+      </ul>
+    </div>
+    <div class="traffic-item red">
+      <h4>Red Light — Keep Out</h4>
+      <ul>
+        <li>Passwords, API keys, credentials</li>
+        <li>Social Security numbers, credit card numbers, government IDs</li>
+        <li>Health records (HIPAA-protected data)</li>
+        <li>Anything where a leak creates legal liability</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>If your business handles regulated data (healthcare, finance, legal), talk to your compliance team before deploying AI tools. Enterprise plans offer additional controls, but the conversation needs to happen before deployment.</p>
+
+  <hr>
+
+  <h2>Memory: Teaching Claude to Remember</h2>
+
+  <p>Claude Code has a memory system that retains information across conversations. This is different from CLAUDE.md (your explicit instructions) — memory is what Claude picks up from working with you.</p>
+
+  <p>When you correct Claude — "we never call clients 'users,' we call them 'partners'" — it saves that preference. Next conversation, it remembers.</p>
+
+  <p>Think of CLAUDE.md as the employee handbook and memory as the notes from their first month on the job. Both make Claude better. Together, dramatically better.</p>
+
+  <hr>
+
+  <h2>Setting Up for a Team</h2>
+
+  <p>If you're deploying Claude Code beyond yourself, the stakes change. Everything we've covered has been from the perspective of one person. Here's where the real questions emerge:</p>
+
+  <ul>
+    <li><strong>Consistency.</strong> Five people using Claude with different instructions means five different voices, five different pricing quotes, five different processes.</li>
+    <li><strong>Access control.</strong> Who should see what? Should marketing's Claude access client financials? Who decides?</li>
+    <li><strong>Onboarding.</strong> When someone joins, how do they get set up? From scratch? Is there a standard?</li>
+    <li><strong>Quality control.</strong> If Claude drafts a proposal with wrong pricing and someone sends it — who's responsible?</li>
+    <li><strong>Cost management.</strong> Ten people at $30/month is $300/month. Is everyone using it effectively?</li>
+    <li><strong>Maintenance.</strong> Services change. Team members leave. Pricing updates. Who keeps the CLAUDE.md files current?</li>
+  </ul>
+
+  <p>None of these have purely technical answers. They're organizational decisions. This is — honestly — where most companies either get stuck or get it wrong. Not because the technology is hard, but because the <em>change management</em> is hard.</p>
+
+  <hr>
+
+  <h2>The Compound Effect</h2>
+
+  <p>Each piece of this course — the CLAUDE.md, the integrations, the plugins, the permissions, the memory — is individually useful.</p>
+
+  <p>But the real power is compounding. When Claude has your business context AND is connected to your tools AND follows custom skills AND remembers your preferences AND is consistent across your team — the output quality isn't 5x better. It's qualitatively different.</p>
+
+  <p>Claude stops being "AI that helps with writing" and starts being "a system that runs parts of your business."</p>
+
+  <p>Getting to that compound effect is what separates companies that "use AI" from companies that "run on AI."</p>
+
+  <p class="module-next">Next up: Module 6 — The Big Picture. What "done right" looks like, the real cost of doing it yourself, and how to decide what makes sense for your business.</p>
+</div>
+
+<!-- ================================================================
+     MODULE 6
+     ================================================================ -->
+</div><!-- /page m5 -->
+<div class="page" data-title="Module 6 — The Big Picture">
+<div class="page-container module" id="module-6">
+  <div class="module-header">
+    <div class="module-number">Module 06</div>
+    <h1 class="module-title">The Big Picture — What "Done Right" Looks Like</h1>
+  </div>
+
+  <h2>Let's Be Honest About Where You Are</h2>
+
+  <p>You've made it through five modules. You know what Claude Code is. You've connected it to your files. You've written a CLAUDE.md. You understand integrations, plugins, permissions, and the decisions that come with team scaling.</p>
+
+  <p>You know more than 95% of business owners about this tool.</p>
+
+  <p>And if you're being honest, you're probably feeling one of two things:</p>
+
+  <p><strong>"This is incredibly powerful. I can see how this saves me hours every week. I'm going to keep building."</strong></p>
+
+  <p><strong>"This is incredibly powerful. And also... there's more here than I expected. I'm not sure I have the time to set all of this up properly."</strong></p>
+
+  <p>Both reactions are correct. They're not contradictory.</p>
+
+  <p>Claude Code is simple to start. You proved that in Module 2. But building a system that works reliably across your business, your team, and your clients — that's a different level of effort.</p>
+
+  <hr>
+
+  <h2>The DIY Path</h2>
+
+  <p>Here's what it actually takes to build a complete Claude Code setup for a small business (5-15 people) on your own:</p>
+
+  <h3>Phase 1: Foundation (Week 1-2)</h3>
+  <p>Write CLAUDE.md files for your main work areas. Document your brand voice, processes, and team structure. Set up the desktop app and test on real work.</p>
+
+  <h3>Phase 2: Integrations (Week 3-4)</h3>
+  <p>Connect your primary tools. Configure permissions. Write integration-specific instructions. Test each connection with real tasks. Troubleshoot what doesn't work the first time.</p>
+
+  <h3>Phase 3: Team Rollout (Week 5-8)</h3>
+  <p>Install for each team member. Create role-specific CLAUDE.md files. Set up shared skills. Define permissions by role. Train everyone. Create a feedback loop.</p>
+
+  <h3>Phase 4: Optimization (Ongoing)</h3>
+  <p>Update files as the business evolves. Add new skills. Adjust permissions. Monitor usage and ROI. Maintain integrations as tools update.</p>
+
+  <div class="callout">
+    <strong>Realistic timeline:</strong> 2-3 months of part-time effort. Plus ongoing maintenance. For a 10-person team, figure 40-60 hours of setup and training.
+  </div>
+
+  <p><strong>What goes well:</strong> You learn the tool deeply. You make decisions that fit your business exactly.</p>
+
+  <p><strong>What goes wrong:</strong> It takes longer than expected. Integrations are fiddly. Team adoption is uneven. CLAUDE.md files get outdated. Three months in, half the team is using Claude effectively and the other half has gone back to the old way.</p>
+
+  <hr>
+
+  <h2>The Guided Path</h2>
+
+  <h3>Week 1: Discovery</h3>
+  <p>We audit your business — tools, processes, team structure, communication patterns. We identify where AI gives the highest ROI and which integrations matter most. This is the phase most DIY setups skip.</p>
+
+  <h3>Week 2: Foundation Build</h3>
+  <p>We create your 14-Document Foundation: company profile, brand voice, team directory, SOPs, sales playbook, communication standards. Built <em>with</em> you, not <em>for</em> you.</p>
+
+  <h3>Week 3: Configuration & Integration</h3>
+  <p>Claude Code set up for every team member. CLAUDE.md files for each role. Integrations connected. Custom skills built for your top workflows. Permission structure implemented.</p>
+
+  <h3>Week 4: Training & Launch</h3>
+  <p>Hands-on sessions with real tasks. Everyone leaves with a working setup, practical skills, and confidence.</p>
+
+  <div class="callout">
+    <strong>Realistic timeline:</strong> 4 weeks to fully operational. Your team is productive from day one.
+  </div>
+
+  <hr>
+
+  <h2>The Math</h2>
+
+  <p>A 10-person team where each person spends 2 hours per day on tasks Claude could handle — emails, proposals, research, meeting prep, reporting, follow-ups.</p>
+
+  <p><strong>2 hours/day &times; 10 people &times; 20 workdays = 400 hours/month</strong> of potential AI-assisted work.</p>
+
+  <p>If Claude makes that work 50% faster (conservative for well-configured setups), you reclaim <strong>200 hours/month</strong>. At $50/hour burdened cost, that's <strong>$10,000/month in recovered capacity</strong>.</p>
+
+  <p>Subscription cost for 10 people: $300/month.</p>
+
+  <p>The ROI math isn't subtle. But you only get that ROI if the setup actually works. If half the team isn't using it, or the files are stale, or integrations aren't configured — you're paying for a tool running at 20% capacity.</p>
+
+  <p>The difference between a $300/month expense and a $10,000/month asset is entirely about implementation.</p>
+
+  <img src="screens/11.png" alt="ROI math visualization" class="screen-img">
+  <div class="screen-caption">The math for a 10-person team. The ROI is clear — if the implementation is right.</div>
+
+  <hr>
+
+  <h2>Three Paths Forward</h2>
+
+  <div class="paths-grid no-break">
+    <div class="path-card">
+      <div class="path-label">Path 1</div>
+      <h4>Keep Building Solo</h4>
+      <p>You have enough from this course to keep going. Refine your CLAUDE.md, connect one more integration this week, pick one workflow and build a skill for it, run it for 30 days and measure impact.</p>
+      <p>Right for: solo operators, small teams, people who enjoy learning tools hands-on.</p>
+    </div>
+    <div class="path-card">
+      <div class="path-label">Path 2</div>
+      <h4>AI Training for Your Team</h4>
+      <p>Structured Claude Code training sessions for teams of 5-50. Everyone walks out with a working setup, custom CLAUDE.md files, integration configuration, custom skills, and hands-on practice with real tasks.</p>
+      <p>Right for: teams ready to adopt AI but need structure and guidance to do it consistently.</p>
+    </div>
+    <div class="path-card">
+      <div class="path-label">Path 3</div>
+      <h4>Full AI Implementation</h4>
+      <p>Complete 14-Document Foundation, full Claude Code deployment, integration architecture, custom skills and automation, team training, and ongoing monthly optimization.</p>
+      <p>Right for: companies that want to move fast, do it right, and not think about the technical details.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>One More Thing</h2>
+
+  <p>AI tools are evolving fast. What Claude Code can do today is meaningfully different from six months ago. And six months from now, it'll be different again.</p>
+
+  <p>The companies that win aren't the ones with the most advanced setup. They're the ones that built the foundation — the documentation, the processes, the team habits — that lets them adopt new capabilities as they emerge.</p>
+
+  <p>That 14-Document Foundation isn't just for Claude. It's for every AI tool you'll use in the next five years. Build it once, and you're ready for whatever comes next.</p>
+
+  <p>Whether you build it yourself or get help, start today. The gap between businesses that "use AI sometimes" and businesses that "run on AI" is widening every month.</p>
+
+  <p>Don't be on the wrong side of that gap.</p>
+
+  <div class="cta-block">
+    <h3>Book Your Free AI Readiness Call</h3>
+    <p>30 minutes. We look at your setup, identify the highest-impact opportunities, and tell you honestly whether you need help or can do it yourself. No pitch. No pressure.</p>
+    <a href="#" class="cta-button">lowcode.agency/contact</a>
+  </div>
+</div>
+
+<!-- ================================================================
+     FINAL PAGE
+     ================================================================ -->
+</div><!-- /page m6 -->
+<div class="page" data-title="Thank You">
+<div class="final-page">
+  <div class="cover-brand">LOW / CODE</div>
+  <div class="cover-accent-bar" style="margin: 0 auto 40px;"></div>
+  <p class="final-thanks">Thank you for reading this course. If you found it useful,<br>share it with someone on your team — the more people who<br>understand what's possible, the faster your business can move.</p>
+  <div class="cover-meta">
+    <span class="author">Jesus Vargas</span>
+    <span>Founder, LowCode Agency</span>
+    <span style="margin-top: 12px; color: var(--accent);">lowcode.agency</span>
+  </div>
+</div>
+
+</div><!-- /page final -->
+
+<!-- ================================================================
+     NAVIGATION BAR
+     ================================================================ -->
+<div class="nav-bar locked" id="navBar">
+  <div class="nav-prev" id="navPrev" title="Previous (←)">←</div>
+  <div class="nav-center">
+    <div class="nav-label" id="navLabel">Cover</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+  </div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-page-num" id="navPageNum">1 / 9</div>
+  <div class="nav-next" id="navNext" title="Next (→)">→</div>
+</div>
+
+<script src="env.js"></script>
+<script>
+// ---- Integration keys (loaded from external file) ----
+// Keys are in env.js (gitignored). Copy env.js.example and add your keys.
+var BREVO_KEY = window.__ENV_BREVO_KEY || '';
+var SLACK_HOOK = window.__ENV_SLACK_HOOK || '';
+
+// ---- Gate submission ----
+function handleGateSubmit(e) {
+  e.preventDefault();
+
+  var email = document.getElementById('gEmail').value.trim();
+  var course = document.getElementById('gCourse').value;
+  var btn = document.getElementById('gateBtn');
+
+  if (!email) return false;
+
+  // Disable button
+  btn.disabled = true;
+  btn.textContent = 'Unlocking...';
+
+  // Build Brevo list IDs
+  var listIds = [];
+  if (course === '5day' || course === 'both') listIds.push(27);
+  if (course === '15day' || course === 'both') listIds.push(28);
+
+  // Parse first name from email
+  var nameParts = email.split('@')[0].split(/[._-]/);
+  var firstName = nameParts[0] || '';
+  firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+
+  // Create Brevo contact
+  var brevoPayload = {
+    email: email,
+    attributes: {
+      FIRSTNAME: firstName
+    },
+    updateEnabled: true
+  };
+  if (listIds.length > 0) brevoPayload.listIds = listIds;
+
+  fetch('https://api.brevo.com/v3/contacts', {
+    method: 'POST',
+    headers: {
+      'api-key': BREVO_KEY,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(brevoPayload)
+  }).catch(function() {});
+
+  // Slack notification
+  var courseLabel = {
+    both: 'Both courses',
+    '5day': '5-Day AI Agents',
+    '15day': '15-Day Deploy Claude',
+    none: 'Mini course only'
+  };
+
+  fetch(SLACK_HOOK, {
+    method: 'POST',
+    body: JSON.stringify({
+      text: '*New Lead Magnet Signup* :rocket:\n'
+        + '>*Email:* ' + email + '\n'
+        + '>*Source:* Claude Code for Business (Mini Course)\n'
+        + '>*Course:* ' + (courseLabel[course] || course)
+    })
+  }).catch(function() {});
+
+  // Save to localStorage so returning visitors skip the gate
+  try {
+    localStorage.setItem('cc_course_unlocked', JSON.stringify({
+      email: email,
+      ts: Date.now()
+    }));
+  } catch(e) {}
+
+  // Show success state
+  document.getElementById('gateFormWrap').style.display = 'none';
+  document.getElementById('gateSuccess').style.display = 'block';
+
+  return false;
+}
+
+// ---- Unlock course (after gate or returning visitor) ----
+function unlockCourse() {
+  document.getElementById('navBar').classList.remove('locked');
+  // Go to intro page (page index 1)
+  goToPage(1);
+}
+
+// ---- Check returning visitor ----
+(function checkReturning() {
+  try {
+    var saved = localStorage.getItem('cc_course_unlocked');
+    if (saved) {
+      // Returning visitor — skip gate, show success directly
+      document.getElementById('gateFormWrap').style.display = 'none';
+      document.getElementById('gateSuccess').style.display = 'block';
+    }
+  } catch(e) {}
+})();
+
+// ---- Pagination ----
+(function() {
+  var pages = document.querySelectorAll('.page');
+  var totalPages = pages.length;
+  window.currentPage = 0;
+
+  var navPrev = document.getElementById('navPrev');
+  var navNext = document.getElementById('navNext');
+  var navLabel = document.getElementById('navLabel');
+  var navPageNum = document.getElementById('navPageNum');
+  var progressFill = document.getElementById('progressFill');
+  var navDots = document.getElementById('navDots');
+
+  // Create dots
+  for (var i = 0; i < totalPages; i++) {
+    (function(idx) {
+      var dot = document.createElement('div');
+      dot.className = 'nav-dot' + (idx === 0 ? ' active' : '');
+      dot.addEventListener('click', function() { goToPage(idx); });
+      navDots.appendChild(dot);
+    })(i);
+  }
+
+  window.goToPage = function(index) {
+    if (index < 0 || index >= totalPages) return;
+    pages[window.currentPage].classList.remove('active');
+    window.currentPage = index;
+    pages[window.currentPage].classList.add('active');
+    pages[window.currentPage].scrollTop = 0;
+    updateNav();
+  };
+
+  function updateNav() {
+    navLabel.textContent = pages[window.currentPage].dataset.title || '';
+    navPageNum.textContent = (window.currentPage + 1) + ' / ' + totalPages;
+
+    var pct = totalPages > 1 ? (window.currentPage / (totalPages - 1)) * 100 : 0;
+    progressFill.style.width = pct + '%';
+
+    navPrev.classList.toggle('disabled', window.currentPage === 0);
+    navNext.classList.toggle('disabled', window.currentPage === totalPages - 1);
+
+    var dots = navDots.querySelectorAll('.nav-dot');
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].classList.toggle('active', i === window.currentPage);
+    }
+  }
+
+  navPrev.addEventListener('click', function() { goToPage(window.currentPage - 1); });
+  navNext.addEventListener('click', function() { goToPage(window.currentPage + 1); });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    // Don't navigate while typing in form
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goToPage(window.currentPage - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); goToPage(window.currentPage + 1); }
+  });
+
+  // Swipe
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    var diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 60) {
+      if (diff > 0) goToPage(window.currentPage + 1);
+      else goToPage(window.currentPage - 1);
+    }
+  }, { passive: true });
+
+  // TOC links
+  var tocItems = document.querySelectorAll('.toc-item');
+  for (var i = 0; i < tocItems.length; i++) {
+    (function(idx) {
+      tocItems[idx].style.cursor = 'pointer';
+      tocItems[idx].addEventListener('click', function() { goToPage(idx + 3); });
+    })(i);
+  }
+
+  updateNav();
+})();
+</script>
+
+</body>
+</html>

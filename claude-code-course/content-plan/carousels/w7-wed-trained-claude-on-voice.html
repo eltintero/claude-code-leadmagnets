@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>W7 Wed — Trained Claude on My Voice</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FAF9F6;--dark:#282828;--brown:#414141;--accent:#705CF6;--accent-dark:#38327C;--accent-light:#C5BDFA;--accent-pale:rgba(112,92,246,0.08);--accent-lime:#C5EF48;--muted:#B5B5B5;--rule:#D9D9D9}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:#e0dfdd;display:flex;flex-wrap:wrap;gap:24px;padding:24px;justify-content:center}.slide{width:1080px;height:1350px;background:var(--cream);display:flex;flex-direction:column;justify-content:center;padding:80px 88px;position:relative;overflow:hidden;flex-shrink:0}.slide.dark{background:var(--dark);color:var(--cream)}.slide.purple{background:var(--accent-dark);color:#fff}.slide-top{position:absolute;top:48px;left:88px;right:88px;display:flex;justify-content:space-between;align-items:center}.slide-num{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.08em}.slide.dark .slide-num,.slide.purple .slide-num{color:rgba(255,255,255,.4)}.slide-brand{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}.slide.dark .slide-brand{color:var(--accent-light)}.slide.purple .slide-brand{color:rgba(255,255,255,.5)}.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:24px}.eyebrow::before{content:'';width:32px;height:3px;background:var(--accent);flex-shrink:0}.slide.purple .eyebrow::before{background:var(--accent-lime)}.eyebrow span{font-size:14px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}.slide.dark .eyebrow span{color:var(--accent-light)}.slide.purple .eyebrow span{color:var(--accent-lime)}.slide-title{font-size:64px;font-weight:700;color:var(--dark);line-height:1.1;letter-spacing:-.03em;margin-bottom:28px}.slide.dark .slide-title,.slide.purple .slide-title{color:#fff}.slide-subtitle{font-size:28px;font-weight:400;color:var(--brown);line-height:1.5;max-width:800px}.slide.dark .slide-subtitle{color:rgba(255,255,255,.7)}.slide.purple .slide-subtitle{color:rgba(255,255,255,.75)}.slide-body{font-size:26px;color:var(--brown);line-height:1.65;max-width:850px}.slide.dark .slide-body{color:rgba(255,255,255,.75)}.slide-body strong{color:var(--dark)}.slide.dark .slide-body strong{color:#fff}.slide-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:20px}.slide-list li{display:flex;gap:16px;font-size:24px;line-height:1.5;color:var(--brown);align-items:flex-start}.slide.dark .slide-list li{color:rgba(255,255,255,.8)}.slide-list .bullet{width:10px;height:10px;background:var(--accent);border-radius:50%;margin-top:11px;flex-shrink:0}.cta-url{font-size:28px;font-weight:600;color:var(--accent-lime);margin-top:32px}.cta-note{font-size:20px;color:rgba(255,255,255,.5);margin-top:12px}.slide-bottom{position:absolute;bottom:48px;left:88px;right:88px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);font-weight:500}.slide.dark .slide-bottom,.slide.purple .slide-bottom{color:rgba(255,255,255,.3)}.swipe-hint{font-size:16px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-top:32px}
+.highlight-box{background:white;border-radius:12px;padding:32px;margin:20px 0;border-left:4px solid var(--accent)}.slide.dark .highlight-box{background:rgba(255,255,255,.06)}.highlight-box p{font-size:24px;line-height:1.6;color:var(--brown)}.slide.dark .highlight-box p{color:rgba(255,255,255,.8)}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 — Cover -->
+<div class="slide dark">
+  <div class="slide-top">
+    <div class="slide-num"></div>
+    <div class="slide-brand">LOW / CODE</div>
+  </div>
+  <div class="eyebrow"><span>Personal AI</span></div>
+  <h1 class="slide-title" style="font-size:52px;">Claude now writes LinkedIn posts that sound like me, not like AI.</h1>
+  <p class="slide-subtitle">Here's exactly what I did. Took 5 minutes.</p>
+  <div class="swipe-hint"><span class="arrow">&#8594;</span> Swipe for the process</div>
+  <div class="slide-bottom">
+    <span>@jesusvargas</span>
+    <span>lowcode.agency</span>
+  </div>
+</div>
+
+<!-- SLIDE 2 — What I Did -->
+<div class="slide">
+  <div class="slide-top">
+    <div class="slide-num">2 / 7</div>
+    <div class="slide-brand">LOW / CODE</div>
+  </div>
+  <div class="eyebrow"><span>Step 1</span></div>
+  <h2 class="slide-title" style="font-size:48px;">I uploaded 14 newsletter issues + 20 LinkedIn posts to a folder.</h2>
+  <p class="slide-body">Not my best writing. Not curated. Just a representative sample of how I actually write when I'm not overthinking it.</p>
+  <p class="slide-body" style="margin-top:24px;">Newsletters, LinkedIn posts, a few client emails. Dropped them all in one folder on my computer.</p>
+  <p class="slide-body" style="margin-top:24px;"><strong>Total time: 2 minutes.</strong></p>
+</div>
+
+<!-- SLIDE 3 — The Prompt -->
+<div class="slide dark">
+  <div class="slide-top">
+    <div class="slide-num">3 / 7</div>
+    <div class="slide-brand">LOW / CODE</div>
+  </div>
+  <div class="eyebrow"><span>Step 2</span></div>
+  <h2 class="slide-title" style="font-size:44px;">I asked Claude one question.</h2>
+  <div class="highlight-box">
+    <p>"Read everything in this folder. Describe my writing voice — tone, patterns, habits, what I avoid. Be specific."</p>
+  </div>
+  <p class="slide-body" style="margin-top:24px;">That's it. One prompt. Claude read 34 pieces of content and started analyzing.</p>
+</div>
+
+<!-- SLIDE 4 — The Output -->
+<div class="slide">
+  <div class="slide-top">
+    <div class="slide-num">4 / 7</div>
+    <div class="slide-brand">LOW / CODE</div>
+  </div>
+  <div class="eyebrow"><span>The Result</span></div>
+  <h2 class="slide-title" style="font-size:44px;">A 2-page voice profile more accurate than I'd write about myself.</h2>
+  <ul class="slide-list">
+    <li><div class="bullet"></div>My default sentence length (short, punchy, rarely over 15 words)</li>
+    <li><div class="bullet"></div>How I open posts (with a number or a surprising statement)</li>
+    <li><div class="bullet"></div>Words I repeat (deployed, compound, foundation, stack)</li>
+    <li><div class="bullet"></div>What I never do (no emojis, no exclamation marks, no "I'm excited to share")</li>
+    <li><div class="bullet"></div>My transition patterns (short fragments between sections)</li>
+    <li><div class="bullet"></div>How I close (call to action or a one-liner that reframes the whole piece)</li>
+  </ul>
+</div>
+
+<!-- SLIDE 5 — Saved It -->
+<div class="slide dark">
+  <div class="slide-top">
+    <div class="slide-num">5 / 7</div>
+    <div class="slide-brand">LOW / CODE</div>
+  </div>
+  <div class="eyebrow"><span>Step 3</span></div>
+  <h2 class="slide-title" style="font-size:48px;">Saved it as CLAUDE.md.</h2>
+  <p class="slide-body">Now every time Claude Code starts a session, it reads my voice profile first. No reminders. No "write in my style" prompts.</p>
+  <p class="slide-body" style="margin-top:24px;">Every email, post, and proposal comes out sounding like me. Not generic AI. Not corporate fluff. <strong>Me.</strong></p>
+  <p class="slide-body" style="margin-top:24px;">The voice profile has been running for 6 months. I've tweaked it twice.</p>
+</div>
+
+<!-- SLIDE 6 — You Can Do This -->
+<div class="slide">
+  <div class="slide-top">
+    <div class="slide-num">6 / 7</div>
+    <div class="slide-brand">LOW / CODE</div>
+  </div>
+  <div class="eyebrow"><span>Your Turn</span></div>
+  <h2 class="slide-title" style="font-size:48px;">You can do this in 5 minutes with your own content.</h2>
+  <ul class="slide-list">
+    <li><div class="bullet"></div>Gather 15-30 pieces of your writing (emails, posts, proposals)</li>
+    <li><div class="bullet"></div>Drop them in a folder</li>
+    <li><div class="bullet"></div>Ask Claude to describe your voice</li>
+    <li><div class="bullet"></div>Save the output in CLAUDE.md</li>
+  </ul>
+  <p class="slide-body" style="margin-top:28px;"><strong>That's it. From now on, Claude sounds like you.</strong></p>
+</div>
+
+<!-- SLIDE 7 — CTA -->
+<div class="slide purple">
+  <div class="slide-top">
+    <div class="slide-num">7 / 7</div>
+    <div class="slide-brand">LOW / CODE</div>
+  </div>
+  <div class="eyebrow"><span>Free Mini Course</span></div>
+  <h2 class="slide-title" style="font-size:52px;">Learn the full setup.<br>Voice is just the beginning.</h2>
+  <p class="slide-subtitle">From first session to team deployment — everything a business owner needs to know about Claude Code.</p>
+  <div class="cta-url">lowcode.agency/claude-code-course</div>
+  <div class="cta-note">Free. No spam. Start in 2 minutes.</div>
+  <div class="slide-bottom">
+    <span>Jesus Vargas — Founder, LowCode Agency</span>
+    <span>lowcode.agency</span>
+  </div>
+</div>
+
+</body>
+</html>

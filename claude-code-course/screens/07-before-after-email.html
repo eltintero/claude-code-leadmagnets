@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Before / After — Email Output</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #FAF9F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  max-width: 780px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+}
+.panel { padding: 32px 28px; }
+.before { background: #f4f3f0; }
+.after { background: #282828; }
+.tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.before .tag { background: rgba(112,92,246,0.08); color: #705CF6; }
+.after .tag { background: rgba(197,239,72,0.12); color: #C5EF48; }
+.subtitle {
+  font-size: 10px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.before .subtitle { color: #b5b5b5; }
+.after .subtitle { color: #888; }
+.email-block {
+  border-radius: 8px;
+  padding: 20px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.before .email-block {
+  background: white;
+  border: 1px solid #e5e4e2;
+  color: #555;
+}
+.after .email-block {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #d4d0ca;
+}
+.email-block .greeting { font-weight: 500; margin-bottom: 10px; }
+.before .email-block .greeting { color: #414141; }
+.after .email-block .greeting { color: #f0ece6; }
+.email-block .sign-off {
+  margin-top: 14px;
+  font-weight: 500;
+}
+.before .email-block .sign-off { color: #888; }
+.after .email-block .sign-off { color: #ccc; }
+.verdict {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.before .verdict { color: #cc7a5a; }
+.after .verdict { color: #C5EF48; }
+.verdict-icon {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+.before .verdict-icon { background: rgba(204,122,90,0.12); }
+.after .verdict-icon { background: rgba(197,239,72,0.15); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="panel before">
+    <div class="tag">Without CLAUDE.md</div>
+    <div class="subtitle">Same prompt: "Write a follow-up email to Sarah after our demo"</div>
+    <div class="email-block">
+      <div class="greeting">Dear Sarah,</div>
+      Thank you for attending our demonstration last week. We hope you found it informative and valuable. We would love to schedule a follow-up meeting to discuss how our solutions can address your specific needs. Please let us know your availability at your earliest convenience.
+      <div class="sign-off">Best regards,<br>[Your Name]</div>
+    </div>
+    <div class="verdict">
+      <div class="verdict-icon">✕</div>
+      Generic. Could be from any company.
+    </div>
+  </div>
+  <div class="panel after">
+    <div class="tag">With CLAUDE.md</div>
+    <div class="subtitle">Same prompt, same model — Claude now knows your business</div>
+    <div class="email-block">
+      <div class="greeting">Hey Sarah,</div>
+      Great chatting last week — you mentioned the team's spending about 10 hours a week on manual reporting, which is exactly the kind of thing we've automated for companies like yours.<br><br>
+      I put together a quick breakdown of what that would look like for your team. No pressure — just wanted to give you something concrete to look at.<br><br>
+      Want me to send it over, or would a 15-minute call be easier?
+      <div class="sign-off">— Jesus</div>
+    </div>
+    <div class="verdict">
+      <div class="verdict-icon">✓</div>
+      Sounds like your best salesperson.
+    </div>
+  </div>
+</div>
+</body>
+</html>

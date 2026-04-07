@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>W1 Fri — 5 Things I Did in Claude Code This Week</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FAF9F6;--dark:#282828;--brown:#414141;--accent:#705CF6;--accent-dark:#38327C;--accent-light:#C5BDFA;--accent-pale:rgba(112,92,246,0.08);--accent-lime:#C5EF48;--muted:#B5B5B5;--rule:#D9D9D9}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:#e0dfdd;display:flex;flex-wrap:wrap;gap:24px;padding:24px;justify-content:center}.slide{width:1080px;height:1350px;background:var(--cream);display:flex;flex-direction:column;justify-content:center;padding:80px 88px;position:relative;overflow:hidden;flex-shrink:0}.slide.dark{background:var(--dark);color:var(--cream)}.slide.purple{background:var(--accent-dark);color:#fff}.slide-top{position:absolute;top:48px;left:88px;right:88px;display:flex;justify-content:space-between;align-items:center}.slide-num{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.08em}.slide.dark .slide-num,.slide.purple .slide-num{color:rgba(255,255,255,.4)}.slide-brand{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}.slide.dark .slide-brand{color:var(--accent-light)}.slide.purple .slide-brand{color:rgba(255,255,255,.5)}.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:24px}.eyebrow::before{content:'';width:32px;height:3px;background:var(--accent);flex-shrink:0}.slide.purple .eyebrow::before{background:var(--accent-lime)}.eyebrow span{font-size:14px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}.slide.dark .eyebrow span{color:var(--accent-light)}.slide.purple .eyebrow span{color:var(--accent-lime)}.slide-title{font-size:64px;font-weight:700;color:var(--dark);line-height:1.1;letter-spacing:-.03em;margin-bottom:28px}.slide.dark .slide-title,.slide.purple .slide-title{color:#fff}.slide-subtitle{font-size:28px;font-weight:400;color:var(--brown);line-height:1.5;max-width:800px}.slide.dark .slide-subtitle{color:rgba(255,255,255,.7)}.slide.purple .slide-subtitle{color:rgba(255,255,255,.75)}.slide-body{font-size:26px;color:var(--brown);line-height:1.65;max-width:850px}.slide.dark .slide-body{color:rgba(255,255,255,.75)}.slide-body strong{color:var(--dark)}.slide.dark .slide-body strong{color:#fff}.slide-bottom{position:absolute;bottom:48px;left:88px;right:88px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);font-weight:500}.slide.dark .slide-bottom,.slide.purple .slide-bottom{color:rgba(255,255,255,.3)}.swipe-hint{font-size:16px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-top:32px}
+.task-card{background:white;border-radius:12px;padding:32px;margin:12px 0;display:flex;gap:20px;align-items:flex-start}.slide.dark .task-card{background:rgba(255,255,255,.06)}.task-num{font-size:40px;font-weight:800;color:var(--accent);line-height:1;min-width:48px}.slide.dark .task-num{color:var(--accent-lime)}.task-content{flex:1}.task-title{font-size:24px;font-weight:600;color:var(--dark);margin-bottom:6px}.slide.dark .task-title{color:white}.task-desc{font-size:18px;color:var(--muted);line-height:1.5}.task-time{font-size:16px;font-weight:600;color:var(--accent);margin-top:8px}.slide.dark .task-time{color:var(--accent-lime)}
+.total-bar{background:var(--accent);border-radius:10px;padding:24px 32px;margin-top:24px;display:flex;justify-content:space-between;align-items:center}.total-label{font-size:22px;font-weight:600;color:white}.total-value{font-size:36px;font-weight:800;color:white}
+.cta-url{font-size:28px;font-weight:600;color:var(--accent-lime);margin-top:32px}.cta-note{font-size:20px;color:rgba(255,255,255,.5);margin-top:12px}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 -->
+<div class="slide dark">
+  <div class="slide-top"><div class="slide-num"></div><div class="slide-brand">LOW / CODE</div></div>
+  <div class="eyebrow"><span>Building in Public</span></div>
+  <h1 class="slide-title" style="font-size:52px;">5 things I did in Claude Code this week</h1>
+  <p class="slide-subtitle">Each would've taken me 2-3 hours manually.</p>
+  <div class="swipe-hint" style="color:rgba(255,255,255,.4)"><span>→</span> Swipe for the breakdown</div>
+  <div class="slide-bottom"><span>@jesusvargas</span><span>lowcode.agency</span></div>
+</div>
+
+<!-- SLIDE 2 — Task 1 -->
+<div class="slide">
+  <div class="slide-top"><div class="slide-num">2 / 7</div><div class="slide-brand">LOW / CODE</div></div>
+  <div class="task-card">
+    <div class="task-num">1</div>
+    <div class="task-content">
+      <div class="task-title">Client Proposal</div>
+      <div class="task-desc">Pointed Claude at a project brief and our proposal template. It read both, matched our pricing tier, and drafted a 4-page proposal ready for review.</div>
+      <div class="task-time">Manual: ~2.5 hours → Claude Code: 3 minutes</div>
+    </div>
+  </div>
+  <div class="task-card">
+    <div class="task-num">2</div>
+    <div class="task-content">
+      <div class="task-title">Slack Catch-Up</div>
+      <div class="task-desc">Asked Claude to summarize 3 client channels from the weekend. Got a priority-sorted list of what needs attention. Saved me from reading 80+ messages.</div>
+      <div class="task-time">Manual: ~45 minutes → Claude Code: 30 seconds</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3 — Task 3 & 4 -->
+<div class="slide">
+  <div class="slide-top"><div class="slide-num">3 / 7</div><div class="slide-brand">LOW / CODE</div></div>
+  <div class="task-card">
+    <div class="task-num">3</div>
+    <div class="task-content">
+      <div class="task-title">Email Template</div>
+      <div class="task-desc">Had Claude read my last 30 client emails and reverse-engineer a follow-up template. Captured my exact voice, phrasing, and sign-off style.</div>
+      <div class="task-time">Manual: ~2 hours → Claude Code: 1 minute</div>
+    </div>
+  </div>
+  <div class="task-card">
+    <div class="task-num">4</div>
+    <div class="task-content">
+      <div class="task-title">Brand Voice Guide</div>
+      <div class="task-desc">Pointed Claude at 20 LinkedIn posts and asked "describe my writing voice." The output was more accurate than anything I could've written about myself.</div>
+      <div class="task-time">Manual: ~3 hours → Claude Code: 45 seconds</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 — Task 5 -->
+<div class="slide">
+  <div class="slide-top"><div class="slide-num">4 / 7</div><div class="slide-brand">LOW / CODE</div></div>
+  <div class="task-card">
+    <div class="task-num">5</div>
+    <div class="task-content">
+      <div class="task-title">Weekly Content</div>
+      <div class="task-desc">Claude read my content folder, matched my voice, and drafted 3 LinkedIn posts and 5 tweets. Two of the LinkedIn posts needed zero edits.</div>
+      <div class="task-time">Manual: ~3 hours → Claude Code: 5 minutes</div>
+    </div>
+  </div>
+  <div class="total-bar">
+    <div class="total-label">Total time saved this week</div>
+    <div class="total-value">~12 hours</div>
+  </div>
+</div>
+
+<!-- SLIDE 5 — Why it works -->
+<div class="slide dark">
+  <div class="slide-top"><div class="slide-num">5 / 7</div><div class="slide-brand">LOW / CODE</div></div>
+  <div class="eyebrow"><span>Why This Works</span></div>
+  <h2 class="slide-title" style="font-size:44px;">Three things made the difference.</h2>
+  <ul class="slide-list">
+    <li><div class="num">01</div><strong>CLAUDE.md file</strong> — Claude knows my business, voice, pricing, and rules before I ask anything</li>
+    <li><div class="num">02</div><strong>File access</strong> — Claude reads my actual documents, not generic templates</li>
+    <li><div class="num">03</div><strong>Delegation, not asking</strong> — I tell Claude where to look, what to follow, and what to produce</li>
+  </ul>
+</div>
+
+<!-- SLIDE 6 — Anyone can do this -->
+<div class="slide">
+  <div class="slide-top"><div class="slide-num">6 / 7</div><div class="slide-brand">LOW / CODE</div></div>
+  <div class="eyebrow"><span>The Good News</span></div>
+  <h2 class="slide-title" style="font-size:48px;">You don't need to be technical to do this.</h2>
+  <p class="slide-body">Claude Code works through a desktop app. No terminal. No coding. Just open the app, connect a folder, and start delegating.</p>
+  <p class="slide-body" style="margin-top:20px;">The setup takes 15 minutes. The CLAUDE.md file takes another 15.</p>
+  <p class="slide-body" style="margin-top:20px;"><strong>30 minutes of setup → 12 hours saved per week.</strong></p>
+</div>
+
+<!-- SLIDE 7 — CTA -->
+<div class="slide purple">
+  <div class="slide-top"><div class="slide-num">7 / 7</div><div class="slide-brand">LOW / CODE</div></div>
+  <div class="eyebrow"><span>Learn How</span></div>
+  <h2 class="slide-title" style="font-size:48px;">Want to set this up for your business?</h2>
+  <p class="slide-subtitle">Free mini course. 6 modules. From first session to team deployment.</p>
+  <div class="cta-url">lowcode.agency/claude-code-course</div>
+  <div class="cta-note">No spam. Start in 2 minutes.</div>
+  <div class="slide-bottom"><span>Jesus Vargas — Founder, LowCode Agency</span><span>lowcode.agency</span></div>
+</div>
+
+</body>
+</html>

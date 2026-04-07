@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Claude Summarizing Slack</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #FAF9F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.window {
+  width: 600px;
+  background: #fafaf8;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+}
+.title-bar {
+  background: #f0efed;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #e5e4e2;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f57; }
+.dot.y { background: #ffbd2e; }
+.dot.g { background: #28c840; }
+.title-text {
+  flex: 1; text-align: center;
+  font-size: 12px; font-weight: 500; color: #888;
+}
+.content { padding: 24px; }
+.msg { margin-bottom: 16px; }
+.msg.user {
+  max-width: 88%;
+  margin-left: auto;
+  background: #f4f3f0;
+  border-radius: 16px 16px 4px 16px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #414141;
+  line-height: 1.5;
+}
+.msg.ai { padding: 4px 0; }
+.ai-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #705CF6;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(112,92,246,0.06);
+  border: 1px solid rgba(112,92,246,0.12);
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 10px;
+  color: #705CF6;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.summary-card {
+  background: white;
+  border: 1px solid #e5e4e2;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.summary-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0efed;
+  font-size: 13px;
+  font-weight: 600;
+  color: #282828;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.summary-body { padding: 12px 16px; }
+.summary-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #555;
+}
+.summary-item:last-child { margin-bottom: 0; }
+.priority {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+.priority.urgent { background: #fce8e6; color: #c53030; }
+.priority.info { background: #e6f0fc; color: #2b6cb0; }
+.priority.low { background: #f0efed; color: #888; }
+.ai-text {
+  font-size: 13px;
+  color: #414141;
+  line-height: 1.7;
+  margin-top: 8px;
+}
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <div class="title-text">Claude Code — Business Docs</div>
+  </div>
+  <div class="content">
+    <div class="msg user">
+      Summarize everything in #clients from the last 48 hours. What needs my attention? What can I ignore?
+    </div>
+    <div class="msg ai">
+      <div class="ai-label">
+        <span>Claude</span>
+        <span style="color:#b5b5b5; font-weight:400;">· read 34 messages from Slack</span>
+      </div>
+      <div class="source-badge">💬 #clients · last 48 hours</div>
+
+      <div class="summary-card">
+        <div class="summary-header">🔴 Needs Your Attention</div>
+        <div class="summary-body">
+          <div class="summary-item">
+            <div class="priority urgent">Urgent</div>
+            <div><strong>Acme Corp</strong> — Sarah flagged a billing discrepancy on the Q1 invoice. She's waiting for a response. Cecilia replied asking for details but Sarah wants to talk to you directly.</div>
+          </div>
+          <div class="summary-item">
+            <div class="priority urgent">Urgent</div>
+            <div><strong>Meridian</strong> — Launch date moved up by 2 weeks. Rômulo asked if the timeline is possible. No answer yet from your side.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-header">🟡 FYI — No Action Needed</div>
+        <div class="summary-body">
+          <div class="summary-item">
+            <div class="priority info">Info</div>
+            <div><strong>GAF</strong> — Design review completed. Maria shared updated mockups. Client approved with minor color tweaks.</div>
+          </div>
+          <div class="summary-item">
+            <div class="priority low">Low</div>
+            <div><strong>Greenfield</strong> — Routine status update from Douglas. Build on track, no blockers.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-text">
+        <strong>Bottom line:</strong> Two items need you — the Acme billing issue and the Meridian timeline question. Everything else is on track.
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

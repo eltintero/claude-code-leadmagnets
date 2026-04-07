@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Twitter — Asking vs Delegating</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:#e0dfdd;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:48px}
+.card{width:1080px;height:1080px;background:#282828;border-radius:0;display:flex;flex-direction:column;justify-content:center;padding:0;position:relative;overflow:hidden}
+.brand{position:absolute;top:48px;right:48px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);z-index:2}
+.split{display:grid;grid-template-columns:1fr 1fr;height:100%}
+.panel{display:flex;flex-direction:column;justify-content:center;padding:64px}
+.panel.left{background:#1e1e1e}
+.panel.right{background:#282828}
+.panel-tag{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:inline-block;padding:6px 12px;border-radius:6px;margin-bottom:24px}
+.panel.left .panel-tag{background:rgba(112,92,246,0.15);color:#705CF6}
+.panel.right .panel-tag{background:rgba(197,239,72,0.15);color:#C5EF48}
+.panel-text{font-size:26px;line-height:1.6;font-style:italic}
+.panel.left .panel-text{color:rgba(255,255,255,.5)}
+.panel.right .panel-text{color:rgba(255,255,255,.85)}
+.panel-result{margin-top:32px;font-size:18px;font-weight:600}
+.panel.left .panel-result{color:rgba(255,255,255,.3)}
+.panel.right .panel-result{color:#C5EF48}
+.footer{position:absolute;bottom:48px;left:64px;right:64px;display:flex;justify-content:space-between;font-size:14px;color:rgba(255,255,255,.25);font-weight:500}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">LOW / CODE</div>
+  <div class="split">
+    <div class="panel left">
+      <div class="panel-tag">Asking</div>
+      <div class="panel-text">"Write me a follow-up email."</div>
+      <div class="panel-result">Generic. Needs 10 minutes of editing.</div>
+    </div>
+    <div class="panel right">
+      <div class="panel-tag">Delegating</div>
+      <div class="panel-text">"Read yesterday's meeting notes, check our proposal template, and draft a follow-up referencing Sarah's timeline concern. Use my voice."</div>
+      <div class="panel-result">Ready to send. 30 seconds to review.</div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>@eltintero</span>
+    <span>lowcode.agency</span>
+  </div>
+</div>
+</body>
+</html>

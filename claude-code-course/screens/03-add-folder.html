@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Folder Dialog</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #FAF9F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.scene {
+  position: relative;
+  width: 640px;
+}
+/* Background window (dimmed) */
+.bg-window {
+  background: #f4f3f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+  filter: brightness(0.7);
+}
+.bg-title-bar {
+  background: #e8e7e4;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f57; opacity: 0.5; }
+.dot.y { background: #ffbd2e; opacity: 0.5; }
+.dot.g { background: #28c840; opacity: 0.5; }
+.bg-content {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bg-content span { font-size: 13px; color: #aaa; }
+/* Modal overlay */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+.modal-header {
+  padding: 24px 24px 0;
+}
+.modal-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #282828;
+  margin-bottom: 6px;
+}
+.modal-header p {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.5;
+}
+.modal-body {
+  padding: 20px 24px;
+}
+/* Folder browser mock */
+.folder-browser {
+  background: #f8f7f5;
+  border: 1px solid #e5e4e2;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.folder-path {
+  padding: 8px 12px;
+  background: #f0efed;
+  border-bottom: 1px solid #e5e4e2;
+  font-size: 11px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.folder-path span { color: #705CF6; font-weight: 500; }
+.folder-list {
+  padding: 6px;
+}
+.folder-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #555;
+}
+.folder-item.selected {
+  background: rgba(112,92,246,0.1);
+  color: #705CF6;
+  font-weight: 500;
+}
+.folder-emoji {
+  font-size: 14px;
+}
+.folder-meta {
+  margin-left: auto;
+  font-size: 10px;
+  color: #bbb;
+  font-weight: 400;
+}
+.modal-footer {
+  padding: 16px 24px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: default;
+}
+.btn-cancel {
+  background: #f0efed;
+  color: #666;
+}
+.btn-primary {
+  background: #705CF6;
+  color: white;
+  font-weight: 600;
+}
+/* Annotation */
+.annotation {
+  position: absolute;
+  bottom: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #705CF6;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.annotation::before {
+  content: '↑';
+  font-size: 16px;
+}
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="bg-window">
+    <div class="bg-title-bar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    </div>
+    <div class="bg-content">
+      <span>Claude Code</span>
+    </div>
+  </div>
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Add a folder</h3>
+      <p>Give Claude access to files in this folder. Claude will be able to read and reference these files during your conversations.</p>
+    </div>
+    <div class="modal-body">
+      <div class="folder-browser">
+        <div class="folder-path">
+          📁 Users / jesus / <span>Business</span>
+        </div>
+        <div class="folder-list">
+          <div class="folder-item">
+            <span class="folder-emoji">📁</span> Clients
+            <span class="folder-meta">12 files</span>
+          </div>
+          <div class="folder-item">
+            <span class="folder-emoji">📁</span> Internal
+            <span class="folder-meta">8 files</span>
+          </div>
+          <div class="folder-item selected">
+            <span class="folder-emoji">📁</span> Proposals
+            <span class="folder-meta">23 files</span>
+          </div>
+          <div class="folder-item">
+            <span class="folder-emoji">📁</span> Brand Guidelines
+            <span class="folder-meta">5 files</span>
+          </div>
+          <div class="folder-item">
+            <span class="folder-emoji">📁</span> SOPs
+            <span class="folder-meta">9 files</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn btn-cancel">Cancel</div>
+      <div class="btn btn-primary">Add Folder</div>
+    </div>
+  </div>
+  <div class="annotation">Select the folder you want Claude to work with</div>
+</div>
+</body>
+</html>

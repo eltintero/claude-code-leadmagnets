@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Claude Desktop App — Main Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #FAF9F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.window {
+  width: 680px;
+  background: #fafaf8;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+}
+.title-bar {
+  background: #f0efed;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #e5e4e2;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f57; }
+.dot.y { background: #ffbd2e; }
+.dot.g { background: #28c840; }
+.title-text {
+  flex: 1; text-align: center;
+  font-size: 12px; font-weight: 500; color: #888;
+}
+.main {
+  display: flex;
+  min-height: 420px;
+}
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background: #f4f3f0;
+  border-right: 1px solid #e5e4e2;
+  padding: 16px 12px;
+}
+.sidebar-section {
+  margin-bottom: 20px;
+}
+.sidebar-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #b5b5b5;
+  margin-bottom: 8px;
+  padding: 0 8px;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #666;
+  cursor: default;
+}
+.sidebar-item.active {
+  background: white;
+  color: #282828;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.sidebar-icon {
+  width: 16px; height: 16px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+}
+.sidebar-icon.purple { background: rgba(112,92,246,0.12); color: #705CF6; }
+.sidebar-icon.gray { background: #e8e7e5; color: #999; }
+.new-chat {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #b5b5b5;
+  margin-top: 8px;
+}
+/* Content */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  text-align: center;
+}
+.content-logo {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, #705CF6, #9b8afc);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; color: white; font-weight: 700;
+  margin-bottom: 20px;
+}
+.content h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #282828;
+  margin-bottom: 8px;
+}
+.content p {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.6;
+  max-width: 300px;
+  margin-bottom: 24px;
+}
+.input-area {
+  width: 100%;
+  max-width: 380px;
+  border: 1px solid #e0dfdd;
+  border-radius: 20px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+}
+.input-area span {
+  flex: 1;
+  font-size: 13px;
+  color: #b5b5b5;
+  text-align: left;
+}
+.input-area .send {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #705CF6;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 13px;
+}
+.folder-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(112,92,246,0.08);
+  border: 1px solid rgba(112,92,246,0.15);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: #705CF6;
+  font-weight: 500;
+  margin: 0 4px 8px;
+}
+.folder-row {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+}
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <div class="title-text">Claude Code</div>
+  </div>
+  <div class="main">
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Projects</div>
+        <div class="sidebar-item active">
+          <div class="sidebar-icon purple">B</div>
+          Business Docs
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon gray">M</div>
+          Marketing
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon gray">S</div>
+          Sales
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Recent</div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon gray">●</div>
+          Proposal for Acme
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon gray">●</div>
+          Q1 Report Summary
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon gray">●</div>
+          Client Email Drafts
+        </div>
+      </div>
+      <div class="new-chat">+ New Conversation</div>
+    </div>
+    <div class="content">
+      <div class="content-logo">C</div>
+      <h2>Business Docs</h2>
+      <div class="folder-row">
+        <div class="folder-badge">📁 Proposals</div>
+        <div class="folder-badge">📁 Brand</div>
+        <div class="folder-badge">📁 SOPs</div>
+      </div>
+      <p>Claude has access to 3 folders and 47 files. Ask anything about your business or delegate a task.</p>
+      <div class="input-area">
+        <span>What would you like to work on?</span>
+        <div class="send">↑</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

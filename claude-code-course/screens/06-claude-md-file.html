@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CLAUDE.md File in Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #FAF9F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.window {
+  width: 580px;
+  background: #1e1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.12);
+}
+.title-bar {
+  background: #2d2d2d;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #3a3a3a;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f57; }
+.dot.y { background: #ffbd2e; }
+.dot.g { background: #28c840; }
+.tab {
+  display: flex; align-items: center; gap: 6px;
+  margin-left: 12px;
+  background: #1e1e1e;
+  padding: 5px 12px;
+  border-radius: 6px 6px 0 0;
+  font-size: 11px;
+  color: #ccc;
+  font-weight: 500;
+}
+.tab .icon { font-size: 13px; }
+.editor {
+  padding: 20px 0;
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.8;
+  overflow: hidden;
+}
+.line {
+  display: flex;
+  padding: 0 20px;
+}
+.line:hover { background: rgba(255,255,255,0.02); }
+.line-num {
+  width: 36px;
+  color: #555;
+  text-align: right;
+  padding-right: 16px;
+  user-select: none;
+  flex-shrink: 0;
+}
+.line-text { color: #d4d4d4; flex: 1; }
+.h1 { color: #C5BDFA; font-weight: 500; }
+.h2 { color: #9b8afc; font-weight: 500; }
+.comment { color: #6a9955; }
+.bullet { color: #d4d4d4; }
+.emphasis { color: #ce9178; }
+.highlight { background: rgba(112,92,246,0.12); border-radius: 2px; }
+.label {
+  text-align: center;
+  padding: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #555;
+  border-top: 1px solid #333;
+}
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <div class="tab"><span class="icon">📄</span> CLAUDE.md</div>
+  </div>
+  <div class="editor">
+    <div class="line"><span class="line-num">1</span><span class="line-text h1"># About Our Business</span></div>
+    <div class="line"><span class="line-num">2</span><span class="line-text"></span></div>
+    <div class="line"><span class="line-num">3</span><span class="line-text h2">## Who We Are</span></div>
+    <div class="line"><span class="line-num">4</span><span class="line-text">LowCode Agency is a 40-person software development</span></div>
+    <div class="line"><span class="line-num">5</span><span class="line-text">agency. We build apps using low-code, high-code, and</span></div>
+    <div class="line"><span class="line-num">6</span><span class="line-text">AI. 300+ projects. Clients include Sotheby's, GAF,</span></div>
+    <div class="line"><span class="line-num">7</span><span class="line-text">American Express, and Coca-Cola.</span></div>
+    <div class="line"><span class="line-num">8</span><span class="line-text"></span></div>
+    <div class="line"><span class="line-num">9</span><span class="line-text h2">## How We Talk</span></div>
+    <div class="line"><span class="line-num">10</span><span class="line-text bullet">- Tone: <span class="emphasis">confident, direct, warm — never corporate</span></span></div>
+    <div class="line"><span class="line-num">11</span><span class="line-text bullet">- Always use the client's first name</span></div>
+    <div class="line"><span class="line-num">12</span><span class="line-text bullet">- Lead with data and real examples</span></div>
+    <div class="line"><span class="line-num">13</span><span class="line-text bullet highlight">- Never say "innovative" or "cutting-edge"</span></div>
+    <div class="line"><span class="line-num">14</span><span class="line-text"></span></div>
+    <div class="line"><span class="line-num">15</span><span class="line-text h2">## Our Services & Pricing</span></div>
+    <div class="line"><span class="line-num">16</span><span class="line-text bullet">- Internal Apps (Glide): starting at <span class="emphasis">$15,000</span></span></div>
+    <div class="line"><span class="line-num">17</span><span class="line-text bullet">- SaaS / Marketplaces (Bubble): starting at <span class="emphasis">$30,000</span></span></div>
+    <div class="line"><span class="line-num">18</span><span class="line-text bullet">- Native Mobile Apps: starting at <span class="emphasis">$30,000</span></span></div>
+    <div class="line"><span class="line-num">19</span><span class="line-text bullet">- Websites (Webflow): starting at <span class="emphasis">$9,000</span></span></div>
+    <div class="line"><span class="line-num">20</span><span class="line-text"></span></div>
+    <div class="line"><span class="line-num">21</span><span class="line-text h2">## Important Rules</span></div>
+    <div class="line"><span class="line-num">22</span><span class="line-text bullet highlight">- NEVER discount below 15% without approval</span></div>
+    <div class="line"><span class="line-num">23</span><span class="line-text bullet highlight">- NEVER promise delivery dates without PM input</span></div>
+    <div class="line"><span class="line-num">24</span><span class="line-text bullet">- Always include a timeline with milestones</span></div>
+    <div class="line"><span class="line-num">25</span><span class="line-text bullet">- Follow-up emails within 24 hours of meetings</span></div>
+  </div>
+  <div class="label">Your CLAUDE.md — The file Claude reads before every conversation</div>
+</div>
+</body>
+</html>

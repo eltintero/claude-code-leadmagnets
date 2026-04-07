@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Integrations Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #FAF9F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.window {
+  width: 560px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+}
+.header {
+  padding: 24px 28px 0;
+}
+.header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #282828;
+  margin-bottom: 4px;
+}
+.header p {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+.section-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #b5b5b5;
+  padding: 0 28px;
+  margin-bottom: 8px;
+}
+.integrations-list {
+  padding: 0 16px 16px;
+}
+.integration {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 12px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.integration:hover { background: #f8f7f5; }
+.int-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.int-icon.slack { background: #f0e6f6; }
+.int-icon.gmail { background: #fce8e6; }
+.int-icon.cal { background: #e6f0fc; }
+.int-icon.drive { background: #e6f7e9; }
+.int-icon.crm { background: #fff3e0; }
+.int-icon.notion { background: #f0efed; }
+.int-info { flex: 1; }
+.int-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #282828;
+  margin-bottom: 2px;
+}
+.int-desc {
+  font-size: 11px;
+  color: #999;
+}
+.int-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+}
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+.connected .status-dot { background: #28c840; }
+.connected { color: #2d8a4e; }
+.available { color: #b5b5b5; }
+.available .status-dot { background: #d9d9d9; }
+.btn-connect {
+  font-size: 11px;
+  font-weight: 600;
+  color: #705CF6;
+  background: rgba(112,92,246,0.08);
+  padding: 5px 12px;
+  border-radius: 6px;
+}
+.divider {
+  height: 1px;
+  background: #f0efed;
+  margin: 4px 12px;
+}
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="header">
+    <h2>Integrations</h2>
+    <p>Connect Claude to the tools your business runs on. Each connection gives Claude access to read — and optionally write — data in that tool.</p>
+  </div>
+  <div class="section-label">Connected</div>
+  <div class="integrations-list">
+    <div class="integration">
+      <div class="int-icon slack">💬</div>
+      <div class="int-info">
+        <div class="int-name">Slack</div>
+        <div class="int-desc">3 channels · read access</div>
+      </div>
+      <div class="int-status connected"><div class="status-dot"></div> Connected</div>
+    </div>
+    <div class="integration">
+      <div class="int-icon gmail">✉️</div>
+      <div class="int-info">
+        <div class="int-name">Gmail</div>
+        <div class="int-desc">Read & draft · jesus@lowcode.agency</div>
+      </div>
+      <div class="int-status connected"><div class="status-dot"></div> Connected</div>
+    </div>
+    <div class="integration">
+      <div class="int-icon cal">📅</div>
+      <div class="int-info">
+        <div class="int-name">Google Calendar</div>
+        <div class="int-desc">Read access · 2 calendars</div>
+      </div>
+      <div class="int-status connected"><div class="status-dot"></div> Connected</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="section-label" style="margin-top:12px;">Available</div>
+  <div class="integrations-list">
+    <div class="integration">
+      <div class="int-icon drive">📂</div>
+      <div class="int-info">
+        <div class="int-name">Google Drive</div>
+        <div class="int-desc">Search & read shared documents</div>
+      </div>
+      <div class="btn-connect">Connect</div>
+    </div>
+    <div class="integration">
+      <div class="int-icon crm">🏢</div>
+      <div class="int-info">
+        <div class="int-name">HubSpot CRM</div>
+        <div class="int-desc">Look up contacts, deals & activity</div>
+      </div>
+      <div class="btn-connect">Connect</div>
+    </div>
+    <div class="integration">
+      <div class="int-icon notion">📝</div>
+      <div class="int-info">
+        <div class="int-name">Notion</div>
+        <div class="int-desc">Read wikis, docs & databases</div>
+      </div>
+      <div class="btn-connect">Connect</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
