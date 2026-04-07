@@ -934,6 +934,7 @@ body {
   </div>
 </div>
 
+<script src="env.js"></script>
 <script>
 (function() {
   'use strict';
@@ -1209,7 +1210,7 @@ body {
     fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
       headers: {
-        'api-key': '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',
+        'api-key': window.__ENV_BREVO_KEY || '',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
@@ -1230,7 +1231,7 @@ body {
       + '>*Source:* AI Readiness Scorecard\n'
       + '>*AI Readiness Score:* ' + score + '/40 (' + tier + ')\n'
       + '>*Course:* ' + courseLabel;
-    fetch('https://hooks.slack.com/services/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', {
+    fetch(window.__ENV_SLACK_HOOK || '', {
       method: 'POST',
       body: JSON.stringify({ text: slackText })
     }).catch(function() {});

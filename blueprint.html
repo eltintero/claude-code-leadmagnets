@@ -520,9 +520,10 @@
     <iframe src="" class="content-frame" id="guideFrame" allow="clipboard-write"></iframe>
   </div>
 
+  <script src="env.js"></script>
   <script>
-    var BREVO_KEY = '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';
-    var SLACK_HOOK = 'https://hooks.slack.com/services/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';
+    var BREVO_KEY = window.__ENV_BREVO_KEY || '';
+    var SLACK_HOOK = window.__ENV_SLACK_HOOK || '';
     var GUIDE_URL = 'https://view.lowc.dev/j1tLQj9GR_';
 
     if (localStorage.getItem('blueprint_unlocked') === 'true') {

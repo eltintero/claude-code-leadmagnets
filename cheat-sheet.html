@@ -1477,6 +1477,7 @@
     </div>
   </div>
 
+  <script src="env.js"></script>
   <script>
     // ===== State =====
     var auditData = {
@@ -1494,9 +1495,9 @@
     var recordingStartTime = 0;
     var emailSubmitted = false;
 
-    var GROQ_KEY = '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';
-    var BREVO_KEY = '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';
-    var SLACK_HOOK = 'https://hooks.slack.com/services/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';
+    var GROQ_KEY = window.__ENV_GROQ_KEY || '';
+    var BREVO_KEY = window.__ENV_BREVO_KEY || '';
+    var SLACK_HOOK = window.__ENV_SLACK_HOOK || '';
 
     // ===== Navigation =====
     function showScreen(id) {
