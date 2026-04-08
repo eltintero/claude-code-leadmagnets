@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Twitter — 3 Levels of AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:#e0dfdd;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:48px}
+.card{width:1080px;height:1080px;background:#282828;border-radius:0;display:flex;flex-direction:column;justify-content:center;padding:96px;position:relative;overflow:hidden}
+.brand{position:absolute;top:48px;right:48px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.content{}
+.level{margin-bottom:32px}
+.level-label{font-size:18px;font-weight:700;color:#705CF6;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.level-text{font-size:28px;color:rgba(255,255,255,.7);line-height:1.4;font-weight:500}
+.level-dim .level-text{color:rgba(255,255,255,.4)}
+.level-bright .level-text{color:white}
+.level-bright .level-text strong{color:#C5EF48}
+.divider{width:100%;height:1px;background:rgba(255,255,255,.08);margin:36px 0}
+.punchline{font-size:28px;color:rgba(255,255,255,.6);line-height:1.5}
+.punchline strong{color:#C5EF48;font-weight:700}
+.punchline .purple{color:#705CF6;font-weight:700}
+.footer{position:absolute;bottom:48px;left:96px;right:96px;display:flex;justify-content:space-between;font-size:14px;color:rgba(255,255,255,.25);font-weight:500}
+.accent-line{width:48px;height:3px;background:#705CF6;margin-bottom:24px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">LOW / CODE</div>
+  <div class="content">
+    <div class="accent-line"></div>
+    <div class="level level-dim">
+      <div class="level-label">Level 1</div>
+      <div class="level-text">Copy-paste into ChatGPT. Start from zero every time.</div>
+    </div>
+    <div class="level">
+      <div class="level-label">Level 2</div>
+      <div class="level-text">AI reads your files. Follows your instructions.</div>
+    </div>
+    <div class="level level-bright">
+      <div class="level-label">Level 3</div>
+      <div class="level-text">AI <strong>runs parts of your business</strong>.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="punchline">The jump from 1&rarr;2 takes <strong>15 minutes</strong>.<br>2&rarr;3 takes <span class="purple">a plan</span>.</div>
+  </div>
+  <div class="footer">
+    <span>@eltintero</span>
+    <span>lowcode.agency</span>
+  </div>
+</div>
+</body>
+</html>

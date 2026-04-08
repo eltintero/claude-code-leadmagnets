@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Twitter — No Terminal Needed</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:#e0dfdd;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:48px}
+.card{width:1080px;height:1080px;background:#FAF9F6;border-radius:0;display:flex;flex-direction:column;justify-content:center;padding:96px;position:relative;overflow:hidden}
+.brand{position:absolute;top:48px;right:48px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.25)}
+.content{}
+.line1{font-size:48px;font-weight:700;color:#1a1a1a;line-height:1.15;letter-spacing:-.02em;margin-bottom:12px}
+.line2{font-size:32px;color:rgba(0,0,0,.5);line-height:1.5;margin-bottom:48px}
+.line2 strong{color:#705CF6}
+.steps{display:flex;flex-direction:column;gap:20px}
+.step{display:flex;gap:20px;align-items:baseline}
+.step-num{font-size:24px;font-weight:800;color:#705CF6;min-width:36px}
+.step-text{font-size:26px;color:rgba(0,0,0,.7);line-height:1.4;font-weight:500}
+.footer{position:absolute;bottom:48px;left:96px;right:96px;display:flex;justify-content:space-between;font-size:14px;color:rgba(0,0,0,.2);font-weight:500}
+.accent-line{width:48px;height:3px;background:#705CF6;margin-bottom:24px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">LOW / CODE</div>
+  <div class="content">
+    <div class="accent-line"></div>
+    <div class="line1">You don't need to be a developer to use Claude Code.</div>
+    <div class="line2">You need the desktop app and <strong>10 minutes</strong>.</div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1.</span>
+        <span class="step-text">Download the app</span>
+      </div>
+      <div class="step">
+        <span class="step-num">2.</span>
+        <span class="step-text">Connect a folder</span>
+      </div>
+      <div class="step">
+        <span class="step-num">3.</span>
+        <span class="step-text">Ask Claude to analyze your work</span>
+      </div>
+      <div class="step">
+        <span class="step-num">4.</span>
+        <span class="step-text">Get output that sounds like your business</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>@eltintero</span>
+    <span>lowcode.agency</span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Twitter — $10K Math</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:#e0dfdd;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:48px}
+.card{width:1080px;height:1080px;background:#282828;border-radius:0;display:flex;flex-direction:column;justify-content:center;padding:96px;position:relative;overflow:hidden}
+.brand{position:absolute;top:48px;right:48px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.content{}
+.math-line{font-size:30px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:20px;font-weight:500;font-variant-numeric:tabular-nums}
+.math-line .highlight{color:#C5EF48;font-weight:700}
+.divider{width:100%;height:1px;background:rgba(255,255,255,.1);margin:28px 0}
+.cost-line{font-size:30px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:8px;font-weight:500}
+.cost-line .green{color:#C5EF48;font-weight:700}
+.cost-line .purple{color:#705CF6;font-weight:700}
+.punchline{font-size:40px;font-weight:700;color:white;line-height:1.3;margin-top:32px}
+.punchline strong{color:#705CF6}
+.footer{position:absolute;bottom:48px;left:96px;right:96px;display:flex;justify-content:space-between;font-size:14px;color:rgba(255,255,255,.25);font-weight:500}
+.accent-line{width:48px;height:3px;background:#705CF6;margin-bottom:24px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">LOW / CODE</div>
+  <div class="content">
+    <div class="accent-line"></div>
+    <div class="math-line">10 people &times; 2 hrs saved/day &times; 20 workdays = <span class="highlight">400 hours/month</span></div>
+    <div class="math-line">At 50% efficiency: <span class="highlight">200 hours recovered</span></div>
+    <div class="divider"></div>
+    <div class="cost-line">Cost: <span class="purple">$300/mo</span></div>
+    <div class="cost-line">Value: <span class="green">$10,000/mo</span></div>
+    <div class="punchline">The difference? <strong>Implementation.</strong></div>
+  </div>
+  <div class="footer">
+    <span>@eltintero</span>
+    <span>lowcode.agency</span>
+  </div>
+</div>
+</body>
+</html>
